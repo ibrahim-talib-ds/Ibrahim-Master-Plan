@@ -279,10 +279,10 @@ input,textarea,select{font-family:inherit}
 .toast.info{border-color:rgba(107,184,255,.5);color:var(--info)}
 
 /* BOTTOM NAV */
-.bottom-nav{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0) + 8px);width:calc(100% - 16px);max-width:720px;background:var(--surface);border:1px solid var(--border-2);border-radius:22px;padding:.35rem .3rem;display:grid;grid-template-columns:repeat(9,1fr);gap:.05rem;z-index:60;box-shadow:0 -10px 40px -10px rgba(0,0,0,.5);backdrop-filter:blur(28px)}
+.bottom-nav{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0) + 8px);width:calc(100% - 24px);max-width:600px;margin:0 auto;background:var(--surface);border:1px solid var(--border-2);border-radius:22px;padding:.4rem .35rem;display:grid;grid-template-columns:repeat(9,1fr);gap:.05rem;z-index:60;box-shadow:0 -10px 40px -10px rgba(0,0,0,.5);backdrop-filter:blur(28px)}
 .nav-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.18rem;padding:.45rem .15rem;background:transparent;color:var(--text-3);font-weight:700;font-size:.55rem;text-transform:uppercase;border-radius:14px;position:relative;min-width:0}
-.nav-btn svg{width:18px;height:18px;stroke-width:2}
-.nav-btn span{font-size:.48rem;font-weight:800;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nav-btn svg{width:17px;height:17px;stroke-width:2}
+.nav-btn span{font-size:.46rem;font-weight:800;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .nav-btn.active{color:var(--accent)}
 .nav-btn.active::before{content:'';position:absolute;top:2px;left:50%;transform:translateX(-50%);width:16px;height:3px;border-radius:3px;background:var(--accent);box-shadow:0 0 8px var(--accent)}
 
@@ -555,14 +555,14 @@ input,textarea,select{font-family:inherit}
 @keyframes confFall{0%{transform:translateY(-20vh) rotate(0);opacity:1}100%{transform:translateY(110vh) rotate(720deg);opacity:0}}
 
 
-#offlineBanner{position:fixed;top:env(safe-area-inset-top,0);left:0;right:0;background:linear-gradient(90deg,#ff6b7a,#ff8fb1);color:#fff;text-align:center;padding:.4rem;font-size:.72rem;font-weight:800;z-index:9998;transform:translateY(-100%);transition:transform .3s ease;letter-spacing:.03em}
-#offlineBanner.show{transform:translateY(0)}
+
+
 
 </style>
 </head>
 <body data-theme="dark">
 
-<div id="offlineBanner">📴 OFFLINE MODE — App works fully offline</div>
+
 
 
 <div id="prayerCountdownPill">
@@ -1727,7 +1727,7 @@ function openBrotherReport(brotherId){
           <div style="width:24px;height:24px;border-radius:50%;background:var(--bg-2);display:grid;place-items:center;font-size:.68rem;font-weight:800;color:var(--text-2);flex-shrink:0">${i+1}</div>
           <div style="flex:1;font-size:.86rem;font-weight:700;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(e.book)||'—'}</div>
           <div style="font-size:.76rem;color:var(--text-2);font-weight:800;white-space:nowrap">${e.pages||0}p${e.quran?' · '+e.quran+'Q':''}</div>
-          <button class="er-del" data-idx="${i}" style="background:transparent;border:none;color:var(--danger);font-size:1rem;padding:.4rem .5rem;border-radius:8px;cursor:pointer;flex-shrink:0">✕</button>
+          <button class="er-del" data-idx="${i}" title="Delete this entry" style="background:rgba(255,107,122,.15);border:1px solid rgba(255,107,122,.4);color:var(--danger);font-size:.9rem;font-weight:900;padding:.35rem .55rem;border-radius:8px;cursor:pointer;flex-shrink:0;display:grid;place-items:center">✕</button>
         </div>`).join('')}</div>`:''}
       <div style="background:var(--accent-soft);border:1px dashed rgba(95,211,182,.35);border-radius:14px;padding:1rem;margin-top:.9rem">
         <div class="section-label" style="color:var(--accent);margin-top:0">Add entry</div>
@@ -1786,7 +1786,7 @@ document.getElementById('settingsBtn').onclick=()=>{
         <button class="btn small ${s.theme==='light'?'primary':''}" data-theme-pick="light" style="flex:1;border:none">Light</button>
       </div>
     </div>
-    <div class="section-label">Location — prayer times</div>
+    <div class="section-label">App</div><div class="setting-row"><div><div class="sr-label">Version</div><div class="sr-sub" id="appVersion">v21 · auto-updates on push</div></div></div><div class="section-label">App</div><div class="setting-row"><div><div class="sr-label">Version</div><div class="sr-sub" id="appVersion">v21 · auto-updates on push</div></div></div><div class="section-label">Location — prayer times</div>
     <div class="field"><label>City</label><input type="text" id="setCity" value="${esc(s.city)}" placeholder="Istanbul"></div>
     <div class="field"><label>Country</label><input type="text" id="setCountry" value="${esc(s.country)}" placeholder="Turkey"></div>
     <div class="modal-actions"><button class="btn" id="settingsCancel">Cancel</button><button class="btn primary" id="settingsSave">Save</button></div>
@@ -2340,10 +2340,7 @@ window.renderGoals = renderGoals;
 
 // Online/offline indicator
 function updateOnlineStatus(){
-  const b = document.getElementById('offlineBanner');
-  if (!b) return;
-  if (navigator.onLine) b.classList.remove('show');
-  else { b.classList.add('show'); setTimeout(() => b.classList.remove('show'), 4000); }
+  // Silent — no visible banner
 }
 window.addEventListener('online', () => { updateOnlineStatus(); if (typeof fetchPrayerTimes === 'function') fetchPrayerTimes(); });
 window.addEventListener('offline', updateOnlineStatus);
