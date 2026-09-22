@@ -709,7 +709,8 @@ input,textarea,select{font-family:inherit}
 }
 
 </style>
-<!-- cache:1790090255 -->
+
+<!-- cache:1790090952 -->
 </head>
 <body data-theme="dark">
 
@@ -3269,6 +3270,233 @@ window.applyLanguage = applyLanguage;
 window.t = t;
 
 
+
+/* ============================================================
+   SHARE IMAGE CARD — ROBUST VERSION
+   ============================================================ */
+function generateShareCard(){
+  const today = new Date().toLocaleDateString('en-GB', {weekday:'long', day:'numeric', month:'long', year:'numeric'});
+  const dayData = (typeof state !== 'undefined' && state.brotherReports) ? (state.brotherReports[todayKey()] || {}) : {};
+  const brothers = (typeof BROTHERS !== 'undefined') ? BROTHERS : [];
+  let totalPages = 0, totalQuran = 0;
+
+  // Canvas size
+  const W = 720, H = 900;
+  const canvas = document.createElement('canvas');
+  canvas.width = W;
+  canvas.height = H;
+  const ctx = canvas.getContext('2d');
+
+  // Background gradient
+  const grad = ctx.createLinearGradient(0, 0, 0, H);
+  grad.addColorStop(0, '#0a1620');
+  grad.addColorStop(1, '#080d13');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, W, H);
+
+  // Top accent bar
+  const grad2 = ctx.createLinearGradient(0, 0, W, 0);
+  grad2.addColorStop(0, '#5fd3b6');
+  grad2.addColorStop(1, '#6bb8ff');
+  ctx.fillStyle = grad2;
+  ctx.fillRect(0, 0, W, 6);
+
+  // Title
+  ctx.fillStyle = '#eaf1f8';
+  ctx.font = 'bold 44px system-ui, -apple-system, sans-serif';
+  ctx.fillText('Reading Report', 40, 90);
+
+  ctx.fillStyle = '#7391a8';
+  ctx.font = '18px system-ui, -apple-system, sans-serif';
+  ctx.fillText(today, 40, 125);
+
+  // Compute totals
+  brothers.forEach(b => {
+    const arr = dayData[b.id] || [];
+    arr.forEach(e => {
+      totalPages += e.pages || 0;
+      totalQuran += e.quran || 0;
+    });
+  });
+
+  // Stats box
+  ctx.fillStyle = 'rgba(95,211,182,.12)';
+  ctx.fillRect(40, 165, W - 80, 120);
+
+  ctx.fillStyle = '#5fd3b6';
+  ctx.font = 'bold 48px system-ui, -apple-system, sans-serif';
+  ctx.fillText(String(totalPages), 70, 230);
+
+  ctx.fillStyle = '#aec4d6';
+  ctx.font = 'bold 14px system-ui, -apple-system, sans-serif';
+  ctx.fillText('TOTAL PAGES', 70, 255);
+
+  ctx.fillStyle = '#b58fff';
+  ctx.font = 'bold 48px system-ui, -apple-system, sans-serif';
+  ctx.fillText(String(totalQuran), 400, 230);
+
+  ctx.fillStyle = '#aec4d6';
+  ctx.font = 'bold 14px system-ui, -apple-system, sans-serif';
+  ctx.fillText('QURAN', 400, 255);
+
+  // List of brothers
+  let y = 360;
+  brothers.forEach(b => {
+    const arr = dayData[b.id] || [];
+    const sum = arr.reduce((s, e) => ({p: s.p + (e.pages||0), q: s.q + (e.quran||0)}), {p:0, q:0});
+
+    // Avatar circle
+    ctx.fillStyle = b.color || '#5fd3b6';
+    ctx.beginPath();
+    ctx.arc(70, y - 8, 18, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Avatar letter
+    ctx.fillStyle = '#080d13';
+    ctx.font = 'bold 20px system-ui, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(b.name[0], 70, y - 1);
+
+    // Brother name
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#eaf1f8';
+    ctx.font = 'bold 22px system-ui, sans-serif';
+    ctx.fillText(b.name, 105, y);
+
+    // Value
+    ctx.textAlign = 'right';
+    ctx.fillStyle = sum.p > 0 ? '#5fd3b6' : '#4d6478';
+    ctx.font = 'bold 22px system-ui, sans-serif';
+    const val = sum.p + 'p' + (sum.q ? ' · ' + sum.q + 'Q' : '');
+    ctx.fillText(val, W - 40, y);
+
+    ctx.textAlign = 'left';
+    y += 56;
+  });
+
+  // Footer
+  ctx.fillStyle = '#4d6478';
+  ctx.font = '14px system-ui, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('Master Plan · Brothers Reading Group', W / 2, H - 40);
+  ctx.textAlign = 'left';
+
+  return canvas.toDataURL('image/png');
+}
+
+function openShareCard(){
+  try {
+    if (typeof toast === 'function') toast('Generating image...', 'info', 800);
+    const dataUrl = generateShareCard();
+
+    const modal = document.getElementById('modalContent');
+    const overlay = document.getElementById('modalOverlay');
+    if (!modal || !overlay) {
+      alert('Modal not found — please refresh');
+      return;
+    }
+
+    modal.innerHTML = `
+      <h3 style="display:flex;align-items:center;gap:.6rem">
+        <span style="width:32px;height:32px;border-radius:9px;background:var(--accent-soft);display:inline-grid;place-items:center;color:var(--accent);font-size:1.1rem">🖼️</span>
+        Share Image Card
+      </h3>
+      <p style="font-size:.8rem;color:var(--text-2);margin-bottom:1rem">Save or share this reading report image.</p>
+      <div style="width:100%;border-radius:16px;overflow:hidden;border:1px solid var(--border);margin-bottom:1rem;background:#0a1620">
+        <img src="${dataUrl}" alt="Share card" style="width:100%;display:block">
+      </div>
+      <div class="modal-actions">
+        <button class="btn" id="scClose">Close</button>
+        <button class="btn primary" id="scDownload">Download</button>
+        <button class="btn primary" id="scShare">Share</button>
+      </div>
+    `;
+    overlay.classList.add('show');
+
+    document.getElementById('scClose').onclick = () => {
+      overlay.classList.remove('show');
+    };
+
+    document.getElementById('scDownload').onclick = () => {
+      try {
+        const a = document.createElement('a');
+        a.href = dataUrl;
+        a.download = 'reading-card-' + todayKey() + '.png';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        if (typeof vibrate === 'function') vibrate(20);
+        if (typeof toast === 'function') toast('Saved ✓', 'success');
+      } catch(e) {
+        alert('Download failed: ' + e.message);
+      }
+    };
+
+    document.getElementById('scShare').onclick = async () => {
+      try {
+        const res = await fetch(dataUrl);
+        const blob = await res.blob();
+        const file = new File([blob], 'reading-card.png', {type: 'image/png'});
+        if (navigator.canShare && navigator.canShare({files: [file]})) {
+          await navigator.share({
+            files: [file],
+            title: 'Reading Report',
+            text: 'Today\'s reading report'
+          });
+        } else {
+          const a = document.createElement('a');
+          a.href = dataUrl;
+          a.download = 'reading-card-' + todayKey() + '.png';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          if (typeof toast === 'function') toast('Downloaded (share not supported)', 'info');
+        }
+      } catch(e) {
+        if (e.name !== 'AbortError' && typeof toast === 'function') toast('Share cancelled', 'info');
+      }
+    };
+  } catch(err) {
+    console.error('Share card error:', err);
+    alert('Error generating image: ' + err.message);
+  }
+}
+
+/* WIRE UP BUTTON — multiple strategies for reliability */
+function wireShareImageBtn(){
+  const btn = document.getElementById('shareImageBtn');
+  if (btn && !btn.dataset.wired) {
+    btn.dataset.wired = '1';
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      openShareCard();
+    });
+    console.log('✓ Share image button wired');
+  }
+}
+
+// Wire on DOM ready
+document.addEventListener('DOMContentLoaded', wireShareImageBtn);
+
+// Wire on window load
+window.addEventListener('load', () => setTimeout(wireShareImageBtn, 500));
+
+// Wire when Share tab clicked
+document.addEventListener('click', (e) => {
+  const tab = e.target.closest('.nav-btn');
+  if (tab && tab.dataset.tab === 'share') {
+    setTimeout(wireShareImageBtn, 100);
+  }
+});
+
+// Wire periodically (in case of dynamic rendering)
+setInterval(wireShareImageBtn, 2000);
+
+window.openShareCard = openShareCard;
+window.wireShareImageBtn = wireShareImageBtn;
+
+
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);
 else init();
 
@@ -3475,112 +3703,6 @@ const _origOpenModal = window.openModal;
 document.addEventListener('click', () => setTimeout(attachVoiceButtons, 300));
 
 // ---- SHARE IMAGE CARD ----
-function generateShareCard(){
-  const today = new Date().toLocaleDateString('en-GB', {weekday:'long', day:'numeric', month:'long', year:'numeric'});
-  const totals = {};
-  BROTHERS.forEach(b => totals[b.id] = 0);
-  const dayData = state.brotherReports[todayKey()] || {};
-  let totalPages = 0, totalQuran = 0;
-  let lines = '';
-  BROTHERS.forEach(b => {
-    const arr = dayData[b.id] || [];
-    const sum = arr.reduce((s, e) => ({p:s.p+(e.pages||0), q:s.q+(e.quran||0)}), {p:0,q:0});
-    totalPages += sum.p; totalQuran += sum.q;
-    lines += `<div class="share-line"><span>${b.name}</span><span>${sum.p}p${sum.q?' · '+sum.q+'Q':''}</span></div>`;
-  });
-  const canvas = document.createElement('canvas');
-  canvas.style.imageRendering = 'auto';
-  canvas.width = 720; canvas.height = 900;
-  const ctx = canvas.getContext('2d');
-  // bg
-  const grad = ctx.createLinearGradient(0, 0, 0, 1000);
-  grad.addColorStop(0, '#0a1620');
-  grad.addColorStop(1, '#080d13');
-  ctx.fillStyle = grad; ctx.fillRect(0, 0, 800, 1000);
-  // accent bar
-  const grad2 = ctx.createLinearGradient(0, 0, 800, 0);
-  grad2.addColorStop(0, '#5fd3b6'); grad2.addColorStop(1, '#6bb8ff');
-  ctx.fillStyle = grad2; ctx.fillRect(0, 0, 800, 8);
-  // title
-  ctx.fillStyle = '#eaf1f8'; ctx.font = 'bold 46px system-ui, sans-serif';
-  ctx.fillText('Reading Report', 60, 130);
-  ctx.fillStyle = '#7391a8'; ctx.font = '20px system-ui, sans-serif';
-  ctx.fillText(today, 60, 175);
-  // total box
-  ctx.fillStyle = 'rgba(95,211,182,.12)'; ctx.fillRect(60, 220, 680, 130);
-  ctx.fillStyle = '#5fd3b6'; ctx.font = 'bold 54px system-ui, sans-serif';
-  ctx.fillText(String(totalPages), 100, 310);
-  ctx.fillStyle = '#aec4d6'; ctx.font = '20px system-ui, sans-serif';
-  ctx.fillText('TOTAL PAGES', 100, 340);
-  ctx.fillStyle = '#b58fff'; ctx.font = 'bold 54px system-ui, sans-serif';
-  ctx.fillText(String(totalQuran), 450, 310);
-  ctx.fillStyle = '#aec4d6'; ctx.font = '20px system-ui, sans-serif';
-  ctx.fillText('QURAN', 450, 340);
-  // lines
-  let y = 430;
-  ctx.font = 'bold 28px system-ui, sans-serif';
-  BROTHERS.forEach(b => {
-    const arr = dayData[b.id] || [];
-    const sum = arr.reduce((s, e) => ({p:s.p+(e.pages||0), q:s.q+(e.quran||0)}), {p:0,q:0});
-    // avatar circle
-    ctx.fillStyle = b.color;
-    ctx.beginPath(); ctx.arc(85, y - 8, 20, 0, 2*Math.PI); ctx.fill();
-    ctx.fillStyle = '#080d13'; ctx.font = 'bold 22px system-ui, sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText(b.name[0], 85, y - 1);
-    // name
-    ctx.textAlign = 'left';
-    ctx.fillStyle = '#eaf1f8'; ctx.font = 'bold 24px system-ui, sans-serif';
-    ctx.fillText(b.name, 125, y);
-    // value
-    ctx.textAlign = 'right';
-    ctx.fillStyle = sum.p > 0 ? '#5fd3b6' : '#4d6478';
-    ctx.font = 'bold 24px system-ui, sans-serif';
-    ctx.fillText(sum.p + 'p' + (sum.q ? ' · '+sum.q+'Q' : ''), 740, y);
-    ctx.textAlign = 'left';
-    y += 54;
-  });
-  // footer
-  ctx.fillStyle = '#7391a8'; ctx.font = '20px system-ui, sans-serif';
-  ctx.textAlign = 'center';
-  ctx.fillText('Master Plan · Brothers Reading Group', 400, 950);
-
-  return canvas.toDataURL('image/png');
-}
-
-function openShareCard(){
-  if (typeof toast === 'function') toast('Generating image...', 'info', 800);
-  const dataUrl = generateShareCard();
-  openModal(`
-    <h3><span style="width:32px;height:32px;border-radius:9px;background:var(--accent-soft);display:inline-grid;place-items:center;color:var(--accent)">🖼️</span>Share Image Card</h3>
-    <p class="text-muted" style="font-size:.8rem;margin-bottom:1rem">A beautiful image card ready for WhatsApp or Instagram.</p>
-    <div class="share-card-preview"><img src="${dataUrl}" style="width:100%;display:block"></div>
-    <div class="modal-actions">
-      <button class="btn" id="scClose">Close</button>
-      <button class="btn primary" id="scDownload">Download</button>
-      <button class="btn primary" id="scShare">Share</button>
-    </div>
-  `);
-  document.getElementById('scClose').onclick = closeModal;
-  document.getElementById('scDownload').onclick = () => {
-    const a = document.createElement('a');
-    a.href = dataUrl; a.download = `reading-card-${todayKey()}.png`; a.click();
-    vibrate(20);
-  };
-  document.getElementById('scShare').onclick = async () => {
-    try {
-      const blob = await (await fetch(dataUrl)).blob();
-      const file = new File([blob], 'reading-card.png', {type:'image/png'});
-      if (navigator.canShare && navigator.canShare({files:[file]})) {
-        await navigator.share({files:[file], title:'Reading Report', text:'Today\'s reading'});
-      } else {
-        const a = document.createElement('a'); a.href = dataUrl; a.download = `reading-card-${todayKey()}.png`; a.click();
-        toast('Share not supported — downloaded instead','info');
-      }
-    } catch(e) { toast('Share cancelled','info'); }
-  };
-}
-
 // Expose globally
 window.openShareCard = openShareCard;
 window.attachVoiceButtons = attachVoiceButtons;
