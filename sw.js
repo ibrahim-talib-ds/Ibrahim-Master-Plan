@@ -1,6 +1,6 @@
 // Master Plan Service Worker
-const CACHE = 'mp-1790090952' + Date.now() + Date.now();
-const ASSETS = ['/', '/index.html'];
+const CACHE = 'mp-1790091973' + Date.now() + Date.now();
+const ASSETS = ['/', '/index.html', '/manifest.json'];
 
 self.addEventListener('install', e => {
   self.skipWaiting();

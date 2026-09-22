@@ -1,0 +1,10 @@
+{
+  "name": "Ibrahim Master Plan",
+  "short_name": "Master Plan",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#080d13",
+  "theme_color": "#080d13",
+  "orientation": "portrait",
+  "icons": []
+}
