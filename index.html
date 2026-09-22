@@ -581,6 +581,13 @@ input,textarea,select{font-family:inherit}
 /* Storage badge per brother */
 .storage-tag{font-size:.62rem;font-weight:800;background:var(--bg-2);color:var(--text-3);padding:.15rem .45rem;border-radius:6px}
 
+
+/* ============ LANGUAGE SELECTOR ============ */
+.lang-row{display:flex;gap:.4rem;margin-top:.5rem}
+.lang-btn{flex:1;padding:.75rem .5rem;border-radius:10px;border:1px solid var(--border);background:var(--bg-1);color:var(--text-2);font-weight:800;font-size:.8rem;transition:all .2s;cursor:pointer;text-align:center}
+.lang-btn.active{background:var(--accent-2);border-color:var(--accent);color:#fff}
+.lang-btn .flag{display:block;font-size:1.4rem;margin-bottom:.2rem}
+
 </style>
 </head>
 <body data-theme="dark">
@@ -1803,6 +1810,13 @@ document.getElementById('settingsBtn').onclick=()=>{
   openModal(`
     <h3>Settings</h3>
     <div class="section-label">Appearance</div>
+    <div class="section-label">Language</div>
+    <div class="lang-row" id="langRow">
+      <button class="lang-btn active" data-lang="en"><span class="flag">🇬🇧</span>English</button>
+      <button class="lang-btn" data-lang="sw"><span class="flag">🇹🇿</span>Kiswahili</button>
+      <button class="lang-btn" data-lang="tr"><span class="flag">🇹🇷</span>Türkçe</button>
+    </div>
+
     <div class="field"><label>Theme</label>
       <div style="display:flex;gap:.4rem;background:var(--bg-1);padding:.35rem;border-radius:12px;border:1px solid var(--border)">
         <button class="btn small ${s.theme==='dark'?'primary':''}" data-theme-pick="dark" style="flex:1;border:none">Dark</button>
@@ -2774,6 +2788,364 @@ document.addEventListener('click', e => {
     setTimeout(renderManageData, 100);
   }
 });
+
+
+
+/* ============================================================
+   LANGUAGE SYSTEM — EN / SW / TR
+   ============================================================ */
+
+const TRANSLATIONS = {
+  en: {
+    home: 'Home', schedule: 'Schedule', ds: 'DS', brothers: 'Brothers',
+    jamaa: 'Jamaa', remind: 'Remind', share: 'Share', badges: 'Badges',
+    charts: 'Charts', stats: 'Stats',
+    dailyChecklist: 'Daily Checklist',
+    progress: 'Progress',
+    nightReflection: 'Night Reflection',
+    todaysAchievement: "Today's biggest achievement",
+    whatDidntUnderstand: "What I didn't understand",
+    tomorrowPriority: "Tomorrow's priority",
+    todaysSchedule: "Today's Schedule",
+    prayerTimes: 'Prayer Times',
+    dataScienceToday: 'Data Science — Today',
+    todaysReading: "Today's Reading",
+    logReading: '+ Log Reading',
+    fridayReport: 'Friday Report',
+    logBtn: '+ Log',
+    leaderboard: 'Leaderboard',
+    combinedStats: 'Combined Stats',
+    jamaaTracker: 'Jamaa Tracker',
+    sendReminders: 'Send Reminders',
+    sendToAll: 'Send to all',
+    individual: 'Individual',
+    downloadPDF: 'Download PDF',
+    weeklyReportPDF: 'Weekly Report PDF',
+    myProgressPDF: 'My Progress PDF',
+    allTimePDF: 'All-Time Summary PDF',
+    shareImageCard: 'Share Image Card',
+    shareText: 'Share Text',
+    today: 'Today',
+    thisWeek: 'This Week',
+    allTime: 'All Time',
+    myProgress: 'My Progress',
+    dayStreak: 'Day streak',
+    daysTracked: 'Days tracked',
+    avgCompletion: 'Avg completion',
+    perfectDays: 'Perfect days',
+    exportBackup: 'Export backup',
+    importBackup: 'Import backup',
+    resetAllData: 'Reset ALL data',
+    manageData: 'Manage Data',
+    achievements: 'Achievements',
+    heatmap: '12-Week Heatmap',
+    reading7days: 'Reading — Last 7 Days',
+    brotherComparison: 'Brother Comparison',
+    sleepAnalytics: 'Sleep Analytics',
+    weeklyGoals: 'Weekly Reading Goals',
+    focusTimer: 'Focus Timer',
+    accentColor: 'Accent Color',
+    settings: 'Settings',
+    appearance: 'Appearance',
+    location: 'Location',
+    city: 'City',
+    country: 'Country',
+    language: 'Language',
+    save: 'Save',
+    cancel: 'Cancel',
+    close: 'Close',
+    delete: 'Delete',
+    book: 'Book',
+    pagesRead: 'Pages read',
+    quranPages: 'Quran pages',
+    notes: 'Notes',
+    addEntry: 'Add entry',
+    saveEntry: 'Save entry',
+    notReported: 'Not reported yet',
+    pages: 'pages',
+    quran: 'Quran',
+  },
+
+  sw: {
+    home: 'Nyumbani', schedule: 'Ratiba', ds: 'DS', brothers: 'Ndugu',
+    jamaa: 'Jamaa', remind: 'Kumbusha', share: 'Shiriki', badges: 'Beji',
+    charts: 'Chati', stats: 'Takwimu',
+    dailyChecklist: 'Orodha ya Kila Siku',
+    progress: 'Maendeleo',
+    nightReflection: 'Tafakari ya Usiku',
+    todaysAchievement: 'Mafanikio makubwa ya leo',
+    whatDidntUnderstand: 'Nilichokosa kuelewa',
+    tomorrowPriority: 'Kipaumbele cha kesho',
+    todaysSchedule: 'Ratiba ya Leo',
+    prayerTimes: 'Nyakati za Swala',
+    dataScienceToday: 'Sayansi ya Data — Leo',
+    todaysReading: 'Usomaji wa Leo',
+    logReading: '+ Rekodi Usomaji',
+    fridayReport: 'Ripoti ya Ijumaa',
+    logBtn: '+ Rekodi',
+    leaderboard: 'Orodha ya Washindi',
+    combinedStats: 'Takwimu Zilizojumuishwa',
+    jamaaTracker: 'Kifuatilia Jamaa',
+    sendReminders: 'Tuma Kumbusho',
+    sendToAll: 'Tuma kwa wote',
+    individual: 'Mmoja mmoja',
+    downloadPDF: 'Pakua PDF',
+    weeklyReportPDF: 'Ripoti ya Wiki PDF',
+    myProgressPDF: 'Maendeleo Yangu PDF',
+    allTimePDF: 'Muhtasari wa Muda Wote PDF',
+    shareImageCard: 'Shiriki Picha',
+    shareText: 'Shiriki Maandishi',
+    today: 'Leo',
+    thisWeek: 'Wiki Hii',
+    allTime: 'Muda Wote',
+    myProgress: 'Maendeleo Yangu',
+    dayStreak: 'Siku mfululizo',
+    daysTracked: 'Siku zilizofuatiliwa',
+    avgCompletion: 'Wastani wa kumaliza',
+    perfectDays: 'Siku kamili',
+    exportBackup: 'Hamisha akiba',
+    importBackup: 'Ingiza akiba',
+    resetAllData: 'Futa data YOTE',
+    manageData: 'Simamia Data',
+    achievements: 'Mafanikio',
+    heatmap: 'Ramani ya Wiki 12',
+    reading7days: 'Usomaji — Siku 7 Zilizopita',
+    brotherComparison: 'Ulinganisho wa Ndugu',
+    sleepAnalytics: 'Uchambuzi wa Usingizi',
+    weeklyGoals: 'Malengo ya Wiki',
+    focusTimer: 'Kipima Muda',
+    accentColor: 'Rangi ya Msisitizo',
+    settings: 'Mipangilio',
+    appearance: 'Muonekano',
+    location: 'Mahali',
+    city: 'Jiji',
+    country: 'Nchi',
+    language: 'Lugha',
+    save: 'Hifadhi',
+    cancel: 'Ghairi',
+    close: 'Funga',
+    delete: 'Futa',
+    book: 'Kitabu',
+    pagesRead: 'Kurasa zilizosomwa',
+    quranPages: 'Kurasa za Qurani',
+    notes: 'Maelezo',
+    addEntry: 'Ongeza kumbukumbu',
+    saveEntry: 'Hifadhi',
+    notReported: 'Hajaripoti bado',
+    pages: 'kurasa',
+    quran: 'Qurani',
+  },
+
+  tr: {
+    home: 'Ana Sayfa', schedule: 'Program', ds: 'DS', brothers: 'Kardeşler',
+    jamaa: 'Cemaat', remind: 'Hatırlat', share: 'Paylaş', badges: 'Rozetler',
+    charts: 'Grafikler', stats: 'İstatistik',
+    dailyChecklist: 'Günlük Kontrol',
+    progress: 'İlerleme',
+    nightReflection: 'Gece Yansıması',
+    todaysAchievement: 'Bugünün en büyük başarısı',
+    whatDidntUnderstand: 'Anlamadığım şey',
+    tomorrowPriority: 'Yarının önceliği',
+    todaysSchedule: 'Bugünün Programı',
+    prayerTimes: 'Namaz Vakitleri',
+    dataScienceToday: 'Veri Bilimi — Bugün',
+    todaysReading: 'Bugünün Okuması',
+    logReading: '+ Okuma Kaydet',
+    fridayReport: 'Cuma Raporu',
+    logBtn: '+ Kaydet',
+    leaderboard: 'Sıralama',
+    combinedStats: 'Birleşik İstatistikler',
+    jamaaTracker: 'Cemaat Takibi',
+    sendReminders: 'Hatırlatıcı Gönder',
+    sendToAll: 'Herkese gönder',
+    individual: 'Bireysel',
+    downloadPDF: 'PDF İndir',
+    weeklyReportPDF: 'Haftalık Rapor PDF',
+    myProgressPDF: 'İlerlemem PDF',
+    allTimePDF: 'Tüm Zamanlar PDF',
+    shareImageCard: 'Resim Paylaş',
+    shareText: 'Metin Paylaş',
+    today: 'Bugün',
+    thisWeek: 'Bu Hafta',
+    allTime: 'Tüm Zamanlar',
+    myProgress: 'İlerlemem',
+    dayStreak: 'Günlük seri',
+    daysTracked: 'Takip edilen gün',
+    avgCompletion: 'Ort. tamamlama',
+    perfectDays: 'Mükemmel günler',
+    exportBackup: 'Yedek indir',
+    importBackup: 'Yedek yükle',
+    resetAllData: 'TÜM verileri sil',
+    manageData: 'Verileri Yönet',
+    achievements: 'Başarılar',
+    heatmap: '12-Hafta Haritası',
+    reading7days: 'Okuma — Son 7 Gün',
+    brotherComparison: 'Kardeş Karşılaştırma',
+    sleepAnalytics: 'Uyku Analizi',
+    weeklyGoals: 'Haftalık Hedefler',
+    focusTimer: 'Odak Zamanlayıcı',
+    accentColor: 'Vurgu Rengi',
+    settings: 'Ayarlar',
+    appearance: 'Görünüm',
+    location: 'Konum',
+    city: 'Şehir',
+    country: 'Ülke',
+    language: 'Dil',
+    save: 'Kaydet',
+    cancel: 'İptal',
+    close: 'Kapat',
+    delete: 'Sil',
+    book: 'Kitap',
+    pagesRead: 'Okunan sayfa',
+    quranPages: 'Kuran sayfası',
+    notes: 'Notlar',
+    addEntry: 'Kayıt ekle',
+    saveEntry: 'Kaydet',
+    notReported: 'Henüz raporlanmadı',
+    pages: 'sayfa',
+    quran: 'Kuran',
+  }
+};
+
+let CURRENT_LANG = localStorage.getItem('mp_lang') || 'en';
+
+function t(key){
+  return (TRANSLATIONS[CURRENT_LANG] && TRANSLATIONS[CURRENT_LANG][key]) || TRANSLATIONS.en[key] || key;
+}
+
+function applyLanguage(){
+  // Bottom nav
+  document.querySelectorAll('.nav-btn').forEach(btn => {
+    const tab = btn.dataset.tab;
+    const span = btn.querySelector('span');
+    if (span && t(tab)) span.textContent = t(tab);
+  });
+
+  // Hero/schedule labels
+  const setText = (sel, key) => {
+    const el = document.querySelector(sel);
+    if (el && t(key)) el.textContent = t(key);
+  };
+
+  // Various labels — find by text content (safest way)
+  document.querySelectorAll('.card-title span').forEach(span => {
+    const text = span.textContent.trim();
+    const map = {
+      'Daily Checklist': 'dailyChecklist',
+      'Night Reflection': 'nightReflection',
+      'Weekly Overview': 'schedule',
+      "Today's Full Schedule": 'todaysSchedule',
+      'Friday Report': 'fridayReport',
+      'Leaderboard': 'leaderboard',
+      'Combined Stats': 'combinedStats',
+      'Jamaa Tracker': 'jamaaTracker',
+      'Send Reminders': 'sendReminders',
+      'Download PDF': 'downloadPDF',
+      'Share Text': 'shareText',
+      'My Progress': 'myProgress',
+      'Achievements': 'achievements',
+      '12-Week Heatmap': 'heatmap',
+      'Reading — Last 7 Days': 'reading7days',
+      'Brother Comparison': 'brotherComparison',
+      'Sleep Analytics': 'sleepAnalytics',
+      'Weekly Reading Goals': 'weeklyGoals',
+      'Focus Timer': 'focusTimer',
+      'Accent Color': 'accentColor',
+      'Manage Data': 'manageData',
+      'Data Science — Today': 'dataScienceToday',
+      "Today's Reading": 'todaysReading',
+      "Today's Schedule": 'todaysSchedule',
+      'Prayer Times': 'prayerTimes',
+    };
+    if (map[text]) span.textContent = t(map[text]);
+  });
+
+  // Reflection labels
+  document.querySelectorAll('.field label').forEach(label => {
+    const text = label.textContent.trim();
+    const map = {
+      "Today's biggest achievement": 'todaysAchievement',
+      "What I didn't understand": 'whatDidntUnderstand',
+      "Tomorrow's priority": 'tomorrowPriority',
+      'Book': 'book',
+      'Pages read': 'pagesRead',
+      'Quran pages': 'quranPages',
+      'Notes': 'notes',
+    };
+    if (map[text]) label.textContent = t(map[text]);
+  });
+
+  // Buttons
+  document.querySelectorAll('.btn').forEach(btn => {
+    const text = btn.textContent.trim();
+    const map = {
+      '+ Log': 'logBtn',
+      '+ Log Reading': 'logReading',
+      'Send to all': 'sendToAll',
+      'Weekly Report PDF': 'weeklyReportPDF',
+      'My Progress PDF': 'myProgressPDF',
+      'All-Time Summary PDF': 'allTimePDF',
+      '🖼️ Share Image Card': 'shareImageCard',
+      'Export backup': 'exportBackup',
+      'Import backup': 'importBackup',
+      'Reset ALL data': 'resetAllData',
+    };
+    if (map[text]) btn.textContent = t(map[text]);
+  });
+
+  // Stat labels
+  document.querySelectorAll('.stat-box .lbl').forEach(lbl => {
+    const text = lbl.textContent.trim();
+    const map = {
+      'Day streak': 'dayStreak',
+      'Days tracked': 'daysTracked',
+      'Avg completion': 'avgCompletion',
+      'Perfect days': 'perfectDays',
+    };
+    if (map[text]) lbl.textContent = t(map[text]);
+  });
+
+  // Scope buttons
+  document.querySelectorAll('.scope-btn').forEach(btn => {
+    const text = btn.textContent.trim();
+    const map = { 'Today': 'today', 'This Week': 'thisWeek', 'All Time': 'allTime' };
+    if (map[text]) btn.textContent = t(map[text]);
+  });
+
+  // Lang buttons
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.lang === CURRENT_LANG);
+  });
+
+  document.documentElement.lang = CURRENT_LANG;
+}
+
+function setLanguage(lang){
+  CURRENT_LANG = lang;
+  localStorage.setItem('mp_lang', lang);
+  applyLanguage();
+  if (typeof vibrate === 'function') vibrate(15);
+}
+
+/* Wire language buttons */
+document.addEventListener('click', e => {
+  const btn = e.target.closest('.lang-btn');
+  if (btn && btn.dataset.lang) {
+    setLanguage(btn.dataset.lang);
+  }
+});
+
+/* Auto-apply on load */
+document.addEventListener('DOMContentLoaded', () => {
+  setTimeout(applyLanguage, 500);
+});
+
+window.addEventListener('load', () => {
+  setTimeout(applyLanguage, 800);
+});
+
+window.applyLanguage = applyLanguage;
+window.t = t;
 
 
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);

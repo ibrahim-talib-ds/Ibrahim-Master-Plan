@@ -1,5 +1,5 @@
 // Master Plan Service Worker
-const CACHE = 'mp-v22-' + Date.now();
+const CACHE = 'mp-v23-' + Date.now() + Date.now();
 const ASSETS = ['/', '/index.html'];
 
 self.addEventListener('install', e => {
