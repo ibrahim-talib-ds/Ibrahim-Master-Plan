@@ -941,10 +941,83 @@ input,textarea,select{font-family:inherit}
   }
 }
 
+
+/* ============ DS LIBRARY ============ */
+.ds-lib-header{display:flex;gap:.5rem;margin-bottom:.7rem}
+.ds-lib-search{flex:1;background:var(--bg-1);border:1px solid var(--border);border-radius:12px;padding:.75rem .9rem .75rem 2.4rem;color:var(--text);font-size:.86rem;font-family:inherit;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%237391a8'><path d='M15.5 14h-.79l-.28-.27a6.5 6.5 0 0 0 1.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 0 0-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 0 0 5.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z'/></svg>");background-repeat:no-repeat;background-position:.8rem center;background-size:1rem}
+.ds-lib-search:focus{outline:none;border-color:var(--accent)}
+
+.ds-topic-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:.55rem;margin-top:.5rem}
+.ds-topic-card{background:var(--bg-1);border:1px solid var(--border);border-radius:14px;padding:.9rem .7rem;text-align:center;cursor:pointer;transition:all .22s cubic-bezier(.16,1,.3,1);position:relative;overflow:hidden}
+.ds-topic-card:hover{border-color:var(--border-2);transform:translateY(-3px);box-shadow:0 10px 24px -8px rgba(0,0,0,.4)}
+.ds-topic-card:active{transform:scale(.97)}
+.ds-topic-card.done{border-left:4px solid var(--accent);background:linear-gradient(135deg,var(--accent-soft),var(--bg-1))}
+.ds-topic-card .tc-icon{font-size:1.8rem;margin-bottom:.35rem;line-height:1}
+.ds-topic-card .tc-title{font-size:.76rem;font-weight:800;color:var(--text);line-height:1.2}
+.ds-topic-card .tc-cat{font-size:.6rem;color:var(--text-3);margin-top:.2rem;text-transform:uppercase;font-weight:700;letter-spacing:.03em}
+.ds-topic-card .tc-progress{position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--bg-3)}
+.ds-topic-card .tc-progress-fill{height:100%;background:linear-gradient(90deg,var(--accent-2),var(--accent));transition:width .5s ease}
+
+/* ============ LESSON VIEW ============ */
+.lesson-wrap{padding:0 !important}
+.lesson-top{position:sticky;top:0;background:var(--surface);z-index:2;padding:.75rem .9rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.6rem;border-radius:var(--radius-xl) var(--radius-xl) 0 0}
+.lesson-back{width:36px;height:36px;border-radius:10px;background:var(--bg-1);border:1px solid var(--border);display:grid;place-items:center;cursor:pointer;flex-shrink:0;color:var(--text-2)}
+.lesson-back svg{width:18px;height:18px}
+.lesson-title-bar{flex:1;min-width:0}
+.lesson-title-bar h3{font-size:1rem;font-weight:800;color:var(--text);margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lesson-title-bar .lesson-sub{font-size:.68rem;color:var(--text-3);font-weight:600;margin-top:1px}
+.lesson-body{padding:1.1rem 1.2rem;max-height:75vh;overflow-y:auto}
+
+.lesson-section{margin-bottom:1.3rem}
+.lesson-section:last-child{margin-bottom:0}
+.lesson-section h4{font-size:.9rem;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.5rem;display:flex;align-items:center;gap:.4rem}
+.lesson-section h4 .num{width:22px;height:22px;border-radius:50%;background:var(--accent-soft);display:grid;place-items:center;font-size:.68rem;color:var(--accent);flex-shrink:0}
+.lesson-section p{font-size:.86rem;color:var(--text-2);line-height:1.65;margin-bottom:.55rem}
+.lesson-section p b{color:var(--text);font-weight:700}
+.lesson-section ul{margin:.4rem 0 .6rem 1.1rem;padding:0}
+.lesson-section li{font-size:.84rem;color:var(--text-2);line-height:1.6;margin-bottom:.3rem}
+.lesson-section li b{color:var(--text)}
+
+.lesson-code{background:#0a141e;border:1px solid var(--border);border-radius:10px;padding:.75rem .9rem;margin:.5rem 0;overflow-x:auto;font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace;font-size:.78rem;color:#e0f0ff;line-height:1.6;white-space:pre}
+.lesson-code .cmt{color:#5a7185;font-style:italic}
+.lesson-code .kw{color:#b58fff;font-weight:700}
+.lesson-code .fn{color:#6bb8ff;font-weight:700}
+.lesson-code .str{color:#5fd3b6}
+.lesson-code .num{color:#ffb45c}
+
+.lesson-callout{background:rgba(107,184,255,.1);border-left:3px solid var(--info);padding:.7rem .9rem;border-radius:8px;margin:.5rem 0;font-size:.82rem;color:var(--text-2);line-height:1.55}
+.lesson-callout b{color:var(--info)}
+.lesson-callout.warn{background:rgba(255,180,92,.1);border-left-color:var(--warn)}
+.lesson-callout.warn b{color:var(--warn)}
+.lesson-callout.success{background:rgba(95,211,182,.1);border-left-color:var(--accent)}
+.lesson-callout.success b{color:var(--accent)}
+
+.lesson-checklist{display:flex;flex-direction:column;gap:.5rem;margin-top:.6rem}
+.lesson-check{display:flex;align-items:center;gap:.75rem;padding:.7rem .85rem;background:var(--bg-1);border:1px solid var(--border);border-radius:12px;cursor:pointer;transition:all .18s ease}
+.lesson-check:hover{border-color:var(--border-2)}
+.lesson-check.done{opacity:.55;background:linear-gradient(90deg,var(--accent-soft),var(--bg-1));border-color:rgba(95,211,182,.4)}
+.lesson-check input{appearance:none;width:22px;height:22px;flex-shrink:0;border-radius:7px;border:2px solid var(--border-3);background:transparent;cursor:pointer;position:relative}
+.lesson-check input:checked{background:var(--accent);border-color:var(--accent)}
+.lesson-check input:checked::after{content:'';position:absolute;left:6px;top:2px;width:6px;height:11px;border:solid #080d13;border-width:0 2.5px 2.5px 0;transform:rotate(45deg)}
+.lesson-check label{font-size:.84rem;font-weight:600;color:var(--text);cursor:pointer;flex:1}
+
+.lesson-nav{display:flex;justify-content:space-between;gap:.6rem;margin-top:1.2rem;padding-top:1rem;border-top:1px solid var(--border)}
+.lesson-nav button{flex:1}
+
+.topic-pill-row{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.4rem}
+.topic-pill{font-size:.66rem;font-weight:700;background:var(--bg-2);color:var(--text-2);padding:.25rem .6rem;border-radius:20px;border:1px solid var(--border)}
+
+/* Mobile lesson fit */
+@media (max-width:500px){
+  .lesson-body{max-height:78vh;padding:.9rem 1rem}
+  .lesson-code{font-size:.72rem;padding:.65rem .75rem}
+}
+
 </style>
 
 
-<!-- cache:1790091973 -->
+
+<!-- cache:1790093240 -->
 </head>
 <body data-theme="dark">
 
@@ -1059,7 +1132,17 @@ input,textarea,select{font-family:inherit}
       <div class="ds-info"><div class="ds-title" id="dsTitle">—</div><div class="ds-detail" id="dsDetail">—</div></div>
     </div>
     <div class="ds-topics" id="dsTopics"></div>
-  </div>
+    <div style="display:flex;gap:.5rem;margin-top:.7rem">
+      <button class="btn primary" id="dsLearnBtn" style="flex:2">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        Learn Now — Today's Topic
+      </button>
+      <button class="btn" id="dsBrowseBtn" style="flex:1">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Browse
+      </button>
+    </div>
+</div>
 
   <!-- READING TODAY -->
   <div class="reading-card">
@@ -3756,6 +3839,944 @@ window.openShareCard = openShareCard;
 window.wireShareImageBtn = wireShareImageBtn;
 
 
+
+/* ============================================================
+   DATA SCIENCE LIBRARY — FULL LESSONS
+   ============================================================ */
+
+const DS_LESSONS = [
+  // ============================================================
+  // PYTHON BASICS
+  // ============================================================
+  {
+    id: 'py-vars',
+    icon: '🐍',
+    title: 'Python Variables',
+    category: 'Python',
+    level: 'L1',
+    topics: ['Variables','Types','Naming'],
+    concept: 'A <b>variable</b> is a name that stores a value in memory. In Python, you don\'t declare types — the language infers them from the value.',
+    why: 'Variables are the foundation of every program. They let you store, reuse, and manipulate data.',
+    code: `<span class="cmt"># Variable assignment</span>
+name = <span class="str">"Ibrahim"</span>
+age = <span class="num">20</span>
+is_student = <span class="kw">True</span>
+height = <span class="num">1.75</span>
+
+<span class="cmt"># Print values</span>
+<span class="fn">print</span>(<span class="str">f"Name: {name}, Age: {age}"</span>)
+
+<span class="cmt"># Check types</span>
+<span class="fn">print</span>(<span class="fn">type</span>(name))    <span class="cmt"># &lt;class 'str'&gt;</span>
+<span class="fn">print</span>(<span class="fn">type</span>(age))     <span class="cmt"># &lt;class 'int'&gt;</span>`,
+    examples: [
+      'Naming rule: use snake_case (<code>my_variable</code>)',
+      'Cannot start with a number: <code>1name</code> is invalid',
+      'Constants are usually uppercase: <code>MAX_SIZE = 100</code>'
+    ],
+    practice: [
+      'Create a variable with your name',
+      'Create a variable with your age and print both',
+      'Calculate your age in months and store it in a new variable'
+    ],
+    gotcha: 'Python is <b>case-sensitive</b> — <code>Name</code> and <code>name</code> are different variables.'
+  },
+
+  {
+    id: 'py-control',
+    icon: '🔀',
+    title: 'Control Flow',
+    category: 'Python',
+    level: 'L1',
+    topics: ['if','elif','else','for','while'],
+    concept: 'Control flow decides <b>which code runs and how many times</b>. Python uses <code>if/elif/else</code> for decisions and <code>for/while</code> for loops.',
+    why: 'Every real program needs to make decisions (if user is admin → show admin panel) and repeat tasks (loop over 1 million rows).',
+    code: `<span class="cmt"># If / elif / else</span>
+score = <span class="num">85</span>
+<span class="kw">if</span> score >= <span class="num">90</span>:
+    grade = <span class="str">"A"</span>
+<span class="kw">elif</span> score >= <span class="num">80</span>:
+    grade = <span class="str">"B"</span>
+<span class="kw">else</span>:
+    grade = <span class="str">"C"</span>
+
+<span class="cmt"># For loop</span>
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">5</span>):
+    <span class="fn">print</span>(i)  <span class="cmt"># 0, 1, 2, 3, 4</span>
+
+<span class="cmt"># While loop</span>
+count = <span class="num">0</span>
+<span class="kw">while</span> count < <span class="num">3</span>:
+    <span class="fn">print</span>(<span class="str">"Loop"</span>, count)
+    count += <span class="num">1</span>`,
+    examples: [
+      '<code>for</code> loops when you know how many times',
+      '<code>while</code> loops when you don\'t know until condition is met',
+      '<code>break</code> exits loop early · <code>continue</code> skips to next iteration'
+    ],
+    practice: [
+      'Print numbers 1 to 10',
+      'Print only even numbers from 1 to 20',
+      'Write a loop that stops when user types "quit"'
+    ],
+    gotcha: '<code>range(5)</code> gives 0,1,2,3,4 — <b>not</b> 1 to 5.'
+  },
+
+  {
+    id: 'py-functions',
+    icon: '⚙️',
+    title: 'Functions',
+    category: 'Python',
+    level: 'L1',
+    topics: ['def','return','args','kwargs'],
+    concept: 'A <b>function</b> is a reusable block of code with a name. You define it once with <code>def</code>, then call it many times.',
+    why: 'Functions avoid repetition and make code readable. Every Pandas or NumPy method is a function.',
+    code: `<span class="cmt"># Basic function</span>
+<span class="kw">def</span> <span class="fn">greet</span>(name):
+    <span class="kw">return</span> <span class="str">f"Hello, {name}!"</span>
+
+<span class="fn">print</span>(<span class="fn">greet</span>(<span class="str">"Ibrahim"</span>))
+
+<span class="cmt"># Multiple arguments with defaults</span>
+<span class="kw">def</span> <span class="fn">add</span>(a, b=<span class="num">10</span>):
+    <span class="kw">return</span> a + b
+
+<span class="fn">print</span>(<span class="fn">add</span>(<span class="num">5</span>))       <span class="cmt"># 15</span>
+<span class="fn">print</span>(<span class="fn">add</span>(<span class="num">5</span>, <span class="num">20</span>))  <span class="cmt"># 25</span>
+
+<span class="cmt"># *args and **kwargs</span>
+<span class="kw">def</span> <span class="fn">sum_all</span>(*nums):
+    <span class="kw">return</span> <span class="fn">sum</span>(nums)
+
+<span class="fn">print</span>(<span class="fn">sum_all</span>(<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>))  <span class="cmt"># 10</span>`,
+    examples: [
+      'Functions return <code>None</code> by default if no <code>return</code>',
+      '<code>*args</code> takes any number of positional arguments',
+      '<code>**kwargs</code> takes any number of keyword arguments'
+    ],
+    practice: [
+      'Write a function that returns the square of a number',
+      'Write a function that takes a list and returns the largest number',
+      'Write a function that checks if a number is even'
+    ],
+    gotcha: 'If you forget <code>return</code>, the function gives <code>None</code>.'
+  },
+
+  {
+    id: 'py-lists',
+    icon: '📋',
+    title: 'Lists & Dicts',
+    category: 'Python',
+    level: 'L1',
+    topics: ['list','dict','set','tuple'],
+    concept: '<b>Lists</b> store ordered items. <b>Dictionaries</b> store key-value pairs. <b>Sets</b> store unique items. <b>Tuples</b> are immutable lists.',
+    why: 'Data in Data Science is almost always lists (rows) and dicts (JSON records).',
+    code: `<span class="cmt"># List — ordered, changeable</span>
+scores = [<span class="num">85</span>, <span class="num">92</span>, <span class="num">78</span>]
+scores.<span class="fn">append</span>(<span class="num">95</span>)
+<span class="fn">print</span>(scores[<span class="num">0</span>])   <span class="cmt"># 85</span>
+<span class="fn">print</span>(scores[-<span class="num">1</span>])  <span class="cmt"># 95</span>
+
+<span class="cmt"># Dictionary — key: value</span>
+person = {
+    <span class="str">"name"</span>: <span class="str">"Ibrahim"</span>,
+    <span class="str">"age"</span>: <span class="num">20</span>,
+    <span class="str">"city"</span>: <span class="str">"Tashkent"</span>
+}
+<span class="fn">print</span>(person[<span class="str">"name"</span>])
+person[<span class="str">"age"</span>] = <span class="num">21</span>  <span class="cmt"># update</span>
+
+<span class="cmt"># Set — unique values</span>
+unique = {<span class="num">1</span>, <span class="num">2</span>, <span class="num">2</span>, <span class="num">3</span>}  <span class="cmt"># {1, 2, 3}</span>`,
+    examples: [
+      'Lists: <code>[1, 2, 3]</code> — square brackets',
+      'Dicts: <code>{"a": 1}</code> — curly + colon',
+      'Sets: <code>{1, 2, 3}</code> — unique only, no order',
+      'Tuples: <code>(1, 2)</code> — cannot change'
+    ],
+    practice: [
+      'Create a list of 5 favorite books',
+      'Create a dict with your name, age, and city',
+      'From a list [1,2,2,3,3,3], get unique values'
+    ],
+    gotcha: 'Lists use <code>[]</code>, dicts use <code>{}</code>, tuples use <code>()</code>.'
+  },
+
+  // ============================================================
+  // NUMPY
+  // ============================================================
+  {
+    id: 'np-basics',
+    icon: '🔢',
+    title: 'NumPy Arrays',
+    category: 'NumPy',
+    level: 'L2',
+    topics: ['array','ndim','shape','dtype'],
+    concept: '<b>NumPy arrays</b> are like Python lists but <b>100× faster</b> for math. They store numbers in a compact grid with a fixed type.',
+    why: 'Every ML algorithm works on NumPy arrays under the hood. Pandas DataFrames are built on NumPy.',
+    code: `<span class="kw">import</span> numpy <span class="kw">as</span> np
+
+<span class="cmt"># Create arrays</span>
+a = np.<span class="fn">array</span>([<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>])
+b = np.<span class="fn">zeros</span>((<span class="num">3</span>, <span class="num">3</span>))       <span class="cmt"># 3x3 of zeros</span>
+c = np.<span class="fn">ones</span>((<span class="num">2</span>, <span class="num">3</span>))        <span class="cmt"># 2x3 of ones</span>
+d = np.<span class="fn">arange</span>(<span class="num">0</span>, <span class="num">10</span>, <span class="num">2</span>)   <span class="cmt"># [0,2,4,6,8]</span>
+e = np.<span class="fn">linspace</span>(<span class="num">0</span>, <span class="num">1</span>, <span class="num">5</span>)   <span class="cmt"># [0, 0.25, 0.5, 0.75, 1]</span>
+
+<span class="cmt"># Properties</span>
+<span class="fn">print</span>(a.shape)   <span class="cmt"># (4,)</span>
+<span class="fn">print</span>(a.ndim)    <span class="cmt"># 1</span>
+<span class="fn">print</span>(a.dtype)   <span class="cmt"># int64</span>
+<span class="fn">print</span>(b.shape)   <span class="cmt"># (3, 3)</span>`,
+    examples: [
+      '<code>np.array([1,2,3])</code> — from list',
+      '<code>np.zeros((3,3))</code> — matrix of 0s',
+      '<code>np.arange(0, 10, 2)</code> — like range()',
+      '<code>np.linspace(0, 1, 5)</code> — 5 evenly spaced numbers'
+    ],
+    practice: [
+      'Create an array of numbers 1-100',
+      'Create a 4x4 matrix of ones',
+      'Create 10 evenly spaced numbers between 0 and 100'
+    ],
+    gotcha: 'NumPy arrays have a <b>single dtype</b> — all int or all float. Python lists can mix types.'
+  },
+
+  {
+    id: 'np-index',
+    icon: '✂️',
+    title: 'Indexing & Slicing',
+    category: 'NumPy',
+    level: 'L2',
+    topics: ['indexing','slicing','boolean mask'],
+    concept: '<b>Indexing</b> picks single elements. <b>Slicing</b> picks ranges. <b>Boolean masks</b> filter based on conditions.',
+    why: 'You need to extract specific rows, columns, or values that meet conditions before analyzing.',
+    code: `<span class="kw">import</span> numpy <span class="kw">as</span> np
+a = np.<span class="fn">array</span>([[<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>],
+              [<span class="num">4</span>, <span class="num">5</span>, <span class="num">6</span>],
+              [<span class="num">7</span>, <span class="num">8</span>, <span class="num">9</span>]])
+
+<span class="cmt"># Indexing</span>
+<span class="fn">print</span>(a[<span class="num">0</span>, <span class="num">0</span>])   <span class="cmt"># 1</span>
+<span class="fn">print</span>(a[<span class="num">2</span>, <span class="num">1</span>])   <span class="cmt"># 8</span>
+
+<span class="cmt"># Slicing</span>
+<span class="fn">print</span>(a[<span class="num">0</span>:<span class="num">2</span>, :])   <span class="cmt"># first 2 rows, all cols</span>
+<span class="fn">print</span>(a[:, <span class="num">1</span>])     <span class="cmt"># all rows, 2nd column</span>
+<span class="fn">print</span>(a[<span class="num">0</span>:<span class="num">2</span>, <span class="num">1</span>:<span class="num">3</span>]) <span class="cmt"># sub-matrix</span>
+
+<span class="cmt"># Boolean mask</span>
+mask = a > <span class="num">5</span>
+<span class="fn">print</span>(a[mask])   <span class="cmt"># [6, 7, 8, 9]</span>`,
+    examples: [
+      '<code>a[i, j]</code> — row i, column j',
+      '<code>a[0:2]</code> — first 2 items (index 0, 1)',
+      '<code>a[mask]</code> — only values that satisfy mask',
+      '<code>a[a > 5] = 0</code> — replace filtered values'
+    ],
+    practice: [
+      'Create a 3x3 array, extract the middle column',
+      'From [10, 20, 30, 40, 50], get values greater than 25',
+      'Replace all negatives in an array with 0'
+    ],
+    gotcha: 'Python slicing is <b>exclusive</b> at the end: <code>[0:3]</code> gives indices 0, 1, 2 — <b>not</b> 3.'
+  },
+
+  {
+    id: 'np-ops',
+    icon: '⚡',
+    title: 'Vectorized Operations',
+    category: 'NumPy',
+    level: 'L2',
+    topics: ['vectorization','broadcasting'],
+    concept: '<b>Vectorization</b> applies an operation to an entire array at once (no Python loops). <b>Broadcasting</b> lets you combine arrays of different shapes.',
+    why: 'Vectorized code runs 10-100× faster than loops. This is the #1 reason NumPy exists.',
+    code: `<span class="kw">import</span> numpy <span class="kw">as</span> np
+
+a = np.<span class="fn">array</span>([<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>])
+b = np.<span class="fn">array</span>([<span class="num">10</span>, <span class="num">20</span>, <span class="num">30</span>, <span class="num">40</span>])
+
+<span class="cmt"># Vectorized arithmetic</span>
+<span class="fn">print</span>(a + b)     <span class="cmt"># [11, 22, 33, 44]</span>
+<span class="fn">print</span>(a * b)     <span class="cmt"># [10, 40, 90, 160]</span>
+<span class="fn">print</span>(a ** <span class="num">2</span>)    <span class="cmt"># [1, 4, 9, 16]</span>
+
+<span class="cmt"># Broadcasting</span>
+<span class="fn">print</span>(a + <span class="num">100</span>)   <span class="cmt"># [101, 102, 103, 104]</span>
+<span class="fn">print</span>(a * <span class="num">2</span>)     <span class="cmt"># [2, 4, 6, 8]</span>
+
+<span class="cmt"># Aggregations</span>
+<span class="fn">print</span>(a.<span class="fn">sum</span>())   <span class="cmt"># 10</span>
+<span class="fn">print</span>(a.<span class="fn">mean</span>())  <span class="cmt"># 2.5</span>
+<span class="fn">print</span>(a.<span class="fn">max</span>())   <span class="cmt"># 4</span>`,
+    examples: [
+      'Add scalar: <code>a + 100</code> — adds 100 to every element',
+      'Sum: <code>a.sum()</code> — total of all elements',
+      'Axis: <code>a.sum(axis=0)</code> — sum per column',
+      'Element-wise: <code>a * b</code> — multiply position by position'
+    ],
+    practice: [
+      'Multiply array [1,2,3] by 10',
+      'Calculate mean of [4, 8, 15, 16, 23, 42]',
+      'Add two arrays of different values'
+    ],
+    gotcha: 'For matrix multiplication use <code>@</code> or <code>np.dot()</code> — <code>*</code> is element-wise.'
+  },
+
+  // ============================================================
+  // PANDAS
+  // ============================================================
+  {
+    id: 'pd-series',
+    icon: '📊',
+    title: 'Pandas Series',
+    category: 'Pandas',
+    level: 'L2',
+    topics: ['Series','index','values'],
+    concept: 'A <b>Series</b> is a 1-dimensional labeled array. Think of it as a NumPy array with labels for each element.',
+    why: 'Series is the building block of DataFrames — every column is a Series.',
+    code: `<span class="kw">import</span> pandas <span class="kw">as</span> pd
+
+<span class="cmt"># Series from list</span>
+s = pd.<span class="fn">Series</span>([<span class="num">10</span>, <span class="num">20</span>, <span class="num">30</span>, <span class="num">40</span>])
+
+<span class="cmt"># Series with custom index</span>
+s2 = pd.<span class="fn">Series</span>([<span class="num">85</span>, <span class="num">92</span>, <span class="num">78</span>],
+              index=[<span class="str">"Ali"</span>, <span class="str">"Sara"</span>, <span class="str">"Omar"</span>])
+
+<span class="fn">print</span>(s2[<span class="str">"Sara"</span>])   <span class="cmt"># 92</span>
+<span class="fn">print</span>(s2.values)    <span class="cmt"># [85, 92, 78]</span>
+<span class="fn">print</span>(s2.index)     <span class="cmt"># Index(['Ali', 'Sara', 'Omar'])</span>
+
+<span class="cmt"># Filtering</span>
+<span class="fn">print</span>(s2[s2 > <span class="num">80</span>])  <span class="cmt"># Sara and Omar</span>`,
+    examples: [
+      '<code>pd.Series([1,2,3])</code> — from list',
+      '<code>pd.Series({"a": 1, "b": 2})</code> — from dict',
+      '<code>s.mean()</code> — average of Series',
+      '<code>s[cond]</code> — filter with condition'
+    ],
+    practice: [
+      'Create a Series with 5 numbers',
+      'Create a Series with custom index (names)',
+      'Filter Series to only values > 50'
+    ],
+    gotcha: 'Pandas Series index can be strings, not just numbers.'
+  },
+
+  {
+    id: 'pd-dataframe',
+    icon: '🗂️',
+    title: 'Pandas DataFrames',
+    category: 'Pandas',
+    level: 'L2',
+    topics: ['DataFrame','read_csv','head','info'],
+    concept: 'A <b>DataFrame</b> is a 2D table — like an Excel sheet. It has rows, columns, and a label for each.',
+    why: 'DataFrames are how you load, clean, and explore real data (CSV, Excel, SQL).',
+    code: `<span class="kw">import</span> pandas <span class="kw">as</span> pd
+
+<span class="cmt"># Create DataFrame</span>
+df = pd.<span class="fn">DataFrame</span>({
+    <span class="str">"name"</span>: [<span class="str">"Ibrahim"</span>, <span class="str">"Fadvery"</span>, <span class="str">"Kashif"</span>],
+    <span class="str">"age"</span>: [<span class="num">20</span>, <span class="num">22</span>, <span class="num">24</span>],
+    <span class="str">"pages"</span>: [<span class="num">85</span>, <span class="num">92</span>, <span class="num">78</span>]
+})
+
+<span class="fn">print</span>(df.<span class="fn">head</span>())        <span class="cmt"># first 5 rows</span>
+<span class="fn">print</span>(df.shape)       <span class="cmt"># (3, 3)</span>
+<span class="fn">print</span>(df.columns)     <span class="cmt"># Index(['name', 'age', 'pages'])</span>
+<span class="fn">print</span>(df.<span class="fn">info</span>())        <span class="cmt"># column types + memory</span>
+
+<span class="cmt"># Load from CSV</span>
+df2 = pd.<span class="fn">read_csv</span>(<span class="str">"data.csv"</span>)`,
+    examples: [
+      '<code>df.head()</code> — first 5 rows',
+      '<code>df.head(10)</code> — first 10 rows',
+      '<code>df.tail()</code> — last 5 rows',
+      '<code>df.describe()</code> — quick stats',
+      '<code>df.info()</code> — dtypes + non-null counts'
+    ],
+    practice: [
+      'Create a DataFrame with 3 columns',
+      'Load a CSV and print its shape',
+      'Print first 10 rows of a DataFrame'
+    ],
+    gotcha: 'First thing to always do: <code>df.info()</code> — see types, nulls, and size.'
+  },
+
+  {
+    id: 'pd-select',
+    icon: '🎯',
+    title: 'Selecting & Filtering',
+    category: 'Pandas',
+    level: 'L2',
+    topics: ['loc','iloc','boolean','isin'],
+    concept: 'Use <code>loc[]</code> for <b>label-based</b> selection and <code>iloc[]</code> for <b>position-based</b>. Filter with boolean conditions.',
+    why: 'You almost never analyze the whole table — you filter to a subset first.',
+    code: `df = pd.<span class="fn">DataFrame</span>({
+    <span class="str">"name"</span>: [<span class="str">"Ibrahim"</span>, <span class="str">"Fadvery"</span>, <span class="str">"Kashif"</span>],
+    <span class="str">"age"</span>: [<span class="num">20</span>, <span class="num">22</span>, <span class="num">24</span>],
+    <span class="str">"pages"</span>: [<span class="num">85</span>, <span class="num">92</span>, <span class="num">78</span>]
+})
+
+<span class="cmt"># Select column</span>
+<span class="fn">print</span>(df[<span class="str">"name"</span>])
+
+<span class="cmt"># Filter rows</span>
+<span class="fn">print</span>(df[df[<span class="str">"pages"</span>] > <span class="num">80</span>])
+
+<span class="cmt"># Multiple conditions</span>
+<span class="fn">print</span>(df[(df[<span class="str">"age"</span>] > <span class="num">20</span>) & (df[<span class="str">"pages"</span>] > <span class="num">80</span>)])
+
+<span class="cmt"># loc: label, iloc: position</span>
+<span class="fn">print</span>(df.<span class="fn">loc</span>[<span class="num">0</span>:<span class="num">1</span>, [<span class="str">"name"</span>, <span class="str">"age"</span>]])
+<span class="fn">print</span>(df.<span class="fn">iloc</span>[<span class="num">0</span>:<span class="num">2</span>, <span class="num">0</span>:<span class="num">2</span>])`,
+    examples: [
+      '<code>df["col"]</code> — one column (Series)',
+      '<code>df[["a","b"]]</code> — multiple columns (DataFrame)',
+      '<code>df[df.x > 5]</code> — filter rows',
+      '<code>df.loc[0]</code> — row by label',
+      '<code>df.iloc[0]</code> — row by position'
+    ],
+    practice: [
+      'From the sample DataFrame, get rows where age > 21',
+      'Select only the name and pages columns',
+      'Get the second row using iloc'
+    ],
+    gotcha: 'Use <code>&</code> (not <code>and</code>) and <code>|</code> (not <code>or</code>) for multiple conditions.'
+  },
+
+  {
+    id: 'pd-groupby',
+    icon: '📈',
+    title: 'GroupBy & Aggregation',
+    category: 'Pandas',
+    level: 'L2',
+    topics: ['groupby','agg','pivot'],
+    concept: '<b>GroupBy</b> splits data into groups, applies a function, and combines results — like "sum by category" or "average by month".',
+    why: '90% of business questions are "X by Y" — total sales by region, average score by student.',
+    code: `df = pd.<span class="fn">DataFrame</span>({
+    <span class="str">"brother"</span>: [<span class="str">"Ali"</span>, <span class="str">"Ali"</span>, <span class="str">"Sara"</span>, <span class="str">"Sara"</span>],
+    <span class="str">"book"</span>: [<span class="str">"Sozler"</span>, <span class="str">"Irsad"</span>, <span class="str">"Sozler"</span>, <span class="str">"Irsad"</span>],
+    <span class="str">"pages"</span>: [<span class="num">20</span>, <span class="num">15</span>, <span class="num">30</span>, <span class="num">10</span>]
+})
+
+<span class="cmt"># Total pages per brother</span>
+result = df.<span class="fn">groupby</span>(<span class="str">"brother"</span>)[<span class="str">"pages"</span>].<span class="fn">sum</span>()
+<span class="fn">print</span>(result)
+
+<span class="cmt"># Multiple aggregations</span>
+result2 = df.<span class="fn">groupby</span>(<span class="str">"brother"</span>)[<span class="str">"pages"</span>].<span class="fn">agg</span>([<span class="str">"sum"</span>, <span class="str">"mean"</span>, <span class="str">"count"</span>])
+<span class="fn">print</span>(result2)
+
+<span class="cmt"># Group by multiple columns</span>
+<span class="fn">print</span>(df.<span class="fn">groupby</span>([<span class="str">"brother"</span>, <span class="str">"book"</span>])[<span class="str">"pages"</span>].<span class="fn">sum</span>())`,
+    examples: [
+      '<code>df.groupby("col").sum()</code> — sum by group',
+      '<code>df.groupby("col")["x"].mean()</code> — mean of column',
+      '<code>.agg(["sum","mean","max"])</code> — multiple stats',
+      '<code>.reset_index()</code> — flatten result back to DataFrame'
+    ],
+    practice: [
+      'Calculate total pages per book',
+      'Average pages per brother',
+      'Count of entries per day'
+    ],
+    gotcha: 'GroupBy returns a Series/DataFrame with the group as index — use <code>.reset_index()</code> to flatten.'
+  },
+
+  // ============================================================
+  // SQL
+  // ============================================================
+  {
+    id: 'sql-select',
+    icon: '🗄️',
+    title: 'SQL SELECT',
+    category: 'SQL',
+    level: 'L3',
+    topics: ['SELECT','WHERE','ORDER BY'],
+    concept: 'SQL is how you talk to databases. <b>SELECT</b> reads data, <b>WHERE</b> filters, <b>ORDER BY</b> sorts.',
+    why: 'Most real-world data lives in databases. SQL is not optional for Data Scientists.',
+    code: `<span class="cmt">-- Basic select</span>
+<span class="kw">SELECT</span> name, age
+<span class="kw">FROM</span> brothers;
+
+<span class="cmt">-- With filter</span>
+<span class="kw">SELECT</span> *
+<span class="kw">FROM</span> readings
+<span class="kw">WHERE</span> pages > <span class="num">20</span>;
+
+<span class="cmt">-- With sort + limit</span>
+<span class="kw">SELECT</span> name, pages
+<span class="kw">FROM</span> readings
+<span class="kw">ORDER BY</span> pages <span class="kw">DESC</span>
+<span class="kw">LIMIT</span> <span class="num">10</span>;
+
+<span class="cmt">-- Combined conditions</span>
+<span class="kw">SELECT</span> *
+<span class="kw">FROM</span> readings
+<span class="kw">WHERE</span> pages > <span class="num">10</span> <span class="kw">AND</span> quran > <span class="num">3</span>
+<span class="kw">ORDER BY</span> date <span class="kw">DESC</span>;`,
+    examples: [
+      '<code>SELECT *</code> — all columns',
+      '<code>WHERE x = 5</code> — filter',
+      '<code>ORDER BY x DESC</code> — highest first',
+      '<code>LIMIT 10</code> — only 10 rows'
+    ],
+    practice: [
+      'Select all rows from a table',
+      'Filter where pages > 15',
+      'Sort results by pages, highest first'
+    ],
+    gotcha: 'SQL is <b>case-insensitive</b> for keywords, but column/table names may be case-sensitive depending on DB.'
+  },
+
+  {
+    id: 'sql-join',
+    icon: '🔗',
+    title: 'SQL JOINs',
+    category: 'SQL',
+    level: 'L3',
+    topics: ['INNER JOIN','LEFT JOIN','GROUP BY'],
+    concept: '<b>JOIN</b> combines rows from two tables based on a shared column. <b>INNER</b> keeps only matches, <b>LEFT</b> keeps all from left.',
+    why: 'Real data is split across tables. JOINs let you bring them back together.',
+    code: `<span class="cmt">-- INNER JOIN (only matches)</span>
+<span class="kw">SELECT</span> b.name, r.pages, r.book
+<span class="kw">FROM</span> brothers b
+<span class="kw">INNER JOIN</span> readings r
+  <span class="kw">ON</span> b.id = r.brother_id;
+
+<span class="cmt">-- LEFT JOIN (all brothers, even 0 reads)</span>
+<span class="kw">SELECT</span> b.name, <span class="fn">COALESCE</span>(<span class="fn">SUM</span>(r.pages), <span class="num">0</span>) <span class="kw">AS</span> total
+<span class="kw">FROM</span> brothers b
+<span class="kw">LEFT JOIN</span> readings r
+  <span class="kw">ON</span> b.id = r.brother_id
+<span class="kw">GROUP BY</span> b.name;
+
+<span class="cmt">-- GROUP BY + HAVING</span>
+<span class="kw">SELECT</span> book, <span class="fn">SUM</span>(pages) <span class="kw">AS</span> total
+<span class="kw">FROM</span> readings
+<span class="kw">GROUP BY</span> book
+<span class="kw">HAVING</span> <span class="fn">SUM</span>(pages) > <span class="num">100</span>;`,
+    examples: [
+      '<code>INNER JOIN</code> — only matching rows',
+      '<code>LEFT JOIN</code> — all from left + matches',
+      '<code>GROUP BY x</code> — aggregate per group',
+      '<code>HAVING</code> — filter after grouping (WHERE filters before)'
+    ],
+    practice: [
+      'Join brothers and readings tables',
+      'Show all brothers even if they have no readings',
+      'Count readings per book, only books with >5 entries'
+    ],
+    gotcha: '<code>WHERE</code> filters rows BEFORE grouping. <code>HAVING</code> filters AFTER grouping.'
+  },
+
+  // ============================================================
+  // STATISTICS
+  // ============================================================
+  {
+    id: 'stat-basics',
+    icon: '📉',
+    title: 'Descriptive Statistics',
+    category: 'Statistics',
+    level: 'L4',
+    topics: ['mean','median','std','variance'],
+    concept: 'Statistics summarize data with a few numbers. <b>Mean</b> = average. <b>Median</b> = middle value. <b>Std</b> = spread.',
+    why: 'Before any model, you must understand your data. Stats give you that understanding.',
+    code: `<span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">import</span> pandas <span class="kw">as</span> pd
+
+data = [<span class="num">12</span>, <span class="num">15</span>, <span class="num">18</span>, <span class="num">22</span>, <span class="num">100</span>]
+
+<span class="fn">print</span>(<span class="str">"Mean:"</span>, np.<span class="fn">mean</span>(data))      <span class="cmt"># 33.4</span>
+<span class="fn">print</span>(<span class="str">"Median:"</span>, np.<span class="fn">median</span>(data))  <span class="cmt"># 18 (better here!)</span>
+<span class="fn">print</span>(<span class="str">"Std:"</span>, np.<span class="fn">std</span>(data))        <span class="cmt"># 34.7</span>
+<span class="fn">print</span>(<span class="str">"Var:"</span>, np.<span class="fn">var</span>(data))        <span class="cmt"># 1206</span>
+
+<span class="cmt"># With Pandas</span>
+s = pd.<span class="fn">Series</span>(data)
+<span class="fn">print</span>(s.<span class="fn">describe</span>())`,
+    examples: [
+      'Mean — average value',
+      'Median — middle value (better if outliers)',
+      'Std dev — how spread out values are',
+      'Variance — squared standard deviation'
+    ],
+    practice: [
+      'Calculate mean of [5, 10, 15, 20]',
+      'Compare mean vs median for [1, 2, 3, 4, 1000]',
+      'Find the standard deviation of your reading pages'
+    ],
+    gotcha: 'If the mean and median are <b>very different</b>, there are outliers — prefer median.'
+  },
+
+  {
+    id: 'stat-dist',
+    icon: '🔔',
+    title: 'Probability & Distributions',
+    category: 'Statistics',
+    level: 'L4',
+    topics: ['probability','normal dist','histogram'],
+    concept: 'A <b>distribution</b> tells you how often each value appears. The <b>normal distribution</b> (bell curve) is the most common in nature.',
+    why: 'Most ML models assume data follows some distribution — knowing them helps you choose and debug.',
+    code: `<span class="kw">import</span> numpy <span class="kw">as</span> np
+
+<span class="cmt"># Normal distribution — 1000 samples</span>
+data = np.random.<span class="fn">normal</span>(loc=<span class="num">100</span>, scale=<span class="num">15</span>, size=<span class="num">1000</span>)
+
+<span class="fn">print</span>(<span class="str">"Mean:"</span>, data.<span class="fn">mean</span>())      <span class="cmt"># ≈ 100</span>
+<span class="fn">print</span>(<span class="str">"Std:"</span>, data.<span class="fn">std</span>())        <span class="cmt"># ≈ 15</span>
+
+<span class="cmt"># 68% within 1 std, 95% within 2 std</span>
+within_1 = ((data > <span class="num">85</span>) & (data < <span class="num">115</span>)).<span class="fn">sum</span>() / <span class="num">1000</span>
+<span class="fn">print</span>(<span class="str">"Within 1 std:"</span>, within_1)   <span class="cmt"># ≈ 0.68</span>`,
+    examples: [
+      'Normal distribution — bell curve',
+      'Uniform distribution — every value equally likely',
+      'Binomial — yes/no outcomes (coin flips)',
+      '68-95-99.7 rule for normal distribution'
+    ],
+    practice: [
+      'Generate 1000 samples from normal distribution',
+      'Calculate what % fall within 1 standard deviation',
+      'Plot a histogram of random data'
+    ],
+    gotcha: 'The 68-95-99.7 rule applies to <b>normal</b> distributions only.'
+  },
+
+  // ============================================================
+  // MACHINE LEARNING
+  // ============================================================
+  {
+    id: 'ml-intro',
+    icon: '🤖',
+    title: 'Intro to ML',
+    category: 'ML',
+    level: 'L6',
+    topics: ['supervised','unsupervised','train/test'],
+    concept: 'Machine Learning = teaching a computer to find patterns from data instead of programming rules manually.',
+    why: 'This is the whole point of Data Science — predict, classify, recommend.',
+    code: `<span class="kw">from</span> sklearn.model_selection <span class="kw">import</span> train_test_split
+<span class="kw">from</span> sklearn.linear_model <span class="kw">import</span> LinearRegression
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+
+<span class="cmt"># Sample data</span>
+X = np.<span class="fn">array</span>([[<span class="num">1</span>], [<span class="num">2</span>], [<span class="num">3</span>], [<span class="num">4</span>], [<span class="num">5</span>]])
+y = np.<span class="fn">array</span>([<span class="num">2</span>, <span class="num">4</span>, <span class="num">6</span>, <span class="num">8</span>, <span class="num">10</span>])
+
+<span class="cmt"># Split into train/test</span>
+X_train, X_test, y_train, y_test = <span class="fn">train_test_split</span>(X, y, test_size=<span class="num">0.2</span>)
+
+<span class="cmt"># Train model</span>
+model = <span class="fn">LinearRegression</span>()
+model.<span class="fn">fit</span>(X_train, y_train)
+
+<span class="cmt"># Predict</span>
+<span class="fn">print</span>(model.<span class="fn">predict</span>([[<span class="num">6</span>]]))   <span class="cmt"># [12]</span>
+<span class="fn">print</span>(<span class="str">"Score:"</span>, model.<span class="fn">score</span>(X_test, y_test))`,
+    examples: [
+      '<b>Supervised</b> — labeled data (predict price from house)',
+      '<b>Unsupervised</b> — no labels (find clusters)',
+      '<b>Train set</b> — model learns from this',
+      '<b>Test set</b> — model is evaluated on this (never seen before)'
+    ],
+    practice: [
+      'Load any sklearn dataset (e.g. iris)',
+      'Split it 80/20 into train and test',
+      'Train a LinearRegression and print score'
+    ],
+    gotcha: 'Never train on the test set — that\'s cheating and gives fake-high scores.'
+  },
+];
+
+/* ============================================================
+   STORAGE for lesson progress
+   ============================================================ */
+const DS_PROGRESS_KEY = 'mp20_ds_progress';
+function getDSProgress(){
+  try { return JSON.parse(localStorage.getItem(DS_PROGRESS_KEY) || '{}'); } catch(e){ return {}; }
+}
+function saveDSProgress(p){
+  localStorage.setItem(DS_PROGRESS_KEY, JSON.stringify(p));
+}
+function toggleLessonCheck(lessonId, idx){
+  const p = getDSProgress();
+  if (!p[lessonId]) p[lessonId] = {};
+  p[lessonId][idx] = !p[lessonId][idx];
+  saveDSProgress(p);
+  vibrate(15);
+  // rerender current lesson
+  const lesson = DS_LESSONS.find(l => l.id === lessonId);
+  if (lesson) renderLesson(lesson, 'dsLessonBody');
+  // update list card
+  renderLibraryList();
+}
+
+/* ============================================================
+   RENDER LIBRARY LIST
+   ============================================================ */
+function renderLibraryList(filter){
+  const body = document.getElementById('dsLibBody');
+  const title = document.getElementById('dsLibTitle');
+  const sub = document.getElementById('dsLibSub');
+  if (!body) return;
+  if (title) title.textContent = 'Data Science Library';
+  if (sub) sub.textContent = DS_LESSONS.length + ' topics · tap to learn';
+
+  const prog = getDSProgress();
+  const q = (filter || '').toLowerCase().trim();
+  const list = q ? DS_LESSONS.filter(l =>
+    l.title.toLowerCase().includes(q) ||
+    l.category.toLowerCase().includes(q) ||
+    l.topics.some(t => t.toLowerCase().includes(q))
+  ) : DS_LESSONS;
+
+  const categories = {};
+  list.forEach(l => {
+    if (!categories[l.category]) categories[l.category] = [];
+    categories[l.category].push(l);
+  });
+
+  let html = `
+    <div class="ds-lib-header">
+      <input type="text" class="ds-lib-search" id="dsLibSearchInput" placeholder="Search topics (numpy, pandas, sql...)" value="${q}">
+    </div>
+  `;
+
+  if (list.length === 0) {
+    html += `<div class="empty-state" style="padding:2rem"><span class="es-icon">🔍</span><div class="es-title">No topics found</div><div class="es-text">Try "python", "numpy", "pandas", or "sql".</div></div>`;
+  } else {
+    Object.keys(categories).forEach(cat => {
+      html += `<div style="margin-top:1rem"><div class="section-label">${cat}</div><div class="ds-topic-grid">`;
+      categories[cat].forEach(l => {
+        const lp = prog[l.id] || {};
+        const total = l.practice.length;
+        const done = Object.values(lp).filter(Boolean).length;
+        const pct = total ? (done/total)*100 : 0;
+        html += `<div class="ds-topic-card ${done === total ? 'done' : ''}" data-lesson="${l.id}">
+          <div class="tc-icon">${l.icon}</div>
+          <div class="tc-title">${l.title}</div>
+          <div class="tc-cat">${l.level}</div>
+          <div class="tc-progress"><div class="tc-progress-fill" style="width:${pct}%"></div></div>
+        </div>`;
+      });
+      html += `</div></div>`;
+    });
+  }
+
+  body.innerHTML = html;
+
+  // Wire search
+  const searchInput = document.getElementById('dsLibSearchInput');
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      renderLibraryList(e.target.value);
+      // refocus after re-render
+      setTimeout(() => {
+        const s = document.getElementById('dsLibSearchInput');
+        if (s) { s.focus(); s.setSelectionRange(s.value.length, s.value.length); }
+      }, 0);
+    });
+  }
+
+  // Wire topic cards
+  body.querySelectorAll('[data-lesson]').forEach(card => {
+    card.addEventListener('click', () => {
+      const lesson = DS_LESSONS.find(l => l.id === card.dataset.lesson);
+      if (lesson) openLesson(lesson);
+    });
+  });
+}
+
+/* ============================================================
+   OPEN LESSON (full screen)
+   ============================================================ */
+function openLesson(lesson){
+  const el = document.getElementById('dsLesson');
+  if (!el) return;
+  el.style.display = 'block';
+  document.body.style.overflow = 'hidden';
+  renderLesson(lesson, 'dsLessonBody');
+  vibrate(15);
+}
+
+function closeLesson(){
+  const el = document.getElementById('dsLesson');
+  if (el) el.style.display = 'none';
+  document.body.style.overflow = '';
+  renderLibraryList();
+}
+
+function renderLesson(lesson, containerId){
+  const body = document.getElementById(containerId);
+  const title = document.getElementById('dsLessonTitle');
+  const sub = document.getElementById('dsLessonSub');
+  if (!body) return;
+
+  if (title) title.textContent = lesson.title;
+  if (sub) sub.textContent = lesson.category + ' · ' + lesson.level;
+
+  const prog = getDSProgress();
+  const lp = prog[lesson.id] || {};
+
+  let html = '';
+
+  // Concept
+  html += `<div class="lesson-section">
+    <h4><span class="num">1</span>Concept</h4>
+    <p>${lesson.concept}</p>
+  </div>`;
+
+  // Why
+  html += `<div class="lesson-section">
+    <h4><span class="num">2</span>Why It Matters</h4>
+    <p>${lesson.why}</p>
+  </div>`;
+
+  // Code
+  html += `<div class="lesson-section">
+    <h4><span class="num">3</span>Code</h4>
+    <div class="lesson-code">${lesson.code}</div>
+  </div>`;
+
+  // Examples / Key points
+  html += `<div class="lesson-section">
+    <h4><span class="num">4</span>Key Points</h4>
+    <ul>${lesson.examples.map(e => `<li>${e}</li>`).join('')}</ul>
+  </div>`;
+
+  // Gotcha
+  if (lesson.gotcha) {
+    html += `<div class="lesson-section">
+      <h4><span class="num">5</span>Watch Out</h4>
+      <div class="lesson-callout warn"><b>⚠️ Common mistake:</b> ${lesson.gotcha}</div>
+    </div>`;
+  }
+
+  // Practice checklist
+  html += `<div class="lesson-section">
+    <h4><span class="num">6</span>Practice — Try It Yourself</h4>
+    <div class="lesson-checklist">`;
+  lesson.practice.forEach((p, i) => {
+    const done = !!lp[i];
+    html += `<div class="lesson-check ${done ? 'done' : ''}">
+      <input type="checkbox" ${done ? 'checked' : ''} data-lesson-check="${lesson.id}" data-idx="${i}">
+      <label>${p}</label>
+    </div>`;
+  });
+  html += `</div></div>`;
+
+  // Nav
+  const lessonIdx = DS_LESSONS.indexOf(lesson);
+  const prevLesson = lessonIdx > 0 ? DS_LESSONS[lessonIdx - 1] : null;
+  const nextLesson = lessonIdx < DS_LESSONS.length - 1 ? DS_LESSONS[lessonIdx + 1] : null;
+
+  html += `<div class="lesson-nav">
+    ${prevLesson ? `<button class="btn" data-lesson-nav="${prevLesson.id}">← Previous</button>` : `<button class="btn" disabled style="opacity:.4">← Previous</button>`}
+    ${nextLesson ? `<button class="btn primary" data-lesson-nav="${nextLesson.id}">Next →</button>` : `<button class="btn" disabled style="opacity:.4">Next →</button>`}
+  </div>`;
+
+  body.innerHTML = html;
+
+  // Wire checkboxes
+  body.querySelectorAll('[data-lesson-check]').forEach(cb => {
+    cb.addEventListener('change', () => {
+      toggleLessonCheck(cb.dataset.lessonCheck, parseInt(cb.dataset.idx));
+    });
+    // also allow clicking the row
+    const row = cb.closest('.lesson-check');
+    if (row) {
+      row.addEventListener('click', (e) => {
+        if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'LABEL') {
+          cb.checked = !cb.checked;
+          toggleLessonCheck(cb.dataset.lessonCheck, parseInt(cb.dataset.idx));
+        }
+      });
+    }
+  });
+
+  // Wire nav
+  body.querySelectorAll('[data-lesson-nav]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const nextL = DS_LESSONS.find(l => l.id === btn.dataset.lessonNav);
+      if (nextL) {
+        body.scrollTop = 0;
+        renderLesson(nextL, containerId);
+      }
+    });
+  });
+}
+
+/* ============================================================
+   WIRE UP BUTTONS
+   ============================================================ */
+function wireDSButtons(){
+  const learnBtn = document.getElementById('dsLearnBtn');
+  const browseBtn = document.getElementById('dsBrowseBtn');
+  const libClose = document.getElementById('dsLibClose');
+  const lessonClose = document.getElementById('dsLessonClose');
+
+  if (learnBtn && !learnBtn.dataset.wired) {
+    learnBtn.dataset.wired = '1';
+    learnBtn.addEventListener('click', () => {
+      const day = WEEKDAY_NAMES[new Date().getDay()];
+      const plan = DAILY_DS[day];
+      // Map daily topic to a lesson
+      let targetId = null;
+      if (plan) {
+        const t = plan.title.toLowerCase();
+        if (t.includes('python')) targetId = 'py-vars';
+        else if (t.includes('numpy')) targetId = 'np-basics';
+        else if (t.includes('pandas')) targetId = 'pd-dataframe';
+        else if (t.includes('sql')) targetId = 'sql-select';
+        else if (t.includes('stat')) targetId = 'stat-basics';
+        else if (t.includes('ml') || t.includes('long')) targetId = 'ml-intro';
+        else if (t.includes('review')) targetId = 'ml-intro';
+      }
+      if (targetId) {
+        const lesson = DS_LESSONS.find(l => l.id === targetId);
+        if (lesson) { openLesson(lesson); return; }
+      }
+      // fallback — open library
+      openLibrary();
+    });
+  }
+
+  if (browseBtn && !browseBtn.dataset.wired) {
+    browseBtn.dataset.wired = '1';
+    browseBtn.addEventListener('click', openLibrary);
+  }
+
+  if (libClose && !libClose.dataset.wired) {
+    libClose.dataset.wired = '1';
+    libClose.addEventListener('click', () => {
+      document.getElementById('dsLibrary').style.display = 'none';
+      document.body.style.overflow = '';
+    });
+  }
+
+  if (lessonClose && !lessonClose.dataset.wired) {
+    lessonClose.dataset.wired = '1';
+    lessonClose.addEventListener('click', closeLesson);
+  }
+}
+
+function openLibrary(){
+  const lib = document.getElementById('dsLibrary');
+  if (!lib) return;
+  lib.style.display = 'block';
+  document.body.style.overflow = 'hidden';
+  renderLibraryList();
+  vibrate(10);
+}
+
+/* Auto-wire */
+document.addEventListener('DOMContentLoaded', () => setTimeout(wireDSButtons, 800));
+window.addEventListener('load', () => setTimeout(wireDSButtons, 1200));
+setInterval(wireDSButtons, 3000);
+
+
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);
 else init();
 
@@ -3983,5 +5004,40 @@ if ('serviceWorker' in navigator) {
 }
 
 </script>
+
+<div id="dsLibrary" style="display:none;position:fixed;inset:0;z-index:200;background:var(--bg);overflow-y:auto">
+  <div class="lesson-wrap" style="min-height:100vh;display:flex;flex-direction:column">
+    <div class="lesson-top">
+      <div class="lesson-back" id="dsLibClose">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </div>
+      <div class="lesson-title-bar">
+        <h3 id="dsLibTitle">Data Science Library</h3>
+        <div class="lesson-sub" id="dsLibSub">14 topics · tap to learn</div>
+      </div>
+    </div>
+    <div class="lesson-body" id="dsLibBody" style="flex:1;max-height:none">
+      <!-- Dynamic content -->
+    </div>
+  </div>
+</div>
+
+<div id="dsLesson" style="display:none;position:fixed;inset:0;z-index:201;background:var(--bg);overflow-y:auto">
+  <div class="lesson-wrap" style="min-height:100vh;display:flex;flex-direction:column">
+    <div class="lesson-top">
+      <div class="lesson-back" id="dsLessonClose">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </div>
+      <div class="lesson-title-bar">
+        <h3 id="dsLessonTitle">Lesson</h3>
+        <div class="lesson-sub" id="dsLessonSub">—</div>
+      </div>
+    </div>
+    <div class="lesson-body" id="dsLessonBody" style="flex:1;max-height:none">
+      <!-- Dynamic content -->
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
