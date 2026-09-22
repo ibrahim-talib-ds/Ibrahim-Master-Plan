@@ -278,13 +278,42 @@ input,textarea,select{font-family:inherit}
 .toast.error{border-color:rgba(255,107,122,.5);color:var(--danger)}
 .toast.info{border-color:rgba(107,184,255,.5);color:var(--info)}
 
-/* BOTTOM NAV */
-.bottom-nav{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0) + 8px);width:calc(100% - 24px);max-width:600px;margin:0 auto;background:var(--surface);border:1px solid var(--border-2);border-radius:22px;padding:.4rem .35rem;display:grid;grid-template-columns:repeat(9,1fr);gap:.05rem;z-index:60;box-shadow:0 -10px 40px -10px rgba(0,0,0,.5);backdrop-filter:blur(28px)}
-.nav-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.18rem;padding:.45rem .15rem;background:transparent;color:var(--text-3);font-weight:700;font-size:.55rem;text-transform:uppercase;border-radius:14px;position:relative;min-width:0}
-.nav-btn svg{width:17px;height:17px;stroke-width:2}
-.nav-btn span{font-size:.46rem;font-weight:800;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.nav-btn.active{color:var(--accent)}
-.nav-btn.active::before{content:'';position:absolute;top:2px;left:50%;transform:translateX(-50%);width:16px;height:3px;border-radius:3px;background:var(--accent);box-shadow:0 0 8px var(--accent)}
+
+/* ============ BOTTOM NAV — CLEAN & CENTERED ============ */
+
+.bottom-nav::-webkit-scrollbar{display:none}
+
+
+
+
+.nav-btn:active{transform:scale(.92)}
+.nav-btn.active{
+  color:var(--accent);
+  background:var(--accent-soft);
+}
+.nav-btn.active svg{
+  stroke-width:2.4;
+  filter:drop-shadow(0 0 6px var(--accent-glow));
+}
+.nav-btn.active::before{
+  content:'';
+  position:absolute;
+  top:-1px;
+  left:50%;
+  transform:translateX(-50%);
+  width:20px;
+  height:3px;
+  border-radius:3px;
+  background:var(--accent);
+  box-shadow:0 0 8px var(--accent);
+}
+
+@media (max-width:380px){
+  
+  
+  
+}
+
 
 .tab-panel{display:none}
 .tab-panel.active{display:block;animation:fadeIn .25s ease}
@@ -588,7 +617,99 @@ input,textarea,select{font-family:inherit}
 .lang-btn.active{background:var(--accent-2);border-color:var(--accent);color:#fff}
 .lang-btn .flag{display:block;font-size:1.4rem;margin-bottom:.2rem}
 
+
+/* ============ BOTTOM NAV — CLEAN & CENTERED ============ */
+.bottom-nav{
+  position:fixed;
+  left:50%;
+  right:auto;
+  transform:translateX(-50%);
+  bottom:calc(env(safe-area-inset-bottom,0) + 10px);
+  width:calc(100% - 20px);
+  max-width:640px;
+  background:var(--surface);
+  border:1px solid var(--border-2);
+  border-radius:24px;
+  padding:6px 6px;
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+  gap:2px;
+  z-index:60;
+  box-shadow:0 -10px 40px -10px rgba(0,0,0,.5), 0 4px 12px rgba(0,0,0,.3);
+  backdrop-filter:blur(28px);
+  -webkit-backdrop-filter:blur(28px);
+  overflow-x:auto;
+  scrollbar-width:none;
+}
+.bottom-nav::-webkit-scrollbar{display:none}
+
+.nav-btn{
+  flex:1 1 0;
+  min-width:44px;
+  max-width:70px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:2px;
+  padding:6px 2px;
+  background:transparent;
+  color:var(--text-3);
+  font-weight:700;
+  font-size:.55rem;
+  text-transform:uppercase;
+  letter-spacing:.02em;
+  border-radius:14px;
+  position:relative;
+  transition:all .2s ease;
+  cursor:pointer;
+}
+.nav-btn svg{
+  width:20px;
+  height:20px;
+  stroke-width:2;
+  transition:all .2s ease;
+}
+.nav-btn span{
+  font-size:.5rem;
+  font-weight:800;
+  max-width:100%;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  line-height:1;
+}
+.nav-btn:active{transform:scale(.92)}
+.nav-btn.active{
+  color:var(--accent);
+  background:var(--accent-soft);
+}
+.nav-btn.active svg{
+  stroke-width:2.4;
+  filter:drop-shadow(0 0 6px var(--accent-glow));
+}
+.nav-btn.active::before{
+  content:'';
+  position:absolute;
+  top:-1px;
+  left:50%;
+  transform:translateX(-50%);
+  width:20px;
+  height:3px;
+  border-radius:3px;
+  background:var(--accent);
+  box-shadow:0 0 8px var(--accent);
+}
+
+@media (max-width:380px){
+  .nav-btn{min-width:38px;font-size:.48rem;padding:5px 1px}
+  .nav-btn svg{width:18px;height:18px}
+  .nav-btn span{font-size:.45rem}
+}
+
 </style>
+<!-- cache:1790090255 -->
 </head>
 <body data-theme="dark">
 
@@ -3368,7 +3489,8 @@ function generateShareCard(){
     lines += `<div class="share-line"><span>${b.name}</span><span>${sum.p}p${sum.q?' · '+sum.q+'Q':''}</span></div>`;
   });
   const canvas = document.createElement('canvas');
-  canvas.width = 800; canvas.height = 1000;
+  canvas.style.imageRendering = 'auto';
+  canvas.width = 720; canvas.height = 900;
   const ctx = canvas.getContext('2d');
   // bg
   const grad = ctx.createLinearGradient(0, 0, 0, 1000);
@@ -3380,17 +3502,17 @@ function generateShareCard(){
   grad2.addColorStop(0, '#5fd3b6'); grad2.addColorStop(1, '#6bb8ff');
   ctx.fillStyle = grad2; ctx.fillRect(0, 0, 800, 8);
   // title
-  ctx.fillStyle = '#eaf1f8'; ctx.font = 'bold 52px system-ui, sans-serif';
+  ctx.fillStyle = '#eaf1f8'; ctx.font = 'bold 46px system-ui, sans-serif';
   ctx.fillText('Reading Report', 60, 130);
-  ctx.fillStyle = '#7391a8'; ctx.font = '22px system-ui, sans-serif';
+  ctx.fillStyle = '#7391a8'; ctx.font = '20px system-ui, sans-serif';
   ctx.fillText(today, 60, 175);
   // total box
   ctx.fillStyle = 'rgba(95,211,182,.12)'; ctx.fillRect(60, 220, 680, 130);
-  ctx.fillStyle = '#5fd3b6'; ctx.font = 'bold 60px system-ui, sans-serif';
+  ctx.fillStyle = '#5fd3b6'; ctx.font = 'bold 54px system-ui, sans-serif';
   ctx.fillText(String(totalPages), 100, 310);
   ctx.fillStyle = '#aec4d6'; ctx.font = '20px system-ui, sans-serif';
   ctx.fillText('TOTAL PAGES', 100, 340);
-  ctx.fillStyle = '#b58fff'; ctx.font = 'bold 60px system-ui, sans-serif';
+  ctx.fillStyle = '#b58fff'; ctx.font = 'bold 54px system-ui, sans-serif';
   ctx.fillText(String(totalQuran), 450, 310);
   ctx.fillStyle = '#aec4d6'; ctx.font = '20px system-ui, sans-serif';
   ctx.fillText('QURAN', 450, 340);
@@ -3408,15 +3530,15 @@ function generateShareCard(){
     ctx.fillText(b.name[0], 85, y - 1);
     // name
     ctx.textAlign = 'left';
-    ctx.fillStyle = '#eaf1f8'; ctx.font = 'bold 26px system-ui, sans-serif';
+    ctx.fillStyle = '#eaf1f8'; ctx.font = 'bold 24px system-ui, sans-serif';
     ctx.fillText(b.name, 125, y);
     // value
     ctx.textAlign = 'right';
     ctx.fillStyle = sum.p > 0 ? '#5fd3b6' : '#4d6478';
-    ctx.font = 'bold 26px system-ui, sans-serif';
+    ctx.font = 'bold 24px system-ui, sans-serif';
     ctx.fillText(sum.p + 'p' + (sum.q ? ' · '+sum.q+'Q' : ''), 740, y);
     ctx.textAlign = 'left';
-    y += 60;
+    y += 54;
   });
   // footer
   ctx.fillStyle = '#7391a8'; ctx.font = '20px system-ui, sans-serif';
@@ -3427,6 +3549,7 @@ function generateShareCard(){
 }
 
 function openShareCard(){
+  if (typeof toast === 'function') toast('Generating image...', 'info', 800);
   const dataUrl = generateShareCard();
   openModal(`
     <h3><span style="width:32px;height:32px;border-radius:9px;background:var(--accent-soft);display:inline-grid;place-items:center;color:var(--accent)">🖼️</span>Share Image Card</h3>
