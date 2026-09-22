@@ -1013,11 +1013,128 @@ input,textarea,select{font-family:inherit}
   .lesson-code{font-size:.72rem;padding:.65rem .75rem}
 }
 
+
+/* ============ QUIZ ============ */
+.quiz-container{background:var(--bg-1);border:1px solid var(--border);border-radius:14px;padding:1rem;margin-top:.7rem}
+.quiz-q{font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:.7rem;line-height:1.5}
+.quiz-opt{display:flex;align-items:center;gap:.6rem;padding:.7rem .85rem;border-radius:10px;background:var(--bg-2);border:1px solid var(--border);margin-bottom:.5rem;cursor:pointer;transition:all .18s ease;font-size:.85rem;color:var(--text-2)}
+.quiz-opt:hover{border-color:var(--border-2);background:var(--bg-3)}
+.quiz-opt.correct{background:rgba(95,211,182,.15);border-color:var(--accent);color:var(--accent);font-weight:700}
+.quiz-opt.wrong{background:rgba(255,107,122,.15);border-color:var(--danger);color:var(--danger);font-weight:700}
+.quiz-opt .opt-mark{width:24px;height:24px;border-radius:50%;background:var(--bg-3);display:grid;place-items:center;font-weight:800;font-size:.75rem;flex-shrink:0}
+.quiz-opt.correct .opt-mark{background:var(--accent);color:#080d13}
+.quiz-opt.wrong .opt-mark{background:var(--danger);color:#fff}
+
+/* ============ PLAYGROUND ============ */
+.playground{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1rem;margin-bottom:.7rem}
+.playground-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.7rem}
+.playground-header h4{margin:0;font-size:.9rem;font-weight:800;color:var(--text);display:flex;align-items:center;gap:.4rem}
+.playground-header .btn{flex:0;padding:.5rem 1rem;font-size:.78rem}
+.playground-editor{width:100%;min-height:140px;background:#0a141e;border:1px solid var(--border);border-radius:10px;padding:.8rem;color:#e0f0ff;font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace;font-size:.8rem;line-height:1.6;resize:vertical;outline:none}
+.playground-editor:focus{border-color:var(--accent)}
+.playground-output{background:#0a141e;border:1px solid var(--border);border-radius:10px;padding:.8rem;color:#5fd3b6;font-family:ui-monospace,monospace;font-size:.78rem;line-height:1.6;margin-top:.6rem;min-height:60px;white-space:pre-wrap;word-break:break-word}
+.playground-output.error{color:#ff6b7a}
+.playground-output .prompt{color:#7391a8}
+
+/* ============ FLASHCARDS ============ */
+.flashcard{perspective:1000px;height:180px;margin-bottom:.8rem;cursor:pointer}
+.flashcard-inner{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d}
+.flashcard.flipped .flashcard-inner{transform:rotateY(180deg)}
+.flashcard-face{position:absolute;inset:0;backface-visibility:hidden;background:var(--surface);border:1px solid var(--border-2);border-radius:16px;padding:1.2rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.flashcard-face.back{transform:rotateY(180deg);background:linear-gradient(135deg,var(--accent-soft),var(--surface));border-color:var(--accent)}
+.flashcard-face .fc-label{font-size:.65rem;font-weight:800;color:var(--text-4);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.5rem}
+.flashcard-face .fc-text{font-size:1rem;font-weight:700;color:var(--text);line-height:1.4}
+.flashcard-face.back .fc-text{color:var(--accent)}
+
+/* ============ BOOKMARKS ============ */
+.bookmark-btn{position:absolute;top:6px;right:6px;width:26px;height:26px;border-radius:50%;background:var(--bg-2);border:1px solid var(--border);display:grid;place-items:center;cursor:pointer;color:var(--text-3);font-size:.75rem;transition:all .18s}
+.bookmark-btn:hover{background:var(--bg-3);color:var(--warn)}
+.bookmark-btn.active{background:var(--warn);border-color:var(--warn);color:#080d13}
+
+/* ============ STREAK CALENDAR ============ */
+.streak-cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:.5rem}
+.streak-day{aspect-ratio:1;border-radius:6px;background:var(--bg-2);display:grid;place-items:center;font-size:.62rem;font-weight:700;color:var(--text-4);border:1px solid var(--border)}
+.streak-day.done{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#080d13;border-color:var(--accent);box-shadow:0 0 0 1px var(--accent-soft)}
+.streak-day.today{box-shadow:0 0 0 2px var(--warn)}
+.streak-day.future{opacity:.3}
+
+/* ============ TELEGRAM BOT ============ */
+.tg-config{background:var(--bg-1);border:1px solid var(--border);border-radius:12px;padding:.9rem;margin-bottom:.6rem}
+.tg-status{display:flex;align-items:center;gap:.5rem;font-size:.8rem;font-weight:700;margin-bottom:.5rem}
+.tg-status .dot{width:8px;height:8px;border-radius:50%;background:var(--danger)}
+.tg-status .dot.on{background:var(--accent);box-shadow:0 0 8px var(--accent);animation:pulse 2s ease-in-out infinite}
+
+/* ============ FORMULA / CHEAT SHEETS ============ */
+.sheet-grid{display:grid;gap:.6rem;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));margin-top:.5rem}
+.sheet-card{background:var(--bg-1);border:1px solid var(--border);border-radius:12px;padding:.85rem}
+.sheet-card h5{margin:0 0 .5rem 0;font-size:.85rem;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:.04em}
+.sheet-card code{display:block;font-family:ui-monospace,monospace;font-size:.76rem;color:var(--text-2);padding:.25rem 0;border-bottom:1px dashed var(--border)}
+.sheet-card code:last-child{border-bottom:none}
+
+/* ============ PROJECT IDEAS ============ */
+.project-idea{background:var(--bg-1);border:1px solid var(--border);border-radius:12px;padding:.85rem;margin-bottom:.5rem;cursor:pointer;transition:all .18s ease}
+.project-idea:hover{border-color:var(--border-2);transform:translateX(3px)}
+.project-idea .pi-title{font-size:.88rem;font-weight:700;color:var(--text);margin-bottom:.3rem}
+.project-idea .pi-desc{font-size:.76rem;color:var(--text-2);line-height:1.5}
+.project-idea .pi-tags{display:flex;gap:.3rem;flex-wrap:wrap;margin-top:.4rem}
+.pi-tag{font-size:.6rem;font-weight:800;background:var(--accent-soft);color:var(--accent);padding:.15rem .5rem;border-radius:10px;text-transform:uppercase}
+
+/* ============ INTERVIEW Q&A ============ */
+.qa-item{background:var(--bg-1);border:1px solid var(--border);border-radius:12px;margin-bottom:.5rem;overflow:hidden}
+.qa-q{padding:.8rem .9rem;font-size:.86rem;font-weight:700;color:var(--text);cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:.6rem}
+.qa-q .arrow{color:var(--text-3);transition:transform .2s}
+.qa-item.open .qa-q .arrow{transform:rotate(180deg)}
+.qa-a{max-height:0;overflow:hidden;transition:max-height .3s ease;background:var(--bg-2);color:var(--text-2);font-size:.82rem;line-height:1.6}
+.qa-item.open .qa-a{max-height:500px;padding:.8rem .9rem}
+
+/* ============ HABIT TRACKER ============ */
+.habit-row{display:flex;align-items:center;gap:.7rem;padding:.7rem .85rem;background:var(--bg-1);border:1px solid var(--border);border-radius:12px;margin-bottom:.5rem}
+.habit-name{flex:1;font-weight:700;font-size:.86rem}
+.habit-days{display:flex;gap:3px}
+.habit-day{width:22px;height:22px;border-radius:6px;background:var(--bg-2);border:1px solid var(--border);cursor:pointer;display:grid;place-items:center;font-size:.58rem;font-weight:800;color:var(--text-4)}
+.habit-day.done{background:var(--accent);border-color:var(--accent);color:#080d13}
+
+/* ============ QURAN TRACKER ============ */
+.quran-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:.4rem;margin-top:.5rem}
+.juz-btn{aspect-ratio:1;border-radius:10px;background:var(--bg-1);border:1px solid var(--border);display:grid;place-items:center;flex-direction:column;gap:.15rem;cursor:pointer;font-size:.68rem;font-weight:800;color:var(--text-3);transition:all .18s}
+.juz-btn.done{background:linear-gradient(135deg,var(--purple-soft),var(--bg-1));border-color:var(--purple);color:var(--purple);box-shadow:0 0 0 1px rgba(181,143,255,.3)}
+.juz-btn .juz-num{font-size:.9rem;font-weight:800}
+
+/* ============ DUA LIBRARY ============ */
+.dua-card{background:var(--bg-1);border:1px solid var(--border);border-radius:12px;padding:.9rem;margin-bottom:.6rem}
+.dua-title{font-size:.82rem;font-weight:800;color:var(--accent);margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.05em}
+.dua-arabic{font-size:1.15rem;color:var(--text);direction:rtl;text-align:right;line-height:1.8;font-family:'Traditional Arabic',serif;margin-bottom:.4rem}
+.dua-translit{font-size:.78rem;color:var(--text-2);font-style:italic;margin-bottom:.3rem}
+.dua-meaning{font-size:.78rem;color:var(--text-2);line-height:1.5}
+
+/* ============ DS ROADMAP TAB ============ */
+.roadmap-visual{display:flex;flex-direction:column;gap:.55rem;margin-top:.6rem}
+.roadmap-node{display:flex;gap:.7rem;align-items:flex-start;padding:.8rem .9rem;background:var(--bg-1);border:1px solid var(--border);border-radius:12px;position:relative;transition:all .2s ease}
+.roadmap-node.unlocked{border-left:4px solid var(--accent);background:linear-gradient(90deg,var(--accent-soft),var(--bg-1))}
+.roadmap-node.completed{border-left:4px solid var(--accent);background:linear-gradient(90deg,rgba(95,211,182,.2),var(--bg-1));opacity:.85}
+.roadmap-node.locked{border-left:4px solid var(--text-4);opacity:.55}
+.roadmap-node .rn-icon{width:38px;height:38px;border-radius:10px;background:var(--bg-2);display:grid;place-items:center;font-size:1.1rem;flex-shrink:0;font-weight:800;color:var(--text-3)}
+.roadmap-node.unlocked .rn-icon,.roadmap-node.completed .rn-icon{background:var(--accent);color:#080d13}
+.roadmap-node .rn-body{flex:1;min-width:0}
+.roadmap-node .rn-title{font-size:.9rem;font-weight:800;color:var(--text);margin-bottom:.15rem}
+.roadmap-node .rn-desc{font-size:.76rem;color:var(--text-2);line-height:1.5}
+.roadmap-node .rn-meta{font-size:.68rem;color:var(--text-3);margin-top:.3rem;font-weight:700}
+
+/* ============ TOGGLE ROW ============ */
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:.75rem .9rem;background:var(--bg-1);border:1px solid var(--border);border-radius:12px;margin-bottom:.5rem}
+.toggle-row .tr-label{font-size:.85rem;font-weight:700;color:var(--text)}
+.toggle-row .tr-sub{font-size:.7rem;color:var(--text-3);margin-top:2px}
+.toggle-row .tr-sw{width:44px;height:26px;border-radius:14px;background:var(--bg-3);border:1px solid var(--border);position:relative;cursor:pointer;transition:background .25s;flex-shrink:0}
+.toggle-row .tr-sw::after{content:'';position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:var(--text-3);transition:all .25s}
+.toggle-row .tr-sw.on{background:var(--accent);border-color:var(--accent)}
+.toggle-row .tr-sw.on::after{left:20px;background:#fff}
+
 </style>
 
 
 
-<!-- cache:1790093240 -->
+
+<!-- cache:1790094101 -->
 </head>
 <body data-theme="dark">
 
@@ -1320,6 +1437,115 @@ input,textarea,select{font-family:inherit}
     <div class="chart-wrap">
       <div class="chart-title">Last 14 days</div>
       <div class="sleep-bar" id="sleepChart"></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- LEARN TAB — quizzes, flashcards, roadmap, projects, QA -->
+<div class="tab-panel" id="tab-learn">
+  <div class="card">
+    <div class="card-title"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/></svg></span><span>Daily Quiz</span><span class="badge" id="quizScore">—</span></div>
+    <div class="section-sub">Test yourself — 3 questions from this week's topics</div>
+    <div id="quizArea"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/></svg></span><span>Flashcards</span><span class="badge" id="fcCount">—</span></div>
+    <div class="section-sub">Tap to flip — spaced repetition for key concepts</div>
+    <div id="flashcardArea"></div>
+    <button class="btn primary block" id="nextCardBtn" style="margin-top:.5rem">Next Card →</button>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"/></svg></span><span>DS Roadmap</span></div>
+    <div class="roadmap-visual" id="roadmapVisual"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></span><span>Project Ideas</span><span class="badge" id="projCount">—</span></div>
+    <div id="projectIdeasList"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></span><span>Interview Q&A</span></div>
+    <div id="interviewList"></div>
+  </div>
+</div>
+
+<!-- TOOLS TAB — playground, formulas, regex, habits, quran, duas -->
+<div class="tab-panel" id="tab-tools">
+  <div class="card">
+    <div class="card-title"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span><span>Code Playground</span></div>
+    <div class="section-sub">Write Python — some functions work offline (math, sum, etc.)</div>
+    <div class="playground">
+      <div class="playground-header">
+        <h4>▶ Python</h4>
+        <button class="btn primary small" id="runCodeBtn">Run</button>
+      </div>
+      <textarea class="playground-editor" id="codeEditor" spellcheck="false">print("Assalamu alaikum!")
+nums = [1, 2, 3, 4, 5]
+print("Sum:", sum(nums))
+print("Squares:", [x*x for x in nums])</textarea>
+      <div class="playground-output" id="codeOutput"><span class="prompt">▶ Click Run to execute</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg></span><span>Formula Sheet</span></div>
+    <div class="sheet-grid" id="formulaSheet"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/></svg></span><span>Regex Cheat Sheet</span></div>
+    <div class="sheet-grid" id="regexSheet"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/></svg></span><span>Habit Tracker</span></div>
+    <div class="section-sub">Last 7 days — tap a day to mark done</div>
+    <div id="habitTracker"></div>
+    <button class="btn block" id="addHabitBtn" style="margin-top:.5rem">+ Add Habit</button>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L4 8v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg></span><span>Quran Tracker</span><span class="badge" id="quranBadge">0/30</span></div>
+    <div class="section-sub">Tap a Juz when you complete reading it</div>
+    <div class="quran-grid" id="quranGrid"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v6m0 8v6M2 12h6m8 0h6"/></svg></span><span>Dua Library</span></div>
+    <div id="duaLibrary"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/></svg></span><span>Telegram Bot</span></div>
+    <div class="tg-config">
+      <div class="tg-status"><span class="dot" id="tgDot"></span><span id="tgStatusText">Not configured</span></div>
+      <div class="field" style="margin-bottom:.5rem"><label>Bot Token</label><input type="text" id="tgToken" placeholder="123456789:ABC..."></div>
+      <div class="field" style="margin-bottom:.5rem"><label>Chat ID</label><input type="text" id="tgChatId" placeholder="123456789"></div>
+      <div style="display:flex;gap:.5rem">
+        <button class="btn small" id="tgSave">Save</button>
+        <button class="btn small primary" id="tgTest">Test</button>
+      </div>
+    </div>
+    <div class="section-sub">Commands you can send to the bot:<br>• <code>/log Ibrahim Sözler 20 5</code> — log reading<br>• <code>/jamaa Ibrahim fajr</code> — mark jamaa<br>• <code>/status</code> — today's summary</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/></svg></span><span>Auto Features</span></div>
+    <div class="toggle-row">
+      <div><div class="tr-label">Weekly Email Report</div><div class="tr-sub">Every Friday 20:00 (needs Formspree)</div></div>
+      <div class="tr-sw" id="autoEmailSw"></div>
+    </div>
+    <div class="toggle-row">
+      <div><div class="tr-label">Auto theme by time</div><div class="tr-sub">Dark at night, light at day</div></div>
+      <div class="tr-sw" id="autoThemeSw"></div>
+    </div>
+    <div class="toggle-row">
+      <div><div class="tr-label">Voice journal</div><div class="tr-sub">Record voice notes daily</div></div>
+      <div class="tr-sw" id="voiceJournalSw"></div>
     </div>
   </div>
 </div>
@@ -4775,6 +5001,608 @@ function openLibrary(){
 document.addEventListener('DOMContentLoaded', () => setTimeout(wireDSButtons, 800));
 window.addEventListener('load', () => setTimeout(wireDSButtons, 1200));
 setInterval(wireDSButtons, 3000);
+
+
+
+/* ============================================================
+   MEGA UPGRADE JS — Quiz, Flashcards, Roadmap, Projects,
+   Interview QA, Playground, Cheat Sheets, Habits, Quran,
+   Duas, Telegram, Auto features
+   ============================================================ */
+
+/* ---------- BOOKMARKS ---------- */
+const BOOKMARKS_KEY = 'mp20_bookmarks';
+function getBookmarks(){ try { return JSON.parse(localStorage.getItem(BOOKMARKS_KEY) || '{}'); } catch(e){ return {}; } }
+function toggleBookmark(id){
+  const b = getBookmarks();
+  b[id] = !b[id];
+  localStorage.setItem(BOOKMARKS_KEY, JSON.stringify(b));
+  vibrate(15);
+}
+
+/* ---------- QUIZ ---------- */
+const QUIZ_BANK = [
+  { q: 'What does np.array([1,2,3]).shape return?', opts: ['(3,)','[3]','3','(1,3)'], correct: 0 },
+  { q: 'Which is faster: a Python for-loop or NumPy vectorization?', opts: ['For-loop','NumPy','Same speed','Depends'], correct: 1 },
+  { q: 'In Pandas, what does df.iloc[0] return?', opts: ['Column 0','Row 0 by position','Row 0 by label','Nothing'], correct: 1 },
+  { q: 'What SQL clause filters rows BEFORE grouping?', opts: ['HAVING','WHERE','GROUP BY','ORDER BY'], correct: 1 },
+  { q: 'Which is NOT a Python data type?', opts: ['list','dict','array','set'], correct: 2 },
+  { q: 'What does df.groupby("x").sum() do?', opts: ['Sort by x','Sum all values per x group','Filter x','Delete x column'], correct: 1 },
+  { q: 'Which SQL JOIN keeps all rows from left table?', opts: ['INNER','LEFT','RIGHT','CROSS'], correct: 1 },
+  { q: 'Standard deviation measures:', opts: ['Center','Spread','Count','Max'], correct: 1 },
+  { q: 'What does pandas df.head() show?', opts: ['Last 5 rows','First 5 rows','All rows','Only headers'], correct: 1 },
+  { q: 'In machine learning, "supervised" means:', opts: ['No labels','Labeled data','Only clustering','Random'], correct: 1 }
+];
+let currentQuiz = [];
+
+function pickRandomQuizzes(n){
+  const shuffled = [...QUIZ_BANK].sort(() => Math.random() - 0.5);
+  return shuffled.slice(0, n);
+}
+
+function renderQuiz(){
+  const area = document.getElementById('quizArea');
+  const scoreEl = document.getElementById('quizScore');
+  if (!area) return;
+
+  if (currentQuiz.length === 0) currentQuiz = pickRandomQuizzes(3);
+
+  let answered = currentQuiz.filter(q => q.userAnswer !== undefined).length;
+  let correct = currentQuiz.filter(q => q.userAnswer === q.correct).length;
+  if (scoreEl) scoreEl.textContent = `${correct}/${currentQuiz.length}`;
+
+  let html = '';
+  currentQuiz.forEach((q, qi) => {
+    html += `<div class="quiz-container" style="margin-bottom:.7rem">
+      <div class="quiz-q">Q${qi+1}. ${q.q}</div>
+      ${q.opts.map((o, oi) => {
+        let cls = '';
+        if (q.userAnswer !== undefined) {
+          if (oi === q.correct) cls = 'correct';
+          else if (oi === q.userAnswer) cls = 'wrong';
+        }
+        return `<div class="quiz-opt ${cls}" data-q="${qi}" data-opt="${oi}">
+          <span class="opt-mark">${String.fromCharCode(65+oi)}</span>
+          <span>${o}</span>
+        </div>`;
+      }).join('')}
+    </div>`;
+  });
+
+  if (answered === currentQuiz.length) {
+    html += `<div class="lesson-callout success"><b>✅ Done!</b> You got ${correct}/${currentQuiz.length}. <button class="btn small" id="newQuizBtn" style="margin-left:.5rem">New Quiz</button></div>`;
+  }
+
+  area.innerHTML = html;
+
+  area.querySelectorAll('.quiz-opt').forEach(opt => {
+    opt.addEventListener('click', () => {
+      const qi = parseInt(opt.dataset.q);
+      const oi = parseInt(opt.dataset.opt);
+      if (currentQuiz[qi].userAnswer !== undefined) return;
+      currentQuiz[qi].userAnswer = oi;
+      vibrate(oi === currentQuiz[qi].correct ? [20, 30, 20] : 30);
+      renderQuiz();
+    });
+  });
+
+  const newBtn = document.getElementById('newQuizBtn');
+  if (newBtn) newBtn.addEventListener('click', () => {
+    currentQuiz = pickRandomQuizzes(3);
+    renderQuiz();
+  });
+}
+
+/* ---------- FLASHCARDS ---------- */
+const FLASHCARDS = [
+  { front: 'NumPy array', back: 'Fast typed grid of numbers — 100× faster than Python lists for math' },
+  { front: 'Pandas Series', back: 'A 1D labeled array — a single column with index' },
+  { front: 'Pandas DataFrame', back: 'A 2D table with rows and columns — like Excel in Python' },
+  { front: 'Vectorization', back: 'Applying an operation to a whole array at once (no loops)' },
+  { front: 'Broadcasting', back: 'NumPy automatically expands smaller arrays to match larger' },
+  { front: 'SQL INNER JOIN', back: 'Returns only rows that match in BOTH tables' },
+  { front: 'SQL LEFT JOIN', back: 'Returns all rows from left table + matches from right' },
+  { front: 'Mean vs Median', back: 'Mean = average · Median = middle value (better with outliers)' },
+  { front: 'Standard Deviation', back: 'How spread out data is — average distance from mean' },
+  { front: 'Overfitting', back: 'Model memorizes training data, fails on new data' },
+  { front: 'Train/Test Split', back: 'Split data — model learns on train, evaluated on test' },
+  { front: 'Supervised Learning', back: 'Training with labeled data — predict output from input' },
+  { front: 'Unsupervised Learning', back: 'Finding patterns without labels — clustering, dim reduction' },
+  { front: 'Feature Engineering', back: 'Creating useful inputs from raw data for better models' }
+];
+let currentCardIdx = 0;
+
+function renderFlashcard(){
+  const area = document.getElementById('flashcardArea');
+  const countEl = document.getElementById('fcCount');
+  if (!area) return;
+
+  const card = FLASHCARDS[currentCardIdx];
+  if (countEl) countEl.textContent = `${currentCardIdx + 1}/${FLASHCARDS.length}`;
+
+  area.innerHTML = `
+    <div class="flashcard" id="flashcard">
+      <div class="flashcard-inner">
+        <div class="flashcard-face front">
+          <div class="fc-label">Concept</div>
+          <div class="fc-text">${card.front}</div>
+        </div>
+        <div class="flashcard-face back">
+          <div class="fc-label">Definition</div>
+          <div class="fc-text">${card.back}</div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  const fc = document.getElementById('flashcard');
+  if (fc) {
+    fc.addEventListener('click', () => {
+      fc.classList.toggle('flipped');
+      vibrate(15);
+    });
+  }
+}
+
+/* ---------- DS ROADMAP ---------- */
+const DS_ROADMAP_LEVELS = [
+  { level: 'L1', title: 'Python Basics', desc: 'Variables, control flow, functions, lists, dicts, file I/O', icon: '🐍', weeks: 4 },
+  { level: 'L2', title: 'Data Manipulation', desc: 'NumPy arrays, Pandas DataFrames, cleaning, groupby', icon: '🔢', weeks: 4 },
+  { level: 'L3', title: 'SQL & Databases', desc: 'SELECT, JOINs, GROUP BY, subqueries, window functions', icon: '🗄️', weeks: 3 },
+  { level: 'L4', title: 'Mathematics', desc: 'Linear algebra, probability, statistics, distributions', icon: '📐', weeks: 4 },
+  { level: 'L5', title: 'Visualization', desc: 'Matplotlib, Seaborn, storytelling with data', icon: '📊', weeks: 2 },
+  { level: 'L6', title: 'Machine Learning', desc: 'Regression, classification, clustering, scikit-learn', icon: '🤖', weeks: 6 },
+  { level: 'L7', title: 'Advanced ML', desc: 'Feature engineering, cross-validation, ensembles, tuning', icon: '⚡', weeks: 5 },
+  { level: 'L8', title: 'Deep Learning', desc: 'Neural networks, CNN, RNN, transformers', icon: '🧠', weeks: 8 },
+  { level: 'L9', title: 'Deployment', desc: 'FastAPI, Streamlit, Docker, Cloud', icon: '🚀', weeks: 4 },
+  { level: 'L10', title: 'MLOps', desc: 'Pipelines, experiment tracking, monitoring, CI/CD', icon: '⚙️', weeks: 4 }
+];
+
+function renderRoadmapVisual(){
+  const el = document.getElementById('roadmapVisual');
+  if (!el) return;
+
+  // Determine current level based on DS hours logged
+  let totalHours = 0;
+  if (typeof state !== 'undefined' && state.dsTree) {
+    Object.values(state.dsTree).forEach(l => totalHours += (l.hours || 0));
+  }
+  const currentLevelIdx = Math.min(DS_ROADMAP_LEVELS.length - 1, Math.floor(totalHours / 20));
+
+  el.innerHTML = DS_ROADMAP_LEVELS.map((l, i) => {
+    let cls = 'locked';
+    if (i < currentLevelIdx) cls = 'completed';
+    else if (i === currentLevelIdx) cls = 'unlocked';
+    return `<div class="roadmap-node ${cls}">
+      <div class="rn-icon">${l.icon}</div>
+      <div class="rn-body">
+        <div class="rn-title">${l.level} — ${l.title}</div>
+        <div class="rn-desc">${l.desc}</div>
+        <div class="rn-meta">~${l.weeks} weeks ${i < currentLevelIdx ? '· ✅ Completed' : i === currentLevelIdx ? '· 📍 Current' : '· 🔒 Locked'}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+/* ---------- PROJECT IDEAS ---------- */
+const PROJECT_IDEAS = [
+  { title: 'Personal Expense Tracker', desc: 'Analyze your own spending — categories, trends, monthly reports', tags: ['pandas','viz'] },
+  { title: 'Prayer Time Analytics', desc: 'Track jamaa consistency, visualize streaks and patterns', tags: ['pandas','viz'] },
+  { title: 'Quran Reading Dashboard', desc: 'Interactive dashboard for daily Quran reading progress', tags: ['streamlit','pandas'] },
+  { title: 'House Price Predictor', desc: 'Classic ML project — regression on Boston/House Prices dataset', tags: ['ml','regression'] },
+  { title: 'Titanic Survival Prediction', desc: 'The famous Kaggle competition — perfect first ML project', tags: ['ml','classification'] },
+  { title: 'Iris Flower Classifier', desc: 'Classify iris species — the "Hello World" of ML', tags: ['ml','sklearn'] },
+  { title: 'Movie Recommendation', desc: 'Recommend movies using collaborative filtering', tags: ['ml','recsys'] },
+  { title: 'Stock Price Analysis', desc: 'Download stock data, analyze trends, predict next price', tags: ['pandas','ml','timeseries'] },
+  { title: 'Sentiment Analysis on Tweets', desc: 'NLP — classify text as positive/negative', tags: ['nlp','ml'] },
+  { title: 'Image Classifier (Cats vs Dogs)', desc: 'CNN — classify images into categories', tags: ['deep-learning','cnn'] },
+  { title: 'Sales Dashboard', desc: 'Interactive sales dashboard with filters and charts', tags: ['streamlit','viz'] },
+  { title: 'Customer Segmentation', desc: 'K-means clustering on customer data', tags: ['ml','clustering'] },
+  { title: 'Credit Card Fraud Detection', desc: 'Binary classification on imbalanced data', tags: ['ml','anomaly'] },
+  { title: 'Weather Data Analysis', desc: 'Historical weather — climate trends and predictions', tags: ['pandas','viz'] },
+  { title: 'Book Reading Tracker (yours!)', desc: 'Analyze your own brothers reading data', tags: ['pandas','viz'] },
+  { title: 'Chatbot with NLP', desc: 'Build a simple rule-based + NLP chatbot', tags: ['nlp','python'] },
+  { title: 'URL Shortener + Analytics', desc: 'Track clicks, geography, time patterns', tags: ['web','analytics'] },
+  { title: 'Resume Screening Tool', desc: 'NLP — match resumes to job descriptions', tags: ['nlp','ml'] },
+  { title: 'Netflix Content Analysis', desc: 'Explore Netflix catalog with Python', tags: ['pandas','viz'] },
+  { title: 'COVID-19 Data Dashboard', desc: 'Track cases over time by country', tags: ['pandas','viz'] }
+];
+
+function renderProjectIdeas(){
+  const el = document.getElementById('projectIdeasList');
+  if (!el) return;
+  const countEl = document.getElementById('projCount');
+  if (countEl) countEl.textContent = PROJECT_IDEAS.length + ' ideas';
+  el.innerHTML = PROJECT_IDEAS.map((p, i) => `
+    <div class="project-idea">
+      <div class="pi-title">${i+1}. ${p.title}</div>
+      <div class="pi-desc">${p.desc}</div>
+      <div class="pi-tags">${p.tags.map(t => `<span class="pi-tag">${t}</span>`).join('')}</div>
+    </div>
+  `).join('');
+}
+
+/* ---------- INTERVIEW Q&A ---------- */
+const INTERVIEW_QA = [
+  { q: 'What is the difference between a list and a tuple in Python?',
+    a: 'Lists are mutable (can be changed after creation), tuples are immutable. Lists use [ ] and are slower. Tuples use ( ) and are faster + hashable (can be dict keys).' },
+  { q: 'Explain the difference between loc and iloc in Pandas.',
+    a: 'loc uses labels (like "name" or index value). iloc uses integer positions (like 0, 1, 2). Use loc when you know the label, iloc when you know the position.' },
+  { q: 'What is overfitting and how do you prevent it?',
+    a: 'Overfitting = model memorizes training data and fails on new data. Prevent with: more data, cross-validation, regularization (L1/L2), dropout, early stopping, simpler models.' },
+  { q: 'What is the difference between INNER JOIN and LEFT JOIN?',
+    a: 'INNER JOIN returns only rows that match in both tables. LEFT JOIN returns all rows from the left table plus matches from right (NULL if no match).' },
+  { q: 'What is a NumPy array and why use it over Python lists?',
+    a: 'NumPy arrays are faster, memory-efficient, and support vectorized operations. Python lists are slower because they store Python objects; NumPy stores raw numbers in C.' },
+  { q: 'What is the bias-variance tradeoff?',
+    a: 'Bias = error from wrong assumptions (underfitting). Variance = error from sensitivity to training data (overfitting). Balance both for best performance.' },
+  { q: 'Explain what a p-value is.',
+    a: 'The probability of seeing results this extreme if the null hypothesis were true. p < 0.05 usually means "statistically significant".' },
+  { q: 'What is the difference between supervised and unsupervised learning?',
+    a: 'Supervised = training with labeled data (predict Y from X). Unsupervised = finding patterns in unlabeled data (clustering, dimensionality reduction).' },
+  { q: 'What does GROUP BY do in SQL?',
+    a: 'Groups rows that share values in specified columns, then applies aggregate functions (SUM, COUNT, AVG) per group. WHERE filters rows BEFORE, HAVING filters AFTER.' },
+  { q: 'What is feature engineering?',
+    a: 'Creating new input features from raw data to improve model performance. Examples: extracting day-of-week from date, combining columns, log-transform skewed values.' },
+  { q: 'What is regularization in ML?',
+    a: 'A technique to prevent overfitting by adding a penalty to the loss function. L1 (Lasso) shrinks some weights to 0; L2 (Ridge) shrinks all weights smoothly.' },
+  { q: 'What is cross-validation?',
+    a: 'Splitting data into K folds; training on K-1 folds and validating on the remaining fold, repeating K times. Gives more reliable model performance estimate.' }
+];
+
+function renderInterviewQA(){
+  const el = document.getElementById('interviewList');
+  if (!el) return;
+  el.innerHTML = INTERVIEW_QA.map((item, i) => `
+    <div class="qa-item" data-qa="${i}">
+      <div class="qa-q">
+        <span>Q${i+1}. ${item.q}</span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="qa-a">${item.a}</div>
+    </div>
+  `).join('');
+  el.querySelectorAll('.qa-item').forEach(item => {
+    item.querySelector('.qa-q').addEventListener('click', () => {
+      item.classList.toggle('open');
+      vibrate(10);
+    });
+  });
+}
+
+/* ---------- PLAYGROUND ---------- */
+function runPlaygroundCode(){
+  const editor = document.getElementById('codeEditor');
+  const output = document.getElementById('codeOutput');
+  if (!editor || !output) return;
+  const code = editor.value;
+
+  // Simple Python-like interpreter (offline, no Pyodide)
+  let result = '';
+  const logs = [];
+  const origLog = console.log;
+  console.log = (...args) => logs.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : String(a)).join(' '));
+
+  try {
+    // Translate Python to JS for common patterns
+    let js = code
+      .replace(/print\s*\(/g, 'console.log(')
+      .replace(/\bTrue\b/g, 'true')
+      .replace(/\bFalse\b/g, 'false')
+      .replace(/\bNone\b/g, 'null')
+      .replace(/len\s*\(/g, '((x)=>x.length)(')
+      .replace(/sum\s*\(/g, '((x)=>x.reduce((a,b)=>a+b,0))(')
+      .replace(/max\s*\(/g, 'Math.max(')
+      .replace(/min\s*\(/g, 'Math.min(')
+      .replace(/range\s*\(([^)]+)\)/g, (m, args) => {
+        const parts = args.split(',').map(s => s.trim());
+        if (parts.length === 1) return `Array.from({length:${parts[0]}}, (_, i) => i)`;
+        if (parts.length === 2) return `Array.from({length:${parts[1]}-${parts[0]}}, (_, i) => i + ${parts[0]})`;
+        return `Array.from({length:Math.floor((${parts[1]}-${parts[0]})/${parts[2]})}, (_, i) => ${parts[0]} + i*${parts[2]})`;
+      })
+      // Python list comprehension → JS map/filter (basic)
+      .replace(/\[([^\]]+)\s+for\s+(\w+)\s+in\s+([^\]]+)\]/g, (m, expr, v, arr) => {
+        return `(${arr}).map(${v} => ${expr})`;
+      });
+
+    // Execute
+    new Function(js)();
+    result = logs.join('\n') || '(no output)';
+    output.classList.remove('error');
+    output.textContent = '▶ Output:\n' + result;
+  } catch(e) {
+    output.classList.add('error');
+    output.textContent = '✕ Error: ' + e.message;
+  }
+  console.log = origLog;
+  vibrate(20);
+}
+
+/* ---------- FORMULA SHEET ---------- */
+const FORMULAS = [
+  { title: 'Descriptive Stats', items: ['mean = Σx / n', 'median = middle value', 'variance = Σ(x - μ)² / n', 'std = √variance'] },
+  { title: 'Probability', items: ['P(A) = favorable / total', 'P(A ∩ B) = P(A) × P(B|A)', 'P(A ∪ B) = P(A) + P(B) - P(A ∩ B)', 'Bayes: P(A|B) = P(B|A)P(A)/P(B)'] },
+  { title: 'Linear Regression', items: ['y = mx + b', 'm = Σ(x-x̄)(y-ȳ) / Σ(x-x̄)²', 'R² = 1 - SS_res/SS_tot', 'MSE = Σ(y - ŷ)² / n'] },
+  { title: 'ML Metrics', items: ['Accuracy = (TP+TN)/(TP+TN+FP+FN)', 'Precision = TP/(TP+FP)', 'Recall = TP/(TP+FN)', 'F1 = 2 × (P×R)/(P+R)'] },
+  { title: 'Data Scaling', items: ['Min-Max: (x - min)/(max - min)', 'Z-score: (x - μ)/σ', 'Log transform: log(x+1)'] }
+];
+
+function renderFormulaSheet(){
+  const el = document.getElementById('formulaSheet');
+  if (!el) return;
+  el.innerHTML = FORMULAS.map(f => `
+    <div class="sheet-card">
+      <h5>${f.title}</h5>
+      ${f.items.map(i => `<code>${i}</code>`).join('')}
+    </div>
+  `).join('');
+}
+
+/* ---------- REGEX SHEET ---------- */
+const REGEX_SHEET = [
+  { title: 'Basics', items: ['. any char', '\\d digit', '\\w word char', '\\s whitespace'] },
+  { title: 'Quantifiers', items: ['* 0 or more', '+ 1 or more', '? 0 or 1', '{n} exactly n', '{n,m} between'] },
+  { title: 'Groups', items: ['(abc) capture group', '(?:abc) non-capture', '[abc] any of a,b,c', '[^abc] not'] },
+  { title: 'Anchors', items: ['^ start', '$ end', '\\b word boundary', '\\B not boundary'] },
+  { title: 'Pandas usage', items: ['df["col"].str.contains(r"\\d+")', 'df["col"].str.extract(r"(\\d+)")', 'df["col"].str.replace(r"\\s+"," ")'] }
+];
+
+function renderRegexSheet(){
+  const el = document.getElementById('regexSheet');
+  if (!el) return;
+  el.innerHTML = REGEX_SHEET.map(f => `
+    <div class="sheet-card">
+      <h5>${f.title}</h5>
+      ${f.items.map(i => `<code>${i}</code>`).join('')}
+    </div>
+  `).join('');
+}
+
+/* ---------- HABITS ---------- */
+const HABITS_KEY = 'mp20_habits';
+function getHabits(){
+  try { return JSON.parse(localStorage.getItem(HABITS_KEY) || '[]'); } catch(e){ return []; }
+}
+function saveHabits(h){ localStorage.setItem(HABITS_KEY, JSON.stringify(h)); }
+function renderHabits(){
+  const el = document.getElementById('habitTracker');
+  if (!el) return;
+  let habits = getHabits();
+  if (habits.length === 0) {
+    habits = [
+      { name: 'Read 30 min', days: {} },
+      { name: 'Exercise', days: {} },
+      { name: 'No social media', days: {} }
+    ];
+    saveHabits(habits);
+  }
+  // last 7 days
+  const days = [];
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(); d.setDate(d.getDate() - i);
+    days.push({
+      key: `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`,
+      label: ['S','M','T','W','T','F','S'][d.getDay()]
+    });
+  }
+  el.innerHTML = habits.map((h, hi) => `
+    <div class="habit-row">
+      <div class="habit-name">${h.name}</div>
+      <div class="habit-days">
+        ${days.map(d => `
+          <div class="habit-day ${h.days[d.key] ? 'done' : ''}" data-hi="${hi}" data-day="${d.key}">${d.label}</div>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
+  el.querySelectorAll('.habit-day').forEach(day => {
+    day.addEventListener('click', () => {
+      const hi = parseInt(day.dataset.hi);
+      const dk = day.dataset.day;
+      const habits = getHabits();
+      if (!habits[hi]) return;
+      habits[hi].days[dk] = !habits[hi].days[dk];
+      saveHabits(habits);
+      vibrate(15);
+      renderHabits();
+    });
+  });
+}
+
+/* ---------- QURAN TRACKER ---------- */
+const QURAN_KEY = 'mp20_quran';
+function getQuran(){
+  try { return JSON.parse(localStorage.getItem(QURAN_KEY) || '{}'); } catch(e){ return {}; }
+}
+function renderQuran(){
+  const el = document.getElementById('quranGrid');
+  const badge = document.getElementById('quranBadge');
+  if (!el) return;
+  const q = getQuran();
+  el.innerHTML = Array.from({length: 30}, (_, i) => `
+    <div class="juz-btn ${q[i+1] ? 'done' : ''}" data-juz="${i+1}">
+      <div class="juz-num">${i+1}</div>
+      <div>Juz</div>
+    </div>
+  `).join('');
+  const doneCount = Object.values(q).filter(Boolean).length;
+  if (badge) badge.textContent = doneCount + '/30';
+  el.querySelectorAll('.juz-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const juz = btn.dataset.juz;
+      const q = getQuran();
+      q[juz] = !q[juz];
+      localStorage.setItem(QURAN_KEY, JSON.stringify(q));
+      vibrate(15);
+      renderQuran();
+    });
+  });
+}
+
+/* ---------- DUA LIBRARY ---------- */
+const DUAS = [
+  { title: 'Wake Up', arabic: 'الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ', translit: 'Alhamdulillahi alladhi ahyana ba\'da ma amatana wa ilayhi an-nushur', meaning: 'Praise be to Allah who gave us life after death, and to Him is the return.' },
+  { title: 'Before Eating', arabic: 'بِسْمِ اللَّهِ', translit: 'Bismillah', meaning: 'In the name of Allah.' },
+  { title: 'After Eating', arabic: 'الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنِي هَذَا وَرَزَقَنِيهِ مِنْ غَيْرِ حَوْلٍ مِنِّي وَلَا قُوَّةٍ', translit: 'Alhamdulillahi alladhi at\'amani hadha wa razaqanihi min ghayri hawlin minni wa la quwwa', meaning: 'Praise be to Allah who fed me this and provided it for me without any strength from me.' },
+  { title: 'Before Sleep', arabic: 'بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا', translit: 'Bismika Allahumma amutu wa ahya', meaning: 'In Your name, O Allah, I die and I live.' },
+  { title: 'Entering Home', arabic: 'اللَّهُمَّ إِنِّي أَسْأَلُكَ خَيْرَ الْمَوْلِجِ وَخَيْرَ الْمَخْرَجِ', translit: 'Allahumma inni as\'aluka khayra al-mawliji wa khayra al-makhraji', meaning: 'O Allah, I ask You for the best entering and the best exiting.' },
+  { title: 'Leaving Home', arabic: 'بِسْمِ اللَّهِ تَوَكَّلْتُ عَلَى اللَّهِ وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ', translit: 'Bismillah, tawakkaltu \'ala Allah, wa la hawla wa la quwwata illa billah', meaning: 'In the name of Allah, I trust in Allah; there is no power except with Allah.' },
+  { title: 'Entering Mosque', arabic: 'اللَّهُمَّ افْتَحْ لِي أَبْوَابَ رَحْمَتِكَ', translit: 'Allahumma iftah li abwaba rahmatik', meaning: 'O Allah, open for me the doors of Your mercy.' },
+  { title: 'Leaving Mosque', arabic: 'اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنْ فَضْلِكَ', translit: 'Allahumma inni as\'aluka min fadlik', meaning: 'O Allah, I ask You from Your bounty.' },
+  { title: 'Before Study', arabic: 'رَبِّ زِدْنِي عِلْمًا', translit: 'Rabbi zidni \'ilma', meaning: 'My Lord, increase me in knowledge.' },
+  { title: 'For Anxiety', arabic: 'اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ', translit: 'Allahumma inni a\'udhu bika min al-hammi wal-hazan', meaning: 'O Allah, I seek refuge with You from worry and grief.' }
+];
+
+function renderDuaLibrary(){
+  const el = document.getElementById('duaLibrary');
+  if (!el) return;
+  el.innerHTML = DUAS.map(d => `
+    <div class="dua-card">
+      <div class="dua-title">${d.title}</div>
+      <div class="dua-arabic">${d.arabic}</div>
+      <div class="dua-translit">${d.translit}</div>
+      <div class="dua-meaning">${d.meaning}</div>
+    </div>
+  `).join('');
+}
+
+/* ---------- TELEGRAM ---------- */
+const TG_KEY = 'mp20_telegram';
+function getTG(){
+  try { return JSON.parse(localStorage.getItem(TG_KEY) || '{"token":"","chatId":""}'); }
+  catch(e){ return {token:'', chatId:''}; }
+}
+function saveTG(tg){ localStorage.setItem(TG_KEY, JSON.stringify(tg)); }
+function updateTGStatus(){
+  const tg = getTG();
+  const dot = document.getElementById('tgDot');
+  const text = document.getElementById('tgStatusText');
+  if (!dot || !text) return;
+  if (tg.token && tg.chatId) {
+    dot.classList.add('on');
+    text.textContent = 'Configured ✓';
+  } else {
+    dot.classList.remove('on');
+    text.textContent = 'Not configured';
+  }
+}
+async function testTG(){
+  const tg = getTG();
+  if (!tg.token || !tg.chatId) { toast('Enter token and chat ID first', 'error'); return; }
+  try {
+    const res = await fetch(`https://api.telegram.org/bot${tg.token}/sendMessage`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ chat_id: tg.chatId, text: '✅ Test from Master Plan!' })
+    });
+    const data = await res.json();
+    if (data.ok) toast('Test sent to Telegram ✓', 'success');
+    else toast('Failed: ' + (data.description || 'unknown'), 'error');
+  } catch(e) {
+    toast('Network error', 'error');
+  }
+}
+
+/* ---------- AUTO FEATURES ---------- */
+const AUTO_KEY = 'mp20_auto';
+function getAuto(){
+  try { return JSON.parse(localStorage.getItem(AUTO_KEY) || '{"email":false,"theme":false,"voice":false}'); }
+  catch(e){ return {email:false, theme:false, voice:false}; }
+}
+function saveAuto(a){ localStorage.setItem(AUTO_KEY, JSON.stringify(a)); }
+function updateAutoToggles(){
+  const a = getAuto();
+  const em = document.getElementById('autoEmailSw');
+  const th = document.getElementById('autoThemeSw');
+  const vo = document.getElementById('voiceJournalSw');
+  if (em) em.classList.toggle('on', a.email);
+  if (th) th.classList.toggle('on', a.theme);
+  if (vo) vo.classList.toggle('on', a.voice);
+}
+
+/* ---------- INIT LEARN/TOOLS TABS ---------- */
+function initLearnTab(){
+  renderQuiz();
+  renderFlashcard();
+  renderRoadmapVisual();
+  renderProjectIdeas();
+  renderInterviewQA();
+}
+function initToolsTab(){
+  renderFormulaSheet();
+  renderRegexSheet();
+  renderHabits();
+  renderQuran();
+  renderDuaLibrary();
+  updateTGStatus();
+  updateAutoToggles();
+  // Prefill TG fields
+  const tg = getTG();
+  const t1 = document.getElementById('tgToken');
+  const t2 = document.getElementById('tgChatId');
+  if (t1) t1.value = tg.token || '';
+  if (t2) t2.value = tg.chatId || '';
+}
+
+/* ---------- WIRE BUTTONS ---------- */
+document.addEventListener('DOMContentLoaded', () => {
+  setTimeout(() => {
+    // next card
+    const ncb = document.getElementById('nextCardBtn');
+    if (ncb) ncb.addEventListener('click', () => {
+      currentCardIdx = (currentCardIdx + 1) % FLASHCARDS.length;
+      renderFlashcard();
+      vibrate(15);
+    });
+    // run code
+    const rcb = document.getElementById('runCodeBtn');
+    if (rcb) rcb.addEventListener('click', runPlaygroundCode);
+    // add habit
+    const ahb = document.getElementById('addHabitBtn');
+    if (ahb) ahb.addEventListener('click', () => {
+      const name = prompt('Habit name:');
+      if (!name) return;
+      const habits = getHabits();
+      habits.push({ name, days: {} });
+      saveHabits(habits);
+      renderHabits();
+    });
+    // telegram
+    const tgSave = document.getElementById('tgSave');
+    if (tgSave) tgSave.addEventListener('click', () => {
+      const token = document.getElementById('tgToken').value.trim();
+      const chatId = document.getElementById('tgChatId').value.trim();
+      saveTG({ token, chatId });
+      updateTGStatus();
+      toast('Saved', 'success');
+    });
+    const tgTest = document.getElementById('tgTest');
+    if (tgTest) tgTest.addEventListener('click', testTG);
+    // auto toggles
+    ['autoEmailSw','autoThemeSw','voiceJournalSw'].forEach((id, i) => {
+      const el = document.getElementById(id);
+      if (el) el.addEventListener('click', () => {
+        const a = getAuto();
+        const keys = ['email','theme','voice'];
+        a[keys[i]] = !a[keys[i]];
+        saveAuto(a);
+        updateAutoToggles();
+        vibrate(15);
+      });
+    });
+
+    initLearnTab();
+    initToolsTab();
+  }, 500);
+});
+
+/* Re-init when tabs clicked */
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('.nav-btn');
+  if (!btn) return;
+  if (btn.dataset.tab === 'learn') setTimeout(initLearnTab, 100);
+  if (btn.dataset.tab === 'tools') setTimeout(initToolsTab, 100);
+});
 
 
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);
