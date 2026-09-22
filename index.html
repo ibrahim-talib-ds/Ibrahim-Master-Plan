@@ -6,8 +6,8 @@
 <meta name="theme-color" content="#080d13">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/625/625170.png">
-<link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/625/625170.png">
+<link rel="icon" type="image/png" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj4KPGRlZnM+CjxsaW5lYXJHcmFkaWVudCBpZD0iZyIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjNWZkM2I2Ii8+CjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzRhOWVjZiIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+CjxyZWN0IHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiByeD0iMjIiIGZpbGw9IiMwODBkMTMiLz4KPGNpcmNsZSBjeD0iNTAiIGN5PSI1MCIgcj0iMzAiIGZpbGw9Im5vbmUiIHN0cm9rZT0idXJsKCNnKSIgc3Ryb2tlLXdpZHRoPSI2Ii8+Cjxwb2x5Z29uIHBvaW50cz0iNTAsMjYgNjIsNTAgNTAsNzQgMzgsNTAiIGZpbGw9InVybCgjZykiLz4KPC9zdmc+">
+<link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj4KPGRlZnM+CjxsaW5lYXJHcmFkaWVudCBpZD0iZyIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjNWZkM2I2Ii8+CjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzRhOWVjZiIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+CjxyZWN0IHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiByeD0iMjIiIGZpbGw9IiMwODBkMTMiLz4KPGNpcmNsZSBjeD0iNTAiIGN5PSI1MCIgcj0iMzAiIGZpbGw9Im5vbmUiIHN0cm9rZT0idXJsKCNnKSIgc3Ryb2tlLXdpZHRoPSI2Ii8+Cjxwb2x5Z29uIHBvaW50cz0iNTAsMjYgNjIsNTAgNTAsNzQgMzgsNTAiIGZpbGw9InVybCgjZykiLz4KPC9zdmc+">
 <title>Ibrahim · Master Plan</title>
 <style>
 :root{
@@ -43,7 +43,7 @@ input,textarea,select{font-family:inherit}
 /* TOP BAR */
 .topbar{display:flex;align-items:center;justify-content:space-between;gap:.6rem;background:var(--surface);border:1px solid var(--border);padding:.7rem .9rem;border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);margin-bottom:.75rem;position:sticky;top:0;z-index:40}
 .brand{display:flex;align-items:center;gap:.55rem;min-width:0;flex:1}
-.brand-logo{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#5fd3b6,#4a9ecf);display:grid;place-items:center;color:#08101a;flex-shrink:0}
+.brand-logo{width:36px;height:36px;border-radius:10px;background:transparent;display:grid;place-items:center;flex-shrink:0;overflow:hidden}
 .brand-logo svg{width:20px;height:20px}
 .brand-text h1{font-size:.9rem;font-weight:800;letter-spacing:-.02em}
 .brand-text p{font-size:.66rem;color:var(--text-3);margin-top:1px}
@@ -279,10 +279,10 @@ input,textarea,select{font-family:inherit}
 .toast.info{border-color:rgba(107,184,255,.5);color:var(--info)}
 
 /* BOTTOM NAV */
-.bottom-nav{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0) + 8px);width:calc(100% - 16px);max-width:640px;background:var(--surface);border:1px solid var(--border-2);border-radius:22px;padding:.35rem .4rem;display:grid;grid-template-columns:repeat(7,1fr);gap:.05rem;z-index:60;box-shadow:0 -10px 40px -10px rgba(0,0,0,.5);backdrop-filter:blur(28px)}
+.bottom-nav{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0) + 8px);width:calc(100% - 16px);max-width:720px;background:var(--surface);border:1px solid var(--border-2);border-radius:22px;padding:.35rem .3rem;display:grid;grid-template-columns:repeat(9,1fr);gap:.05rem;z-index:60;box-shadow:0 -10px 40px -10px rgba(0,0,0,.5);backdrop-filter:blur(28px)}
 .nav-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.18rem;padding:.45rem .15rem;background:transparent;color:var(--text-3);font-weight:700;font-size:.55rem;text-transform:uppercase;border-radius:14px;position:relative;min-width:0}
-.nav-btn svg{width:20px;height:20px;stroke-width:2}
-.nav-btn span{font-size:.52rem;font-weight:800;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nav-btn svg{width:18px;height:18px;stroke-width:2}
+.nav-btn span{font-size:.48rem;font-weight:800;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .nav-btn.active{color:var(--accent)}
 .nav-btn.active::before{content:'';position:absolute;top:2px;left:50%;transform:translateX(-50%);width:16px;height:3px;border-radius:3px;background:var(--accent);box-shadow:0 0 8px var(--accent)}
 
@@ -331,17 +331,296 @@ input,textarea,select{font-family:inherit}
   #printRoot .pr-empty{color:#888;font-style:italic;padding:8px;font-size:9.5pt}
 }
 
-.brand-logo{background:transparent;overflow:hidden}
+.brand-logo{width:36px;height:36px;border-radius:10px;background:transparent;display:grid;place-items:center;flex-shrink:0;overflow:hidden}
 .brand-logo img{width:100%;height:100%;object-fit:contain;border-radius:10px;display:block}
+
+/* ============ SPLASH SCREEN ============ */
+#splash{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;
+  background:linear-gradient(160deg,#080d13 0%,#0e1a24 50%,#08101a 100%);
+  transition:opacity .6s ease, visibility .6s ease}
+#splash.hide{opacity:0;visibility:hidden;pointer-events:none}
+#splash .splash-inner{text-align:center;animation:splashIn .8s cubic-bezier(.16,1,.3,1)}
+@keyframes splashIn{0%{transform:scale(.6);opacity:0}60%{transform:scale(1.05);opacity:1}100%{transform:scale(1);opacity:1}}
+#splash img{width:96px;height:96px;border-radius:24px;box-shadow:0 20px 60px -10px rgba(95,211,182,.55);margin-bottom:16px}
+#splash h1{font-size:1.6rem;font-weight:800;color:#eaf1f8;letter-spacing:-.03em;margin-bottom:6px}
+#splash p{font-size:.85rem;color:#7391a8;font-weight:600;letter-spacing:.05em}
+#splash .splash-loader{margin-top:24px;display:flex;gap:6px;justify-content:center}
+#splash .splash-loader span{width:8px;height:8px;border-radius:50%;background:#5fd3b6;animation:splashDot 1.4s ease-in-out infinite}
+#splash .splash-loader span:nth-child(2){animation-delay:.2s}
+#splash .splash-loader span:nth-child(3){animation-delay:.4s}
+@keyframes splashDot{0%,80%,100%{transform:scale(.6);opacity:.4}40%{transform:scale(1);opacity:1}}
+
+/* ============ ONBOARDING ============ */
+#onboard{position:fixed;inset:0;z-index:9998;display:none;background:var(--bg);overflow:hidden}
+#onboard.show{display:block}
+#onboard .ob-track{display:flex;height:100%;transition:transform .4s cubic-bezier(.16,1,.3,1)}
+#onboard .ob-page{flex:0 0 100%;padding:3rem 2rem 6rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+#onboard .ob-icon{width:110px;height:110px;border-radius:28px;background:linear-gradient(135deg,rgba(95,211,182,.2),rgba(107,184,255,.15));border:1px solid rgba(95,211,182,.4);display:grid;place-items:center;margin-bottom:28px;font-size:2.8rem}
+#onboard .ob-icon svg{width:56px;height:56px;color:var(--accent)}
+#onboard h2{font-size:1.5rem;font-weight:800;color:var(--text);letter-spacing:-.03em;margin-bottom:12px}
+#onboard p{font-size:.92rem;color:var(--text-2);line-height:1.6;max-width:320px;font-weight:500}
+#onboard .ob-dots{position:absolute;bottom:100px;left:50%;transform:translateX(-50%);display:flex;gap:8px}
+#onboard .ob-dot{width:8px;height:8px;border-radius:50%;background:var(--border-3);transition:all .25s ease}
+#onboard .ob-dot.active{background:var(--accent);width:24px;border-radius:4px}
+#onboard .ob-actions{position:absolute;bottom:30px;left:24px;right:24px;display:flex;gap:12px}
+#onboard .btn{flex:1;padding:.9rem 1.2rem;font-size:.9rem}
+
+/* ============ BOTTOM SHEET (replaces centered modal) ============ */
+.modal-overlay{align-items:flex-end !important;padding:0 !important}
+.modal{
+  border-radius:28px 28px 0 0 !important;
+  max-width:100% !important;
+  max-height:88vh !important;
+  padding:1.6rem 1.3rem calc(1.6rem + env(safe-area-inset-bottom,0)) !important;
+  animation:sheetUp .35s cubic-bezier(.16,1,.3,1) !important;
+  position:relative;
+}
+.modal::before{
+  content:'';position:absolute;top:10px;left:50%;transform:translateX(-50%);
+  width:44px;height:5px;border-radius:5px;background:var(--border-3);opacity:.6;
+}
+.modal h3{margin-top:.5rem}
+@keyframes sheetUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.modal-overlay.show .modal{animation:sheetUp .35s cubic-bezier(.16,1,.3,1)}
+
+/* ============ SKELETON LOADERS ============ */
+.skeleton{background:linear-gradient(90deg,var(--bg-1) 0%,var(--bg-2) 50%,var(--bg-1) 100%);background-size:200% 100%;animation:skeletonAnim 1.4s linear infinite;border-radius:8px}
+@keyframes skeletonAnim{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.skeleton-line{height:14px;margin-bottom:8px}
+.skeleton-line.sm{width:60%}
+.skeleton-line.lg{height:22px;width:85%}
+.skeleton-pill{height:80px;border-radius:12px}
+
+/* ============ EMPTY STATES ============ */
+.empty-state{text-align:center;padding:2.5rem 1rem;color:var(--text-3);font-size:.85rem}
+.empty-state svg{width:56px;height:56px;opacity:.3;margin-bottom:.8rem}
+.empty-state .es-title{font-size:.95rem;font-weight:800;color:var(--text-2);margin-bottom:.3rem}
+.empty-state .es-text{font-size:.78rem;color:var(--text-3);max-width:240px;margin:0 auto;line-height:1.5}
+
+/* ============ TAB TRANSITIONS ============ */
+.tab-panel.active{animation:tabIn .3s cubic-bezier(.16,1,.3,1)}
+@keyframes tabIn{from{opacity:0;transform:translateY(8px) scale(.99)}to{opacity:1;transform:translateY(0) scale(1)}}
+
+/* ============ STREAK FLAME ============ */
+@keyframes flame{0%,100%{transform:scale(1) rotate(-2deg);filter:brightness(1)}50%{transform:scale(1.15) rotate(2deg);filter:brightness(1.3)}}
+.flame-active{display:inline-block;animation:flame 1.5s ease-in-out infinite}
+
+/* ============ RIPPLE ON TAP ============ */
+.ripple-host{position:relative;overflow:hidden}
+.ripple{position:absolute;border-radius:50%;background:radial-gradient(circle, rgba(95,211,182,.5), transparent 70%);transform:scale(0);animation:rippleOut .6s ease-out;pointer-events:none}
+@keyframes rippleOut{to{transform:scale(4);opacity:0}}
+
+/* ============ BOTTOM NAV RIPPLE / ACTIVE GLOW ============ */
+.nav-btn.active{box-shadow:0 -2px 12px -4px rgba(95,211,182,.35)}
+
+/* ============ SHARE IMAGE CARD ============ */
+.share-card-canvas{position:fixed;left:-99999px;top:0}
+.share-card-modal{padding:1rem !important}
+.share-card-preview{width:100%;border-radius:16px;overflow:hidden;border:1px solid var(--border);margin-bottom:1rem}
+
+/* ============ VOICE INPUT BTN ============ */
+.voice-btn{
+  position:absolute;right:8px;top:50%;transform:translateY(-50%);
+  width:36px;height:36px;border-radius:50%;
+  background:var(--bg-2);border:1px solid var(--border);
+  color:var(--text-2);display:grid;place-items:center;
+  transition:all .2s ease;z-index:2;
+}
+.voice-btn svg{width:16px;height:16px}
+.voice-btn.recording{background:var(--danger);border-color:var(--danger);color:#fff;animation:pulse .8s ease-in-out infinite}
+.voice-host{position:relative}
+
+/* ============ KEYBOARD ANIMATION ============ */
+@media (prefers-reduced-motion:no-preference){
+  .hero-activity,.ds-title,.reading-book{transition:opacity .2s ease}
+}
+
+/* ============ SCROLL FADE ============ */
+.card,.hero,.ds-card,.reading-card{will-change:transform}
+
+
+/* ============ ACHIEVEMENT BADGES ============ */
+.badge-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;margin-top:.5rem}
+.badge{background:var(--bg-1);border:1px solid var(--border);border-radius:14px;padding:.85rem .5rem;text-align:center;transition:all .25s ease;position:relative;overflow:hidden}
+.badge.locked{opacity:.4;filter:grayscale(.8)}
+.badge.unlocked{background:linear-gradient(135deg,var(--accent-soft),var(--bg-1));border-color:var(--accent);box-shadow:0 0 0 1px rgba(95,211,182,.25),0 6px 18px -8px rgba(95,211,182,.5)}
+.badge.unlocked::before{content:'✓';position:absolute;top:6px;right:8px;width:16px;height:16px;border-radius:50%;background:var(--accent);color:#080d13;font-size:.62rem;font-weight:900;display:grid;place-items:center}
+.badge .bd-icon{font-size:1.8rem;margin-bottom:.3rem;line-height:1}
+.badge .bd-name{font-size:.66rem;font-weight:800;color:var(--text-2);text-transform:uppercase;letter-spacing:.03em}
+.badge .bd-desc{font-size:.6rem;color:var(--text-4);margin-top:.2rem;line-height:1.3}
+
+/* ============ HEATMAP ============ */
+.heatmap-wrap{margin-top:.5rem;overflow-x:auto;padding-bottom:.5rem}
+.heatmap-grid{display:inline-grid;grid-template-rows:repeat(7,14px);grid-auto-flow:column;gap:3px;min-width:100%}
+.hm-cell{width:14px;height:14px;border-radius:3px;background:var(--bg-2);transition:all .15s ease}
+.hm-cell.lvl-1{background:rgba(95,211,182,.25)}
+.hm-cell.lvl-2{background:rgba(95,211,182,.5)}
+.hm-cell.lvl-3{background:rgba(95,211,182,.75)}
+.hm-cell.lvl-4{background:var(--accent)}
+.hm-cell:hover{transform:scale(1.3);box-shadow:0 0 0 2px var(--accent-soft)}
+.heatmap-legend{display:flex;align-items:center;gap:.4rem;justify-content:flex-end;margin-top:.5rem;font-size:.65rem;color:var(--text-4);font-weight:600}
+.heatmap-legend .hm-cell{width:11px;height:11px}
+
+/* ============ PRAYER COUNTDOWN PILL ============ */
+#prayerCountdownPill{
+  position:fixed;bottom:calc(96px + env(safe-area-inset-bottom,0));right:16px;
+  background:var(--surface);border:1px solid var(--border-2);border-radius:22px;
+  padding:.5rem .85rem;display:flex;align-items:center;gap:.5rem;
+  box-shadow:0 10px 30px -8px rgba(0,0,0,.55);
+  z-index:55;font-size:.72rem;font-weight:700;color:var(--text);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  transition:all .3s ease;opacity:0;transform:translateY(10px);pointer-events:none;
+  max-width:calc(100vw - 32px);
+}
+#prayerCountdownPill.show{opacity:1;transform:translateY(0);pointer-events:auto}
+#prayerCountdownPill .pc-icon{width:22px;height:22px;border-radius:50%;background:var(--accent-soft);display:grid;place-items:center;color:var(--accent);flex-shrink:0}
+#prayerCountdownPill .pc-icon svg{width:13px;height:13px}
+#prayerCountdownPill .pc-name{font-weight:800;color:var(--accent)}
+#prayerCountdownPill .pc-time{font-variant-numeric:tabular-nums;color:var(--text-2)}
+
+/* ============ SEARCH BAR ============ */
+.search-bar{position:relative;margin-bottom:.7rem}
+.search-bar input{width:100%;background:var(--bg-1);border:1px solid var(--border);border-radius:12px;padding:.7rem .9rem .7rem 2.4rem;color:var(--text);font-size:.86rem;font-weight:500}
+.search-bar input:focus{outline:none;border-color:var(--accent);background:var(--bg-2)}
+.search-bar .search-icon{position:absolute;left:.85rem;top:50%;transform:translateY(-50%);color:var(--text-3);pointer-events:none}
+.search-bar .search-icon svg{width:16px;height:16px}
+
+/* ============ QUICK ACTIONS MENU ============ */
+.quick-menu{position:fixed;z-index:150;background:var(--surface-2);border:1px solid var(--border-3);border-radius:14px;padding:.4rem;box-shadow:0 20px 50px -14px rgba(0,0,0,.7);min-width:200px;animation:qMenuIn .2s cubic-bezier(.16,1,.3,1)}
+@keyframes qMenuIn{from{opacity:0;transform:scale(.9) translateY(-6px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.quick-menu button{width:100%;display:flex;align-items:center;gap:.65rem;padding:.65rem .75rem;border-radius:10px;color:var(--text);font-size:.84rem;font-weight:700;text-align:left;transition:background .15s}
+.quick-menu button:hover{background:var(--bg-1)}
+.quick-menu button.danger{color:var(--danger)}
+.quick-menu button .qm-icon{width:22px;text-align:center;font-size:1rem}
+
+/* ============ CHART ============ */
+.chart-wrap{background:var(--bg-1);border:1px solid var(--border);border-radius:14px;padding:1rem;margin-top:.5rem}
+.chart-bars{display:flex;align-items:flex-end;gap:.4rem;height:120px}
+.chart-bar{flex:1;display:flex;flex-direction:column;align-items:center;gap:.3rem;min-width:0}
+.chart-bar-fill{width:100%;border-radius:6px 6px 0 0;background:linear-gradient(180deg,var(--accent),var(--accent-2));transition:height .6s cubic-bezier(.16,1,.3,1);min-height:4px}
+.chart-bar-lbl{font-size:.55rem;font-weight:800;color:var(--text-3);text-transform:uppercase;letter-spacing:.02em}
+.chart-bar-val{font-size:.62rem;font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums}
+.chart-title{font-size:.7rem;font-weight:800;color:var(--text-3);text-transform:uppercase;margin-bottom:.7rem;letter-spacing:.06em}
+
+/* ============ READING GOALS ============ */
+.goal-bar{height:8px;background:var(--bg-2);border-radius:8px;overflow:hidden;margin-top:.3rem}
+.goal-fill{height:100%;background:linear-gradient(90deg,var(--accent-2),var(--accent));border-radius:8px;transition:width .6s ease}
+.goal-row{padding:.8rem;background:var(--bg-1);border:1px solid var(--border);border-radius:12px;margin-bottom:.5rem}
+.goal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:.4rem}
+.goal-name{font-weight:800;font-size:.86rem}
+.goal-vals{font-size:.7rem;color:var(--text-2);font-weight:700;font-variant-numeric:tabular-nums}
+
+/* ============ FOCUS TIMER ============ */
+#focusTimer{position:fixed;inset:0;background:rgba(4,10,16,.95);backdrop-filter:blur(16px);display:none;align-items:center;justify-content:center;flex-direction:column;gap:2rem;z-index:500;padding:2rem}
+#focusTimer.show{display:flex;animation:fadeIn .3s ease}
+.focus-circle{width:240px;height:240px;border-radius:50%;border:6px solid var(--accent-soft);display:grid;place-items:center;position:relative}
+.focus-circle::before{content:'';position:absolute;inset:-6px;border-radius:50%;border:6px solid transparent;border-top-color:var(--accent);animation:focusSpin 2s linear infinite}
+@keyframes focusSpin{to{transform:rotate(360deg)}}
+.focus-time{font-size:3.2rem;font-weight:800;color:var(--text);font-variant-numeric:tabular-nums;letter-spacing:-.04em}
+.focus-label{color:var(--text-3);font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em}
+.focus-actions{display:flex;gap:.6rem}
+.focus-actions button{padding:.85rem 1.6rem;border-radius:14px;font-weight:800;font-size:.9rem}
+
+/* ============ LANGUAGE ============ */
+.lang-btn-row{display:flex;gap:.5rem;margin-top:.5rem}
+.lang-pill{flex:1;padding:.7rem;border-radius:10px;border:1px solid var(--border);background:var(--bg-1);color:var(--text-2);font-weight:800;font-size:.82rem;transition:all .2s}
+.lang-pill.active{background:var(--accent-2);border-color:var(--accent);color:#fff}
+
+/* ============ SLEEP ANALYTICS ============ */
+.sleep-bar{display:flex;align-items:flex-end;gap:3px;height:60px;margin-top:.5rem}
+.sleep-day{flex:1;border-radius:3px 3px 0 0;background:linear-gradient(180deg,var(--purple),rgba(181,143,255,.4));min-height:3px;transition:height .6s ease}
+
+/* ============ CUSTOM ACCENT COLORS ============ */
+.accent-row{display:flex;gap:.5rem;margin-top:.5rem;flex-wrap:wrap}
+.accent-dot{width:36px;height:36px;border-radius:50%;border:2px solid var(--border);cursor:pointer;transition:all .2s ease;position:relative}
+.accent-dot.active{border-color:var(--text);transform:scale(1.15)}
+.accent-dot.active::after{content:'✓';position:absolute;inset:0;display:grid;place-items:center;color:#080d13;font-weight:900;font-size:.85rem}
+
+/* ============ HERO PARALLAX ============ */
+.hero{transition:box-shadow .3s ease}
+.hero:hover{box-shadow:0 12px 40px -10px rgba(95,211,182,.3)}
+
+/* ============ TOGGLE IN SETTINGS ============ */
+.setting-row{display:flex;align-items:center;justify-content:space-between;padding:.75rem 0;border-bottom:1px solid var(--border)}
+.setting-row:last-child{border-bottom:none}
+.setting-row .sr-label{font-size:.85rem;font-weight:700;color:var(--text)}
+.setting-row .sr-sub{font-size:.7rem;color:var(--text-3);margin-top:2px}
+.setting-toggle{width:44px;height:26px;border-radius:14px;background:var(--bg-3);border:1px solid var(--border);position:relative;cursor:pointer;transition:background .25s;flex-shrink:0}
+.setting-toggle::after{content:'';position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:var(--text-3);transition:all .25s cubic-bezier(.16,1,.3,1)}
+.setting-toggle.on{background:var(--accent);border-color:var(--accent)}
+.setting-toggle.on::after{left:20px;background:#fff}
+
+/* ============ CONFETTI ============ */
+.confetti-piece{position:fixed;width:10px;height:14px;z-index:999;pointer-events:none;animation:confFall 3s linear forwards}
+@keyframes confFall{0%{transform:translateY(-20vh) rotate(0);opacity:1}100%{transform:translateY(110vh) rotate(720deg);opacity:0}}
+
+
+#offlineBanner{position:fixed;top:env(safe-area-inset-top,0);left:0;right:0;background:linear-gradient(90deg,#ff6b7a,#ff8fb1);color:#fff;text-align:center;padding:.4rem;font-size:.72rem;font-weight:800;z-index:9998;transform:translateY(-100%);transition:transform .3s ease;letter-spacing:.03em}
+#offlineBanner.show{transform:translateY(0)}
+
 </style>
 </head>
 <body data-theme="dark">
+
+<div id="offlineBanner">📴 OFFLINE MODE — App works fully offline</div>
+
+
+<div id="prayerCountdownPill">
+  <div class="pc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12,7 12,12 15,14"/></svg></div>
+  <span class="pc-name" id="pcName">—</span>
+  <span class="pc-time" id="pcTime">—</span>
+</div>
+
+
+<!-- SPLASH SCREEN -->
+<div id="splash">
+  <div class="splash-inner">
+    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj4KPGRlZnM+CjxsaW5lYXJHcmFkaWVudCBpZD0iZyIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjNWZkM2I2Ii8+CjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzRhOWVjZiIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+CjxyZWN0IHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiByeD0iMjIiIGZpbGw9IiMwODBkMTMiLz4KPGNpcmNsZSBjeD0iNTAiIGN5PSI1MCIgcj0iMzAiIGZpbGw9Im5vbmUiIHN0cm9rZT0idXJsKCNnKSIgc3Ryb2tlLXdpZHRoPSI2Ii8+Cjxwb2x5Z29uIHBvaW50cz0iNTAsMjYgNjIsNTAgNTAsNzQgMzgsNTAiIGZpbGw9InVybCgjZykiLz4KPC9zdmc+" alt="Master Plan">
+    <h1>Master Plan</h1>
+    <p>Ibrahim's Daily System</p>
+    <div class="splash-loader"><span></span><span></span><span></span></div>
+  </div>
+</div>
+
+<!-- ONBOARDING -->
+<div id="onboard">
+  <div class="ob-track" id="obTrack">
+    <div class="ob-page">
+      <div class="ob-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L4 8v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M9 22v-6h6v6"/></svg></div>
+      <h2>Welcome, Ibrahim 👋</h2>
+      <p>Your complete daily system — schedule, prayer times, reading tracker, and Data Science progress in one place.</p>
+    </div>
+    <div class="ob-page">
+      <div class="ob-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+      <h2>Auto Daily Schedule</h2>
+      <p>Your routine updates automatically. See the current activity, next event, and prayer times — all live.</p>
+    </div>
+    <div class="ob-page">
+      <div class="ob-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
+      <h2>Track Brothers' Reading</h2>
+      <p>Log daily reading and Quran pages for all 6 brothers. Get automatic PDF reports every Friday.</p>
+    </div>
+    <div class="ob-page">
+      <div class="ob-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/></svg></div>
+      <h2>Enable Notifications</h2>
+      <p>Get reminded before every prayer, class, DS deep work session, and Friday report.</p>
+    </div>
+  </div>
+  <div class="ob-dots">
+    <div class="ob-dot active"></div><div class="ob-dot"></div><div class="ob-dot"></div><div class="ob-dot"></div>
+  </div>
+  <div class="ob-actions">
+    <button class="btn" id="obSkip">Skip</button>
+    <button class="btn primary" id="obNext">Next</button>
+  </div>
+</div>
+
 <div id="printRoot"></div>
 
 <!-- TOP BAR -->
 <div class="topbar">
   <div class="brand">
-    <div class="brand-logo"><img src="https://cdn-icons-png.flaticon.com/512/625/625170.png" alt="Master Plan"></div>
+    <div class="brand-logo"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj4KPGRlZnM+CjxsaW5lYXJHcmFkaWVudCBpZD0iZyIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjNWZkM2I2Ii8+CjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzRhOWVjZiIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+CjxyZWN0IHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiByeD0iMjIiIGZpbGw9IiMwODBkMTMiLz4KPGNpcmNsZSBjeD0iNTAiIGN5PSI1MCIgcj0iMzAiIGZpbGw9Im5vbmUiIHN0cm9rZT0idXJsKCNnKSIgc3Ryb2tlLXdpZHRoPSI2Ii8+Cjxwb2x5Z29uIHBvaW50cz0iNTAsMjYgNjIsNTAgNTAsNzQgMzgsNTAiIGZpbGw9InVybCgjZykiLz4KPC9zdmc+" alt="Master Plan"></div>
     <div class="brand-text"><h1>Master Plan</h1><p id="liveDate">—</p></div>
   </div>
   <div class="topbar-clock" id="liveClock">--:--</div>
@@ -511,6 +790,7 @@ input,textarea,select{font-family:inherit}
       <button class="share-btn pdf full" id="pdfWeeklyBtn">Weekly Report PDF</button>
       <button class="share-btn pdf full" id="pdfProgressBtn">My Progress PDF</button>
       <button class="share-btn pdf full" id="pdfAllTimeBtn">All-Time Summary PDF</button>
+      <button class="share-btn pdf full" id="shareImageBtn" style="background:linear-gradient(135deg,rgba(107,184,255,.15),rgba(181,143,255,.1));border-color:rgba(107,184,255,.5);color:#6bb8ff">🖼️ Share Image Card</button>
     </div>
   </div>
   <div class="card">
@@ -526,6 +806,51 @@ input,textarea,select{font-family:inherit}
       <button class="share-btn tg" id="shareTG">Telegram</button>
       <button class="share-btn em" id="shareEM">Email</button>
       <button class="share-btn copy" id="shareCopy">Copy</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ACHIEVEMENTS TAB -->
+<div class="tab-panel" id="tab-achv">
+  <div class="card">
+    <div class="card-title"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg></span><span>Achievement Badges</span><span class="badge" id="badgeCount">0/12</span></div>
+    <div class="badge-grid" id="badgeGrid"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/></svg></span><span>12-Week Heatmap</span><span class="badge" id="heatmapBadge">—</span></div>
+    <div class="heatmap-wrap">
+      <div class="heatmap-grid" id="heatmapGrid"></div>
+    </div>
+    <div class="heatmap-legend"><span>Less</span><div class="hm-cell"></div><div class="hm-cell lvl-1"></div><div class="hm-cell lvl-2"></div><div class="hm-cell lvl-3"></div><div class="hm-cell lvl-4"></div><span>More</span></div>
+  </div>
+</div>
+
+<!-- CHARTS TAB -->
+<div class="tab-panel" id="tab-charts">
+  <div class="card">
+    <div class="card-title"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span><span>Reading — Last 7 Days</span></div>
+    <div class="chart-wrap">
+      <div class="chart-title">Pages read per day</div>
+      <div class="chart-bars" id="chartPages"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/></svg></span><span>Brother Comparison</span></div>
+    <div class="chart-wrap">
+      <div class="chart-title">Total pages (all time)</div>
+      <div class="chart-bars" id="chartBrothers"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></span><span>Sleep Analytics</span></div>
+    <div class="section-sub">Days where you checked "Sleep on time"</div>
+    <div class="chart-wrap">
+      <div class="chart-title">Last 14 days</div>
+      <div class="sleep-bar" id="sleepChart"></div>
     </div>
   </div>
 </div>
@@ -547,6 +872,28 @@ input,textarea,select{font-family:inherit}
     <button class="btn block mb-1" id="importBtn">Import backup</button>
     <input type="file" id="importFile" accept=".json" style="display:none">
     <button class="btn danger block" id="resetBtn">Reset all data</button>
+
+  <div class="card">
+    <div class="card-title"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></span><span>Weekly Reading Goals</span></div>
+    <div class="section-sub">Tap a goal to set target pages per week</div>
+    <div id="goalsContainer"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12,7 12,12 15,14"/></svg></span><span>Focus Timer</span></div>
+    <div class="section-sub">Start a deep work session (25 min Pomodoro)</div>
+    <div style="display:flex;gap:.5rem;margin-top:.5rem">
+      <button class="btn primary" data-focus="25">25 min</button>
+      <button class="btn" data-focus="50">50 min</button>
+      <button class="btn" data-focus="15">15 min</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/></svg></span><span>Custom Accent Color</span></div>
+    <div class="accent-row" id="accentRow"></div>
+  </div>
+
   </div>
 </div>
 
@@ -559,6 +906,16 @@ input,textarea,select{font-family:inherit}
   <button class="nav-btn" data-tab="jamaa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L4 8v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg><span>Jamaa</span></button>
   <button class="nav-btn" data-tab="remind"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/></svg><span>Remind</span></button>
   <button class="nav-btn" data-tab="share"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16,6 12,2 8,6"/><line x1="12" y1="2" x2="12" y2="15"/></svg><span>Share</span></button>
+</div>
+
+
+<div id="focusTimer">
+  <div class="focus-label">Deep Work</div>
+  <div class="focus-circle"><div class="focus-time" id="focusTime">25:00</div></div>
+  <div class="focus-actions">
+    <button class="btn danger" id="focusStop">Stop</button>
+    <button class="btn primary" id="focusReset">Reset</button>
+  </div>
 </div>
 
 <div class="modal-overlay" id="modalOverlay"><div class="modal" id="modalContent"></div></div>
@@ -726,17 +1083,75 @@ document.getElementById('themeBtn').onclick=()=>{state.settings.theme=state.sett
 /* ============ PRAYER ============ */
 let prayerTimes=null;
 async function fetchPrayerTimes(){
-  if(!state.settings.city||!state.settings.country){prayerTimes=null;renderPrayerRow();return}
-  try{
-    const now=new Date();
-    const dd=String(now.getDate()).padStart(2,'0');
-    const mm=String(now.getMonth()+1).padStart(2,'0');
-    const url=`https://api.aladhan.com/v1/timingsByCity/${dd}-${mm}-${now.getFullYear()}?city=${encodeURIComponent(state.settings.city)}&country=${encodeURIComponent(state.settings.country)}&method=13`;
-    const res=await fetch(url);
-    const data=await res.json();
-    if(data.code===200){prayerTimes=data.data.timings;store.set('mp20_prayerCache',{date:todayKey(),times:prayerTimes});renderPrayerRow()}
-  }catch(e){const c=store.get('mp20_prayerCache',null);if(c&&c.date===todayKey()){prayerTimes=c.times;renderPrayerRow()}}
+  const cacheKey = 'mp20_prayerCache_v2';
+  const CACHE_DAYS = 30;
+  let cached = null;
+  try { cached = JSON.parse(localStorage.getItem(cacheKey) || 'null'); } catch(e){}
+  const now = Date.now();
+  const monthKey = `${new Date().getFullYear()}-${String(new Date().getMonth()+1).padStart(2,'0')}`;
+
+  // If we have cached data for this month and it's less than 30 days old, use it
+  if (cached && cached.monthKey === monthKey && (now - cached.savedAt) < CACHE_DAYS*86400000) {
+    prayerTimes = cached.times;
+    // Still try to refresh in background if online (silent)
+    if (navigator.onLine && state.settings.city && state.settings.country) {
+      tryRefreshPrayer(cacheKey, monthKey);
+    }
+    renderPrayerRow();
+    return;
+  }
+
+  // No cached data — try to fetch
+  if (!state.settings.city || !state.settings.country) {
+    prayerTimes = cached ? cached.times : null;
+    renderPrayerRow();
+    return;
+  }
+
+  if (!navigator.onLine) {
+    // Offline and no cache — fallback to last known
+    if (cached) { prayerTimes = cached.times; renderPrayerRow(); }
+    return;
+  }
+
+  // Online — fetch fresh
+  await tryFetchPrayer(cacheKey, monthKey);
+  renderPrayerRow();
 }
+
+async function tryFetchPrayer(cacheKey, monthKey){
+  try {
+    const now = new Date();
+    const dd = String(now.getDate()).padStart(2,'0');
+    const mm = String(now.getMonth()+1).padStart(2,'0');
+    const url = `https://api.aladhan.com/v1/timingsByCity/${dd}-${mm}-${now.getFullYear()}?city=${encodeURIComponent(state.settings.city)}&country=${encodeURIComponent(state.settings.country)}&method=13`;
+    const res = await fetch(url);
+    const data = await res.json();
+    if (data.code === 200) {
+      prayerTimes = data.data.timings;
+      localStorage.setItem(cacheKey, JSON.stringify({
+        monthKey, times: prayerTimes, savedAt: Date.now()
+      }));
+    }
+  } catch(e) { /* offline — silent fail */ }
+}
+
+async function tryRefreshPrayer(cacheKey, monthKey){
+  try {
+    const now = new Date();
+    const dd = String(now.getDate()).padStart(2,'0');
+    const mm = String(now.getMonth()+1).padStart(2,'0');
+    const url = `https://api.aladhan.com/v1/timingsByCity/${dd}-${mm}-${now.getFullYear()}?city=${encodeURIComponent(state.settings.city)}&country=${encodeURIComponent(state.settings.country)}&method=13`;
+    const res = await fetch(url);
+    const data = await res.json();
+    if (data.code === 200) {
+      localStorage.setItem(cacheKey, JSON.stringify({
+        monthKey, times: data.data.timings, savedAt: Date.now()
+      }));
+    }
+  } catch(e) { /* silent */ }
+}
+
 function renderPrayerRow(){
   const row=document.getElementById('prayerRow');
   const cityLabel=document.getElementById('prayerCityLabel');
@@ -1459,10 +1874,812 @@ async function init(){
   setInterval(()=>{renderBrothersToday();renderReadingCard();renderSchedulePreview()},60000);
   setInterval(fetchPrayerTimes,3600000);
 }
+
+/* ============================================================
+   ALL UPGRADES — Achievements, Heatmap, Charts, Goals,
+   Focus Timer, Countdown Pill, Search, Quick Menu,
+   Language, Accent Color, Auto-Backup
+   ============================================================ */
+
+/* ---------- ACHIEVEMENTS ---------- */
+const ACHIEVEMENTS = [
+  {id:'first_entry', icon:'📖', name:'First Entry', desc:'Log your first reading', check:s => Object.keys(s.brotherReports).length > 0},
+  {id:'week_streak', icon:'🔥', name:'7-Day Streak', desc:'7 days in a row', check:s => (s.streak.current||0) >= 7},
+  {id:'all_brothers', icon:'👥', name:'All Brothers', desc:'All 6 reported same day', check:s => {
+    return Object.values(s.brotherReports).some(day => BROTHERS.every(b => (day[b.id]||[]).length > 0));
+  }},
+  {id:'100_pages', icon:'💯', name:'100 Pages', desc:'Total 100 pages read', check:s => {
+    let t=0; Object.values(s.brotherReports).forEach(d => Object.values(d).forEach(arr => arr.forEach(e => t += e.pages||0)));
+    return t >= 100;
+  }},
+  {id:'500_pages', icon:'📚', name:'500 Pages', desc:'Total 500 pages read', check:s => {
+    let t=0; Object.values(s.brotherReports).forEach(d => Object.values(d).forEach(arr => arr.forEach(e => t += e.pages||0)));
+    return t >= 500;
+  }},
+  {id:'50_quran', icon:'🕌', name:'50 Quran', desc:'Total 50 Quran pages', check:s => {
+    let t=0; Object.values(s.brotherReports).forEach(d => Object.values(d).forEach(arr => arr.forEach(e => t += e.quran||0)));
+    return t >= 50;
+  }},
+  {id:'perfect_jamaa', icon:'⭐', name:'Perfect Jamaa Day', desc:'All prayers jamaa', check:s => {
+    return Object.values(s.jamaa).some(day => BROTHERS.every(b => PRAYERS.every(p => day[b.id] && day[b.id][p.id])));
+  }},
+  {id:'ds_started', icon:'📊', name:'DS Started', desc:'First hour logged', check:s => {
+    return Object.values(s.dsTree||{}).some(l => (l.hours||0) > 0);
+  }},
+  {id:'ds_100', icon:'🎓', name:'DS 100 Hours', desc:'100 hours total', check:s => {
+    return Object.values(s.dsTree||{}).reduce((t,l) => t + (l.hours||0), 0) >= 100;
+  }},
+  {id:'first_week', icon:'📅', name:'First Week', desc:'7 days of activity', check:s => Object.keys(s.history).length >= 7},
+  {id:'bookworm', icon:'🐛', name:'Bookworm', desc:'Read 5 different books', check:s => {
+    const books = new Set();
+    Object.values(s.brotherReports).forEach(d => Object.values(d).forEach(arr => arr.forEach(e => e.book && books.add(e.book))));
+    return books.size >= 5;
+  }},
+  {id:'reflections', icon:'📝', name:'Reflector', desc:'10 night reflections', check:s => Object.keys(s.reflection).length >= 10},
+];
+
+function renderBadges(){
+  const grid = document.getElementById('badgeGrid');
+  if (!grid) return;
+  let unlocked = 0;
+  grid.innerHTML = ACHIEVEMENTS.map(a => {
+    let ok = false;
+    try { ok = a.check(state); } catch(e){}
+    if (ok) unlocked++;
+    return `<div class="badge ${ok?'unlocked':'locked'}">
+      <div class="bd-icon">${a.icon}</div>
+      <div class="bd-name">${a.name}</div>
+      <div class="bd-desc">${a.desc}</div>
+    </div>`;
+  }).join('');
+  const cnt = document.getElementById('badgeCount');
+  if (cnt) cnt.textContent = unlocked + '/' + ACHIEVEMENTS.length;
+}
+
+/* ---------- HEATMAP (12 weeks) ---------- */
+function renderHeatmap(){
+  const grid = document.getElementById('heatmapGrid');
+  if (!grid) return;
+  grid.innerHTML = '';
+  const today = new Date();
+  const totalDays = 12 * 7;
+  const startDate = new Date(today);
+  startDate.setDate(today.getDate() - totalDays + 1);
+  // Align to Monday
+  const dow = (startDate.getDay() + 6) % 7;
+  startDate.setDate(startDate.getDate() - dow);
+
+  let html = '';
+  for (let i = 0; i < totalDays + 7; i++) {
+    const d = new Date(startDate);
+    d.setDate(startDate.getDate() + i);
+    if (d > today) { html += `<div class="hm-cell" style="background:transparent"></div>`; continue; }
+    const key = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    const h = state.history[key];
+    const pct = h ? h.percent : 0;
+    let lvl = '';
+    if (pct >= 90) lvl = 'lvl-4';
+    else if (pct >= 70) lvl = 'lvl-3';
+    else if (pct >= 40) lvl = 'lvl-2';
+    else if (pct > 0) lvl = 'lvl-1';
+    html += `<div class="hm-cell ${lvl}" title="${key} · ${pct}%"></div>`;
+  }
+  grid.innerHTML = html;
+  const bd = document.getElementById('heatmapBadge');
+  if (bd) {
+    const active = Object.keys(state.history).length;
+    bd.textContent = active + ' active days';
+  }
+}
+
+/* ---------- CHARTS ---------- */
+function renderCharts(){
+  // Last 7 days
+  const days7 = document.getElementById('chartPages');
+  if (days7) {
+    const arr = [];
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date(); d.setDate(d.getDate() - i);
+      const key = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+      let p = 0;
+      const dayData = state.brotherReports[key] || {};
+      Object.values(dayData).forEach(list => list.forEach(e => p += e.pages||0));
+      arr.push({ lbl: ['S','M','T','W','T','F','S'][d.getDay()], val: p });
+    }
+    const max = Math.max(1, ...arr.map(x => x.val));
+    days7.innerHTML = arr.map(x => `
+      <div class="chart-bar">
+        <div class="chart-bar-val">${x.val}</div>
+        <div class="chart-bar-fill" style="height:${Math.max(4, (x.val/max)*100)}px"></div>
+        <div class="chart-bar-lbl">${x.lbl}</div>
+      </div>
+    `).join('');
+  }
+
+  // Brother comparison
+  const bc = document.getElementById('chartBrothers');
+  if (bc) {
+    const totals = getBrotherTotals();
+    const arr = BROTHERS.map(b => ({ name: b.name, val: totals[b.id].pages, color: b.color }));
+    const max = Math.max(1, ...arr.map(x => x.val));
+    bc.innerHTML = arr.map(x => `
+      <div class="chart-bar">
+        <div class="chart-bar-val">${x.val}</div>
+        <div class="chart-bar-fill" style="height:${Math.max(4, (x.val/max)*100)}px;background:linear-gradient(180deg,${x.color},${x.color}99)"></div>
+        <div class="chart-bar-lbl">${x.name.substring(0,5)}</div>
+      </div>
+    `).join('');
+  }
+
+  // Sleep
+  const sc = document.getElementById('sleepChart');
+  if (sc) {
+    let html = '';
+    for (let i = 13; i >= 0; i--) {
+      const d = new Date(); d.setDate(d.getDate() - i);
+      const key = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+      const slept = state.checklist['sleep'] && state.history[key] && state.history[key].done && state.history[key].done.includes('sleep');
+      // Approximate via history
+      const done = state.history[key] && state.history[key].done ? state.history[key].done.includes('sleep') : false;
+      html += `<div class="sleep-day" style="height:${done ? 100 : 15}%;opacity:${done ? 1 : .3}"></div>`;
+    }
+    sc.innerHTML = html;
+  }
+}
+
+/* ---------- READING GOALS ---------- */
+const GOALS_KEY = 'mp20_goals';
+function getGoals(){
+  try { return JSON.parse(localStorage.getItem(GOALS_KEY) || '{}'); } catch(e){ return {}; }
+}
+function setGoal(id, val){
+  const g = getGoals(); g[id] = val;
+  localStorage.setItem(GOALS_KEY, JSON.stringify(g));
+}
+function renderGoals(){
+  const el = document.getElementById('goalsContainer');
+  if (!el) return;
+  const goals = getGoals();
+  const ws = getWeekStart(new Date());
+  const weekProgress = {};
+  BROTHERS.forEach(b => weekProgress[b.id] = 0);
+  Object.entries(state.brotherReports).forEach(([day, dd]) => {
+    if (getWeekStart(new Date(day)).getTime() !== ws.getTime()) return;
+    Object.entries(dd).forEach(([bId, arr]) => {
+      if (weekProgress[bId] === undefined) return;
+      arr.forEach(e => weekProgress[bId] += e.pages||0);
+    });
+  });
+  el.innerHTML = BROTHERS.map(b => {
+    const goal = goals[b.id] || 0;
+    const prog = weekProgress[b.id];
+    const pct = goal > 0 ? Math.min(100, Math.round(prog/goal*100)) : 0;
+    return `<div class="goal-row" data-goal-row="${b.id}">
+      <div class="goal-head">
+        <div class="goal-name" style="color:${b.color}">${b.name}</div>
+        <div class="goal-vals">${prog} / ${goal || '—'} pages</div>
+      </div>
+      <div class="goal-bar"><div class="goal-fill" style="width:${pct}%"></div></div>
+    </div>`;
+  }).join('');
+  el.querySelectorAll('[data-goal-row]').forEach(row => {
+    row.addEventListener('click', () => {
+      const id = row.dataset.goalRow;
+      const b = getBrother(id);
+      const cur = getGoals()[id] || 0;
+      const v = prompt(`Weekly page goal for ${b.name}:`, cur);
+      if (v === null) return;
+      const n = parseInt(v);
+      if (isNaN(n) || n < 0) return;
+      setGoal(id, n);
+      renderGoals();
+      vibrate(20);
+    });
+  });
+}
+
+/* ---------- FOCUS TIMER ---------- */
+let focusInterval = null;
+let focusRemaining = 25 * 60;
+function startFocus(min){
+  focusRemaining = min * 60;
+  const timer = document.getElementById('focusTimer');
+  const display = document.getElementById('focusTime');
+  if (!timer || !display) return;
+  timer.classList.add('show');
+  updateFocusDisplay();
+  clearInterval(focusInterval);
+  focusInterval = setInterval(() => {
+    focusRemaining--;
+    if (focusRemaining <= 0) {
+      clearInterval(focusInterval);
+      timer.classList.remove('show');
+      vibrate([100, 50, 100, 50, 100]);
+      if (Notification.permission === 'granted') new Notification('Focus complete!', {body:'Great session — take a break.'});
+      return;
+    }
+    updateFocusDisplay();
+  }, 1000);
+}
+function updateFocusDisplay(){
+  const display = document.getElementById('focusTime');
+  if (!display) return;
+  const m = Math.floor(focusRemaining / 60);
+  const s = focusRemaining % 60;
+  display.textContent = String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+}
+document.addEventListener('click', e => {
+  const btn = e.target.closest('[data-focus]');
+  if (btn) startFocus(parseInt(btn.dataset.focus));
+});
+document.addEventListener('DOMContentLoaded', () => {
+  const stop = document.getElementById('focusStop');
+  const reset = document.getElementById('focusReset');
+  if (stop) stop.addEventListener('click', () => {
+    clearInterval(focusInterval);
+    document.getElementById('focusTimer').classList.remove('show');
+  });
+  if (reset) reset.addEventListener('click', () => {
+    clearInterval(focusInterval);
+    focusRemaining = 25 * 60;
+    updateFocusDisplay();
+  });
+});
+
+/* ---------- PRAYER COUNTDOWN PILL ---------- */
+function updatePrayerPill(){
+  const pill = document.getElementById('prayerCountdownPill');
+  const nameEl = document.getElementById('pcName');
+  const timeEl = document.getElementById('pcTime');
+  if (!pill || !nameEl || !timeEl) return;
+  if (!prayerTimes) { pill.classList.remove('show'); return; }
+  const now = new Date();
+  const nowM = now.getHours() * 60 + now.getMinutes();
+  const secs = now.getSeconds();
+  let found = null;
+  for (const p of PRAYERS) {
+    const t = prayerTimes[p.name];
+    if (!t) continue;
+    const [h,m] = t.split(':').map(Number);
+    const total = h*60 + m;
+    if (total > nowM) { found = { name: p.name, time: t, diff: total - nowM }; break; }
+  }
+  if (!found) {
+    // Next is tomorrow's Fajr
+    const t = prayerTimes['Fajr'];
+    const [h,m] = t.split(':').map(Number);
+    const total = h*60 + m + 24*60;
+    found = { name: 'Fajr', time: t, diff: total - nowM };
+  }
+  const h = Math.floor(found.diff / 60);
+  const m = found.diff % 60;
+  nameEl.textContent = found.name;
+  timeEl.textContent = `in ${h}h ${m}m`;
+  pill.classList.add('show');
+}
+setInterval(updatePrayerPill, 30000);
+
+/* ---------- SEARCH (Brothers tab) ---------- */
+function injectSearchBar(){
+  const card = document.querySelector('#tab-brothers .card');
+  if (!card || card.querySelector('.search-bar')) return;
+  const div = document.createElement('div');
+  div.className = 'search-bar';
+  div.innerHTML = '<span class="search-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span><input type="text" placeholder="Search brothers or books..." id="broSearchInput">';
+  const title = card.querySelector('.card-title');
+  if (title && title.nextSibling) title.parentNode.insertBefore(div, title.nextSibling);
+  else card.insertBefore(div, card.firstChild);
+  const input = div.querySelector('input');
+  input.addEventListener('input', () => {
+    const q = input.value.toLowerCase().trim();
+    document.querySelectorAll('#brothersTodayList .brother-card').forEach(c => {
+      const text = c.textContent.toLowerCase();
+      c.style.display = (!q || text.includes(q)) ? '' : 'none';
+    });
+  });
+}
+
+/* ---------- QUICK MENU (long-press) ---------- */
+let quickMenuEl = null;
+function closeQuickMenu(){
+  if (quickMenuEl) { quickMenuEl.remove(); quickMenuEl = null; }
+}
+document.addEventListener('touchstart', e => {
+  const card = e.target.closest('.brother-card');
+  if (!card) return;
+  const id = card.dataset.brother;
+  if (!id) return;
+  const longPress = setTimeout(() => {
+    vibrate([30,20,30]);
+    openQuickMenu(id, e.touches[0].clientX, e.touches[0].clientY);
+  }, 550);
+  const cancel = () => clearTimeout(longPress);
+  card.addEventListener('touchend', cancel, {once:true});
+  card.addEventListener('touchmove', cancel, {once:true});
+}, {passive:true});
+function openQuickMenu(id, x, y){
+  closeQuickMenu();
+  const b = getBrother(id);
+  const menu = document.createElement('div');
+  menu.className = 'quick-menu';
+  menu.innerHTML = `
+    <button data-qm="log"><span class="qm-icon">📖</span>Log reading</button>
+    <button data-qm="jamaa"><span class="qm-icon">🕌</span>Toggle jamaa</button>
+    <button data-qm="share"><span class="qm-icon">📤</span>Share via WhatsApp</button>
+    <button data-qm="del" class="danger"><span class="qm-icon">🗑️</span>Delete today's log</button>
+  `;
+  document.body.appendChild(menu);
+  const r = menu.getBoundingClientRect();
+  menu.style.left = Math.min(x, window.innerWidth - r.width - 10) + 'px';
+  menu.style.top = Math.min(y, window.innerHeight - r.height - 10) + 'px';
+  quickMenuEl = menu;
+  menu.querySelectorAll('button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const act = btn.dataset.qm;
+      closeQuickMenu();
+      if (act === 'log') openBrotherReport(id);
+      else if (act === 'jamaa') { document.querySelector('[data-tab="jamaa"]').click(); }
+      else if (act === 'share') sendReminder(id);
+      else if (act === 'del') {
+        const t = todayKey();
+        if (state.brotherReports[t]) { delete state.brotherReports[t][id]; store.set(KEYS.brotherReports, state.brotherReports); renderBrothersToday(); renderLeaderboard(); }
+      }
+    });
+  });
+  setTimeout(() => {
+    document.addEventListener('click', closeQuickMenu, {once:true});
+    document.addEventListener('touchstart', closeQuickMenu, {once:true});
+  }, 100);
+}
+
+/* ---------- LANGUAGE TOGGLE ---------- */
+const LANG_KEY = 'mp20_lang';
+const LANG_EN = {}; // placeholder — could be filled if needed
+function getLang(){ return localStorage.getItem(LANG_KEY) || 'en'; }
+function setLang(l){ localStorage.setItem(LANG_KEY, l); }
+
+/* ---------- CUSTOM ACCENT ---------- */
+const ACCENT_KEY = 'mp20_accent';
+const ACCENTS = ['#5fd3b6','#6bb8ff','#b58fff','#ffb45c','#ff6b7a','#ffd166','#7dd3fc','#f472b6'];
+function applyAccent(){
+  const a = localStorage.getItem(ACCENT_KEY) || '#5fd3b6';
+  document.documentElement.style.setProperty('--accent', a);
+  // Approx darker
+  document.documentElement.style.setProperty('--accent-2', a + 'cc');
+  document.documentElement.style.setProperty('--accent-soft', a + '1a');
+}
+function renderAccentRow(){
+  const row = document.getElementById('accentRow');
+  if (!row) return;
+  const cur = localStorage.getItem(ACCENT_KEY) || '#5fd3b6';
+  row.innerHTML = ACCENTS.map(c => `<div class="accent-dot ${c===cur?'active':''}" data-accent="${c}" style="background:${c}"></div>`).join('');
+  row.querySelectorAll('[data-accent]').forEach(d => {
+    d.addEventListener('click', () => {
+      localStorage.setItem(ACCENT_KEY, d.dataset.accent);
+      applyAccent();
+      renderAccentRow();
+      vibrate(15);
+    });
+  });
+}
+
+/* ---------- CONFETTI ---------- */
+function celebrate(){
+  for (let i = 0; i < 60; i++) {
+    const p = document.createElement('div');
+    p.className = 'confetti-piece';
+    p.style.left = Math.random() * 100 + 'vw';
+    p.style.background = ACCENTS[Math.floor(Math.random()*ACCENTS.length)];
+    p.style.animationDelay = (Math.random() * 0.4) + 's';
+    document.body.appendChild(p);
+    setTimeout(() => p.remove(), 3200);
+  }
+}
+
+/* ---------- AUTO-BACKUP ---------- */
+const BACKUP_KEY = 'mp20_lastBackup';
+function autoBackup(){
+  const last = parseInt(localStorage.getItem(BACKUP_KEY) || '0');
+  const now = Date.now();
+  if (now - last < 24*60*60*1000) return; // once per day
+  try {
+    const dump = {version:21, exportedAt:new Date().toISOString(), checklist:state.checklist, reflection:state.reflection, history:state.history, streak:state.streak, dsTree:state.dsTree, brotherReports:state.brotherReports, jamaa:state.jamaa, reminders:state.reminders, goals:getGoals()};
+    localStorage.setItem('mp20_autoBackup', JSON.stringify(dump));
+    localStorage.setItem(BACKUP_KEY, String(now));
+  } catch(e){}
+}
+
+/* ---------- TAB HANDLER PATCH (rerender on tab open) ---------- */
+const _origNavClick = document.querySelectorAll('.nav-btn');
+document.addEventListener('click', e => {
+  const btn = e.target.closest('.nav-btn');
+  if (!btn) return;
+  const tab = btn.dataset.tab;
+  if (tab === 'achv') { renderBadges(); renderHeatmap(); }
+  if (tab === 'charts') { renderCharts(); }
+});
+
+/* ---------- INIT ---------- */
+document.addEventListener('DOMContentLoaded', () => {
+  applyAccent();
+  renderAccentRow();
+  setTimeout(() => {
+    renderBadges();
+    renderHeatmap();
+    renderCharts();
+    renderGoals();
+    injectSearchBar();
+    updatePrayerPill();
+    autoBackup();
+  }, 2000);
+
+  // Periodic refresh
+  setInterval(renderBadges, 60000);
+  setInterval(renderGoals, 60000);
+});
+
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    renderBadges();
+    renderHeatmap();
+    renderCharts();
+    renderGoals();
+    injectSearchBar();
+    updatePrayerPill();
+    autoBackup();
+  }, 1800);
+});
+
+// expose
+window.renderBadges = renderBadges;
+window.renderHeatmap = renderHeatmap;
+window.renderCharts = renderCharts;
+window.renderGoals = renderGoals;
+
+
+
+// Online/offline indicator
+function updateOnlineStatus(){
+  const b = document.getElementById('offlineBanner');
+  if (!b) return;
+  if (navigator.onLine) b.classList.remove('show');
+  else { b.classList.add('show'); setTimeout(() => b.classList.remove('show'), 4000); }
+}
+window.addEventListener('online', () => { updateOnlineStatus(); if (typeof fetchPrayerTimes === 'function') fetchPrayerTimes(); });
+window.addEventListener('offline', updateOnlineStatus);
+document.addEventListener('DOMContentLoaded', () => { setTimeout(updateOnlineStatus, 2000); });
+
+
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);
 else init();
 
 })();
+
+/* ============================================================
+   NATIVE FEATURES JS — Splash, Onboarding, Haptics, Ripples
+   ============================================================ */
+
+// ---- SPLASH SCREEN ----
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    const s = document.getElementById('splash');
+    if (s) s.classList.add('hide');
+    // Show onboarding only first time
+    const seen = localStorage.getItem('mp_onboarded');
+    if (!seen) {
+      setTimeout(() => {
+        const ob = document.getElementById('onboard');
+        if (ob) ob.classList.add('show');
+      }, 400);
+    }
+  }, 1600);
+});
+
+// ---- ONBOARDING ----
+(function(){
+  let idx = 0;
+  const track = document.getElementById('obTrack');
+  const dots = document.querySelectorAll('.ob-dot');
+  const nextBtn = document.getElementById('obNext');
+  const skipBtn = document.getElementById('obSkip');
+  const ob = document.getElementById('onboard');
+  if (!track || !nextBtn || !skipBtn) return;
+
+  function go(i){
+    idx = Math.max(0, Math.min(3, i));
+    track.style.transform = `translateX(-${idx * 100}%)`;
+    dots.forEach((d, k) => d.classList.toggle('active', k === idx));
+    nextBtn.textContent = idx === 3 ? 'Get Started' : 'Next';
+  }
+
+  nextBtn.addEventListener('click', () => {
+    if (typeof vibrate === 'function') vibrate(15);
+    if (idx < 3) go(idx + 1);
+    else finish();
+  });
+  skipBtn.addEventListener('click', finish);
+  function finish(){
+    ob.classList.remove('show');
+    localStorage.setItem('mp_onboarded', '1');
+  }
+
+  // Swipe support
+  let sx = 0;
+  ob.addEventListener('touchstart', e => { sx = e.touches[0].clientX; }, {passive:true});
+  ob.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - sx;
+    if (Math.abs(dx) > 60) {
+      if (dx < 0) go(idx + 1);
+      else go(idx - 1);
+    }
+  }, {passive:true});
+})();
+
+// ---- RIPPLE EFFECT ON TAPS ----
+document.addEventListener('pointerdown', (e) => {
+  const el = e.target.closest('button, .nav-btn, .tab, .check-row, .brother-card, .share-btn, .btn, .jamaa-pill, .prayer-item');
+  if (!el) return;
+  el.classList.add('ripple-host');
+  const rect = el.getBoundingClientRect();
+  const size = Math.max(rect.width, rect.height);
+  const ripple = document.createElement('span');
+  ripple.className = 'ripple';
+  ripple.style.width = ripple.style.height = size + 'px';
+  ripple.style.left = (e.clientX - rect.left - size/2) + 'px';
+  ripple.style.top = (e.clientY - rect.top - size/2) + 'px';
+  el.appendChild(ripple);
+  setTimeout(() => ripple.remove(), 650);
+}, {passive:true});
+
+// ---- HAPTIC FEEDBACK EVERYWHERE ----
+(function(){
+  const origVibrate = navigator.vibrate ? navigator.vibrate.bind(navigator) : null;
+  window.vibrate = function(pattern){
+    if (origVibrate) try { origVibrate(pattern); } catch(e){}
+  };
+  document.addEventListener('click', (e) => {
+    const t = e.target.closest('button, .nav-btn, .tab, .share-btn, .check-row, .jamaa-pill, .brother-card');
+    if (t) vibrate(12);
+  }, {passive:true});
+})();
+
+// ---- SWIPE BETWEEN TABS ----
+(function(){
+  let sx = 0, sy = 0, tracking = false;
+  document.addEventListener('touchstart', (e) => {
+    if (e.touches.length !== 1) return;
+    if (e.target.closest('input, textarea, select, .modal-overlay, .bottom-nav')) return;
+    sx = e.touches[0].clientX;
+    sy = e.touches[0].clientY;
+    tracking = true;
+  }, {passive:true});
+  document.addEventListener('touchend', (e) => {
+    if (!tracking) return;
+    tracking = false;
+    const dx = e.changedTouches[0].clientX - sx;
+    const dy = e.changedTouches[0].clientY - sy;
+    if (Math.abs(dx) < 70 || Math.abs(dy) > 60) return;
+    const tabs = [...document.querySelectorAll('.nav-btn')];
+    const activeIdx = tabs.findIndex(t => t.classList.contains('active'));
+    if (activeIdx < 0) return;
+    let nextIdx = dx < 0 ? activeIdx + 1 : activeIdx - 1;
+    if (nextIdx >= 0 && nextIdx < tabs.length) {
+      tabs[nextIdx].click();
+      vibrate(15);
+    }
+  }, {passive:true});
+})();
+
+// ---- PULL TO REFRESH on ALL tabs ----
+(function(){
+  let startY = 0, pulling = false;
+  const indicator = document.createElement('div');
+  indicator.style.cssText = 'position:fixed;top:-60px;left:50%;transform:translateX(-50%);width:44px;height:44px;border-radius:50%;background:var(--surface);border:1px solid var(--border);display:grid;place-items:center;z-index:80;transition:top .3s ease,opacity .3s ease;opacity:0';
+  indicator.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" style="width:20px;height:20px"><path d="M21 12a9 9 0 1 1-6.22-8.56"/></svg>';
+  document.body.appendChild(indicator);
+
+  document.addEventListener('touchstart', (e) => {
+    if (window.scrollY > 5 || e.touches.length !== 1) return;
+    if (e.target.closest('input, textarea, .bottom-nav, .modal-overlay')) return;
+    startY = e.touches[0].clientY;
+    pulling = true;
+  }, {passive:true});
+  document.addEventListener('touchmove', (e) => {
+    if (!pulling) return;
+    const dy = e.touches[0].clientY - startY;
+    if (dy > 30 && dy < 150) {
+      indicator.style.top = 'calc(env(safe-area-inset-top,0) + ' + Math.min(dy/3, 60) + 'px)';
+      indicator.style.opacity = Math.min(dy/100, 1);
+    }
+  }, {passive:true});
+  document.addEventListener('touchend', (e) => {
+    if (!pulling) return;
+    const dy = e.changedTouches[0].clientY - startY;
+    pulling = false;
+    if (dy > 80) {
+      vibrate([15, 30, 15]);
+      if (typeof renderNow === 'function') renderNow();
+      if (typeof renderBrothersToday === 'function') renderBrothersToday();
+      if (typeof renderSchedulePreview === 'function') renderSchedulePreview();
+    }
+    indicator.style.top = '-60px';
+    indicator.style.opacity = '0';
+  }, {passive:true});
+})();
+
+// ---- VOICE INPUT on reading modal ----
+function attachVoiceButtons(){
+  document.querySelectorAll('.field input[type="number"], .field input[type="text"]').forEach(inp => {
+    if (inp.dataset.voice || inp.closest('.voice-host')) return;
+    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) return;
+    inp.dataset.voice = '1';
+    const wrap = document.createElement('div');
+    wrap.className = 'voice-host';
+    inp.parentNode.insertBefore(wrap, inp);
+    wrap.appendChild(inp);
+    const btn = document.createElement('button');
+    btn.className = 'voice-btn';
+    btn.type = 'button';
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>';
+    wrap.appendChild(btn);
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const rec = new SR();
+    rec.lang = 'en-US';
+    rec.interimResults = false;
+    rec.onresult = (ev) => {
+      const txt = ev.results[0][0].transcript.trim();
+      if (inp.type === 'number') {
+        const m = txt.match(/\d+/);
+        if (m) inp.value = m[0];
+      } else {
+        inp.value = txt;
+      }
+      vibrate(20);
+    };
+    rec.onerror = () => btn.classList.remove('recording');
+    rec.onend = () => btn.classList.remove('recording');
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (btn.classList.contains('recording')) {
+        rec.stop();
+      } else {
+        btn.classList.add('recording');
+        try { rec.start(); } catch(e){}
+      }
+    });
+  });
+}
+
+// Re-run voice attach when modal opens
+const _origOpenModal = window.openModal;
+document.addEventListener('click', () => setTimeout(attachVoiceButtons, 300));
+
+// ---- SHARE IMAGE CARD ----
+function generateShareCard(){
+  const today = new Date().toLocaleDateString('en-GB', {weekday:'long', day:'numeric', month:'long', year:'numeric'});
+  const totals = {};
+  BROTHERS.forEach(b => totals[b.id] = 0);
+  const dayData = state.brotherReports[todayKey()] || {};
+  let totalPages = 0, totalQuran = 0;
+  let lines = '';
+  BROTHERS.forEach(b => {
+    const arr = dayData[b.id] || [];
+    const sum = arr.reduce((s, e) => ({p:s.p+(e.pages||0), q:s.q+(e.quran||0)}), {p:0,q:0});
+    totalPages += sum.p; totalQuran += sum.q;
+    lines += `<div class="share-line"><span>${b.name}</span><span>${sum.p}p${sum.q?' · '+sum.q+'Q':''}</span></div>`;
+  });
+  const canvas = document.createElement('canvas');
+  canvas.width = 800; canvas.height = 1000;
+  const ctx = canvas.getContext('2d');
+  // bg
+  const grad = ctx.createLinearGradient(0, 0, 0, 1000);
+  grad.addColorStop(0, '#0a1620');
+  grad.addColorStop(1, '#080d13');
+  ctx.fillStyle = grad; ctx.fillRect(0, 0, 800, 1000);
+  // accent bar
+  const grad2 = ctx.createLinearGradient(0, 0, 800, 0);
+  grad2.addColorStop(0, '#5fd3b6'); grad2.addColorStop(1, '#6bb8ff');
+  ctx.fillStyle = grad2; ctx.fillRect(0, 0, 800, 8);
+  // title
+  ctx.fillStyle = '#eaf1f8'; ctx.font = 'bold 52px system-ui, sans-serif';
+  ctx.fillText('Reading Report', 60, 130);
+  ctx.fillStyle = '#7391a8'; ctx.font = '22px system-ui, sans-serif';
+  ctx.fillText(today, 60, 175);
+  // total box
+  ctx.fillStyle = 'rgba(95,211,182,.12)'; ctx.fillRect(60, 220, 680, 130);
+  ctx.fillStyle = '#5fd3b6'; ctx.font = 'bold 60px system-ui, sans-serif';
+  ctx.fillText(String(totalPages), 100, 310);
+  ctx.fillStyle = '#aec4d6'; ctx.font = '20px system-ui, sans-serif';
+  ctx.fillText('TOTAL PAGES', 100, 340);
+  ctx.fillStyle = '#b58fff'; ctx.font = 'bold 60px system-ui, sans-serif';
+  ctx.fillText(String(totalQuran), 450, 310);
+  ctx.fillStyle = '#aec4d6'; ctx.font = '20px system-ui, sans-serif';
+  ctx.fillText('QURAN', 450, 340);
+  // lines
+  let y = 430;
+  ctx.font = 'bold 28px system-ui, sans-serif';
+  BROTHERS.forEach(b => {
+    const arr = dayData[b.id] || [];
+    const sum = arr.reduce((s, e) => ({p:s.p+(e.pages||0), q:s.q+(e.quran||0)}), {p:0,q:0});
+    // avatar circle
+    ctx.fillStyle = b.color;
+    ctx.beginPath(); ctx.arc(85, y - 8, 20, 0, 2*Math.PI); ctx.fill();
+    ctx.fillStyle = '#080d13'; ctx.font = 'bold 22px system-ui, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(b.name[0], 85, y - 1);
+    // name
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#eaf1f8'; ctx.font = 'bold 26px system-ui, sans-serif';
+    ctx.fillText(b.name, 125, y);
+    // value
+    ctx.textAlign = 'right';
+    ctx.fillStyle = sum.p > 0 ? '#5fd3b6' : '#4d6478';
+    ctx.font = 'bold 26px system-ui, sans-serif';
+    ctx.fillText(sum.p + 'p' + (sum.q ? ' · '+sum.q+'Q' : ''), 740, y);
+    ctx.textAlign = 'left';
+    y += 60;
+  });
+  // footer
+  ctx.fillStyle = '#7391a8'; ctx.font = '20px system-ui, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('Master Plan · Brothers Reading Group', 400, 950);
+
+  return canvas.toDataURL('image/png');
+}
+
+function openShareCard(){
+  const dataUrl = generateShareCard();
+  openModal(`
+    <h3><span style="width:32px;height:32px;border-radius:9px;background:var(--accent-soft);display:inline-grid;place-items:center;color:var(--accent)">🖼️</span>Share Image Card</h3>
+    <p class="text-muted" style="font-size:.8rem;margin-bottom:1rem">A beautiful image card ready for WhatsApp or Instagram.</p>
+    <div class="share-card-preview"><img src="${dataUrl}" style="width:100%;display:block"></div>
+    <div class="modal-actions">
+      <button class="btn" id="scClose">Close</button>
+      <button class="btn primary" id="scDownload">Download</button>
+      <button class="btn primary" id="scShare">Share</button>
+    </div>
+  `);
+  document.getElementById('scClose').onclick = closeModal;
+  document.getElementById('scDownload').onclick = () => {
+    const a = document.createElement('a');
+    a.href = dataUrl; a.download = `reading-card-${todayKey()}.png`; a.click();
+    vibrate(20);
+  };
+  document.getElementById('scShare').onclick = async () => {
+    try {
+      const blob = await (await fetch(dataUrl)).blob();
+      const file = new File([blob], 'reading-card.png', {type:'image/png'});
+      if (navigator.canShare && navigator.canShare({files:[file]})) {
+        await navigator.share({files:[file], title:'Reading Report', text:'Today\'s reading'});
+      } else {
+        const a = document.createElement('a'); a.href = dataUrl; a.download = `reading-card-${todayKey()}.png`; a.click();
+        toast('Share not supported — downloaded instead','info');
+      }
+    } catch(e) { toast('Share cancelled','info'); }
+  };
+}
+
+// Expose globally
+window.openShareCard = openShareCard;
+window.attachVoiceButtons = attachVoiceButtons;
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  const btn = document.getElementById('shareImageBtn');
+  if (btn) btn.addEventListener('click', () => {
+    if (typeof window.openShareCard === 'function') window.openShareCard();
+  });
+});
+
+
+// Register Service Worker for offline
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch(() => {});
+  });
+}
+
 </script>
 </body>
 </html>
