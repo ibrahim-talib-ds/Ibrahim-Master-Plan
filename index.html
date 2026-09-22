@@ -558,6 +558,29 @@ input,textarea,select{font-family:inherit}
 
 
 
+
+/* ============ MANAGE DATA ============ */
+.storage-bar{height:8px;background:var(--bg-2);border-radius:8px;overflow:hidden;margin-top:.5rem;border:1px solid var(--border)}
+.storage-fill{height:100%;background:linear-gradient(90deg,var(--accent-2),var(--accent));border-radius:8px;transition:width .5s ease}
+.storage-info{display:flex;justify-content:space-between;font-size:.72rem;color:var(--text-2);font-weight:700;margin-top:.4rem}
+.manage-row{display:flex;align-items:center;justify-content:space-between;padding:.85rem .9rem;background:var(--bg-1);border:1px solid var(--border);border-radius:12px;margin-bottom:.5rem;cursor:pointer;transition:all .2s ease}
+.manage-row:hover{border-color:var(--border-2);background:var(--bg-2)}
+.manage-row .mr-icon{width:36px;height:36px;border-radius:10px;background:var(--bg-2);border:1px solid var(--border);display:grid;place-items:center;color:var(--accent);flex-shrink:0}
+.manage-row .mr-icon svg{width:17px;height:17px}
+.manage-row .mr-icon.danger{color:var(--danger);background:rgba(255,107,122,.1);border-color:rgba(255,107,122,.3)}
+.manage-row .mr-body{flex:1;margin-left:.7rem;min-width:0}
+.manage-row .mr-title{font-size:.88rem;font-weight:700;color:var(--text)}
+.manage-row .mr-sub{font-size:.72rem;color:var(--text-3);margin-top:2px}
+.manage-row .mr-arrow{color:var(--text-4);font-size:1rem}
+
+/* Delete all entries button on brother modal */
+.danger-block{margin-top:.9rem;padding:.9rem;border-radius:12px;background:rgba(255,107,122,.06);border:1px dashed rgba(255,107,122,.35)}
+.danger-block .db-title{font-size:.72rem;font-weight:800;color:var(--danger);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.5rem}
+.danger-block .btn{width:100%;font-size:.8rem;padding:.7rem}
+
+/* Storage badge per brother */
+.storage-tag{font-size:.62rem;font-weight:800;background:var(--bg-2);color:var(--text-3);padding:.15rem .45rem;border-radius:6px}
+
 </style>
 </head>
 <body data-theme="dark">
@@ -1864,6 +1887,7 @@ function renderAll(){
   renderWeekGrid();renderTimeline();
   renderDSTree();renderProjects();
   renderRemindList();updateSharePreview();
+  if (typeof renderManageData === "function") setTimeout(renderManageData, 300);
 }
 
 async function init(){
@@ -2345,6 +2369,411 @@ function updateOnlineStatus(){
 window.addEventListener('online', () => { updateOnlineStatus(); if (typeof fetchPrayerTimes === 'function') fetchPrayerTimes(); });
 window.addEventListener('offline', updateOnlineStatus);
 document.addEventListener('DOMContentLoaded', () => { setTimeout(updateOnlineStatus, 2000); });
+
+
+
+/* ============================================================
+   MANAGE DATA — delete individual items
+   ============================================================ */
+
+function formatBytes(bytes){
+  if (bytes < 1024) return bytes + ' B';
+  if (bytes < 1024*1024) return (bytes/1024).toFixed(1) + ' KB';
+  return (bytes/1024/1024).toFixed(2) + ' MB';
+}
+
+function calculateStorage(){
+  let total = 0;
+  const keys = Object.keys(localStorage);
+  keys.forEach(k => {
+    if (k.startsWith('mp20_')) {
+      total += (localStorage.getItem(k) || '').length;
+    }
+  });
+  return total;
+}
+
+function renderManageData(){
+  const storageBadge = document.getElementById('storageBadge');
+  const storageFill = document.getElementById('storageFill');
+  const storageUsed = document.getElementById('storageUsed');
+  const storageTotal = document.getElementById('storageTotal');
+  const manageList = document.getElementById('manageList');
+  if (!manageList) return;
+
+  const used = calculateStorage();
+  const max = 5 * 1024 * 1024; // ~5MB typical localStorage limit
+  const pct = Math.min(100, (used/max)*100);
+
+  if (storageBadge) storageBadge.textContent = formatBytes(used);
+  if (storageFill) storageFill.style.width = pct + '%';
+  if (storageUsed) storageUsed.textContent = formatBytes(used) + ' used';
+  if (storageTotal) storageTotal.textContent = formatBytes(max) + ' limit';
+
+  // Build delete list
+  const brotherTotal = Object.keys(state.brotherReports).length;
+  const jamaaTotal = Object.keys(state.jamaa).length;
+  const historyTotal = Object.keys(state.history).length;
+  const reflectionTotal = Object.keys(state.reflection).length;
+
+  manageList.innerHTML = `
+    <div class="manage-row" data-manage="brothers">
+      <div class="mr-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
+      <div class="mr-body">
+        <div class="mr-title">Brothers Reading Data</div>
+        <div class="mr-sub">${brotherTotal} days recorded</div>
+      </div>
+      <div class="mr-arrow">›</div>
+    </div>
+
+    <div class="manage-row" data-manage="jamaa">
+      <div class="mr-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L4 8v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg></div>
+      <div class="mr-body">
+        <div class="mr-title">Jamaa Tracker</div>
+        <div class="mr-sub">${jamaaTotal} days recorded</div>
+      </div>
+      <div class="mr-arrow">›</div>
+    </div>
+
+    <div class="manage-row" data-manage="history">
+      <div class="mr-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/></svg></div>
+      <div class="mr-body">
+        <div class="mr-title">Checklist History</div>
+        <div class="mr-sub">${historyTotal} days recorded</div>
+      </div>
+      <div class="mr-arrow">›</div>
+    </div>
+
+    <div class="manage-row" data-manage="reflection">
+      <div class="mr-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
+      <div class="mr-body">
+        <div class="mr-title">Night Reflections</div>
+        <div class="mr-sub">${reflectionTotal} notes saved</div>
+      </div>
+      <div class="mr-arrow">›</div>
+    </div>
+  `;
+
+  manageList.querySelectorAll('[data-manage]').forEach(row => {
+    row.addEventListener('click', () => openManageSection(row.dataset.manage));
+  });
+}
+
+/* ---------- Brother history manager ---------- */
+function openManageBrothers(){
+  const totals = getBrotherTotals();
+  let listHtml = BROTHERS.map(b => {
+    const t = totals[b.id];
+    return `<div class="manage-row" data-brother-del="${b.id}">
+      <div class="mr-icon" style="background:${b.color}20;border-color:${b.color}40;color:${b.color};font-weight:800">${b.name[0]}</div>
+      <div class="mr-body">
+        <div class="mr-title">${b.name}</div>
+        <div class="mr-sub">${t.pages} pages · ${t.entries} entries</div>
+      </div>
+      <div class="mr-arrow">›</div>
+    </div>`;
+  }).join('');
+
+  openModal(`
+    <h3>Brothers Reading Data</h3>
+    <p class="text-muted" style="font-size:.8rem;margin-bottom:.9rem">Tap a brother to view or delete their entries.</p>
+    <div id="manageBrotherList">${listHtml}</div>
+    <div class="modal-actions">
+      <button class="btn" id="mbClose">Close</button>
+      <button class="btn danger" id="mbDeleteAll">Delete ALL brothers' data</button>
+    </div>
+  `);
+
+  document.getElementById('mbClose').onclick = closeModal;
+  document.getElementById('mbDeleteAll').onclick = () => {
+    if (!confirm('Delete ALL reading data for ALL brothers?\n\nThis cannot be undone!')) return;
+    state.brotherReports = {};
+    store.set(KEYS.brotherReports, {});
+    renderBrothersToday();
+    renderLeaderboard();
+    renderReadingCard();
+    renderManageData();
+    closeModal();
+    toast('All reading data deleted', 'success');
+    vibrate([30, 50, 30]);
+  };
+  document.querySelectorAll('[data-brother-del]').forEach(row => {
+    row.onclick = () => openManageBrotherEntries(row.dataset.brotherDel);
+  });
+}
+
+/* ---------- View + delete a brother's entries ---------- */
+function openManageBrotherEntries(bId){
+  const b = getBrother(bId);
+  if (!b) return;
+
+  // Flatten all entries from all days
+  const all = [];
+  Object.entries(state.brotherReports).forEach(([day, dayData]) => {
+    const arr = dayData[bId] || [];
+    arr.forEach((e, idx) => all.push({ day, idx, ...e }));
+  });
+  all.sort((a, b) => b.day.localeCompare(a.day));
+
+  const totalPages = all.reduce((s, e) => s + (e.pages || 0), 0);
+  const totalQuran = all.reduce((s, e) => s + (e.quran || 0), 0);
+
+  let listHtml;
+  if (all.length === 0) {
+    listHtml = '<div class="empty-state" style="padding:1.5rem"><span class="es-icon">📭</span>No entries recorded yet.</div>';
+  } else {
+    listHtml = all.map((e, i) => `
+      <div class="manage-row" style="margin-bottom:.4rem">
+        <div class="mr-icon" style="background:var(--bg-2);border-color:var(--border);color:var(--text-3);font-size:.7rem;font-weight:800">${e.day.slice(5)}</div>
+        <div class="mr-body">
+          <div class="mr-title">${esc(e.book) || '—'}</div>
+          <div class="mr-sub">${e.pages || 0} pages${e.quran ? ' · ' + e.quran + ' Quran' : ''} · ${e.time || ''}</div>
+        </div>
+        <button class="er-del" data-del-day="${e.day}" data-del-idx="${e.idx}" style="background:rgba(255,107,122,.15);border:1px solid rgba(255,107,122,.4);color:var(--danger);font-size:.85rem;font-weight:900;padding:.4rem .6rem;border-radius:8px;cursor:pointer">✕</button>
+      </div>
+    `).join('');
+  }
+
+  openModal(`
+    <h3>${esc(b.name)}'s Entries</h3>
+    <p class="text-muted" style="font-size:.8rem;margin-bottom:.9rem">${all.length} entries · ${totalPages} pages · ${totalQuran} Quran</p>
+    <div style="max-height:50vh;overflow-y:auto;padding-right:.3rem">${listHtml}</div>
+    <div class="modal-actions">
+      <button class="btn" id="mbeClose">Close</button>
+      <button class="btn danger" id="mbeDeleteAll">Delete ALL of ${esc(b.name)}'s data</button>
+    </div>
+  `);
+
+  document.getElementById('mbeClose').onclick = closeModal;
+  document.getElementById('mbeDeleteAll').onclick = () => {
+    if (!confirm(`Delete ALL of ${b.name}'s entries?\n\nThis cannot be undone!`)) return;
+    Object.keys(state.brotherReports).forEach(day => {
+      if (state.brotherReports[day][bId]) delete state.brotherReports[day][bId];
+      if (Object.keys(state.brotherReports[day]).length === 0) delete state.brotherReports[day];
+    });
+    store.set(KEYS.brotherReports, state.brotherReports);
+    renderBrothersToday();
+    renderLeaderboard();
+    renderReadingCard();
+    renderManageData();
+    closeModal();
+    toast(`${b.name}'s data deleted`, 'success');
+    vibrate([30, 50, 30]);
+  };
+
+  // Wire individual deletes
+  document.querySelectorAll('[data-del-day]').forEach(btn => {
+    btn.onclick = (ev) => {
+      ev.stopPropagation();
+      const day = btn.dataset.delDay;
+      const idx = parseInt(btn.dataset.delIdx);
+      if (!confirm(`Delete this entry?`)) return;
+      if (state.brotherReports[day] && state.brotherReports[day][bId]) {
+        state.brotherReports[day][bId].splice(idx, 1);
+        if (state.brotherReports[day][bId].length === 0) delete state.brotherReports[day][bId];
+        if (Object.keys(state.brotherReports[day]).length === 0) delete state.brotherReports[day];
+        store.set(KEYS.brotherReports, state.brotherReports);
+        renderBrothersToday();
+        renderLeaderboard();
+        renderReadingCard();
+        renderManageData();
+        // Reopen same modal to refresh list
+        closeModal();
+        setTimeout(() => openManageBrotherEntries(bId), 200);
+        toast('Entry deleted', 'success');
+        vibrate(20);
+      }
+    };
+  });
+}
+
+/* ---------- Jamaa manager ---------- */
+function openManageJamaa(){
+  const days = Object.keys(state.jamaa).sort().reverse();
+  let listHtml;
+  if (days.length === 0) {
+    listHtml = '<div class="empty-state" style="padding:1.5rem"><span class="es-icon">📭</span>No jamaa data yet.</div>';
+  } else {
+    listHtml = days.map(d => {
+      const dayData = state.jamaa[d] || {};
+      let total = 0;
+      BROTHERS.forEach(b => {
+        const bd = dayData[b.id] || {};
+        total += PRAYERS.filter(p => bd[p.id]).length;
+      });
+      return `<div class="manage-row">
+        <div class="mr-icon" style="background:var(--bg-2);color:var(--text-3);font-size:.7rem;font-weight:800">${d.slice(5)}</div>
+        <div class="mr-body">
+          <div class="mr-title">${new Date(d).toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'})}</div>
+          <div class="mr-sub">${total} prayers marked</div>
+        </div>
+        <button class="er-del" data-del-jamaa="${d}" style="background:rgba(255,107,122,.15);border:1px solid rgba(255,107,122,.4);color:var(--danger);font-size:.85rem;font-weight:900;padding:.4rem .6rem;border-radius:8px;cursor:pointer">✕</button>
+      </div>`;
+    }).join('');
+  }
+  openModal(`
+    <h3>Jamaa Data</h3>
+    <p class="text-muted" style="font-size:.8rem;margin-bottom:.9rem">${days.length} days recorded</p>
+    <div style="max-height:50vh;overflow-y:auto;padding-right:.3rem">${listHtml}</div>
+    <div class="modal-actions">
+      <button class="btn" id="mjClose">Close</button>
+      <button class="btn danger" id="mjDeleteAll">Delete ALL jamaa data</button>
+    </div>
+  `);
+  document.getElementById('mjClose').onclick = closeModal;
+  document.getElementById('mjDeleteAll').onclick = () => {
+    if (!confirm('Delete ALL jamaa data?\n\nThis cannot be undone!')) return;
+    state.jamaa = {};
+    store.set(KEYS.jamaa, {});
+    renderJamaa();
+    renderManageData();
+    closeModal();
+    toast('All jamaa data deleted', 'success');
+    vibrate([30, 50, 30]);
+  };
+  document.querySelectorAll('[data-del-jamaa]').forEach(btn => {
+    btn.onclick = () => {
+      const d = btn.dataset.delJamaa;
+      if (!confirm(`Delete jamaa for ${d}?`)) return;
+      delete state.jamaa[d];
+      store.set(KEYS.jamaa, state.jamaa);
+      renderJamaa();
+      renderManageData();
+      closeModal();
+      setTimeout(openManageJamaa, 200);
+      toast('Day deleted', 'success');
+    };
+  });
+}
+
+/* ---------- History manager (checklist) ---------- */
+function openManageHistory(){
+  const days = Object.keys(state.history).sort().reverse();
+  let listHtml;
+  if (days.length === 0) {
+    listHtml = '<div class="empty-state" style="padding:1.5rem"><span class="es-icon">📭</span>No history yet.</div>';
+  } else {
+    listHtml = days.slice(0, 60).map(d => {
+      const h = state.history[d];
+      const pct = h.percent || 0;
+      const done = (h.done || []).length;
+      const total = h.total || 9;
+      return `<div class="manage-row">
+        <div class="mr-icon" style="background:var(--bg-2);color:var(--text-3);font-size:.7rem;font-weight:800">${d.slice(5)}</div>
+        <div class="mr-body">
+          <div class="mr-title">${new Date(d).toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'})}</div>
+          <div class="mr-sub">${pct}% · ${done}/${total} tasks</div>
+        </div>
+        <button class="er-del" data-del-hist="${d}" style="background:rgba(255,107,122,.15);border:1px solid rgba(255,107,122,.4);color:var(--danger);font-size:.85rem;font-weight:900;padding:.4rem .6rem;border-radius:8px;cursor:pointer">✕</button>
+      </div>`;
+    }).join('');
+  }
+  openModal(`
+    <h3>Checklist History</h3>
+    <p class="text-muted" style="font-size:.8rem;margin-bottom:.9rem">${days.length} days recorded · showing latest 60</p>
+    <div style="max-height:50vh;overflow-y:auto;padding-right:.3rem">${listHtml}</div>
+    <div class="modal-actions">
+      <button class="btn" id="mhClose">Close</button>
+      <button class="btn danger" id="mhDeleteAll">Delete ALL history</button>
+    </div>
+  `);
+  document.getElementById('mhClose').onclick = closeModal;
+  document.getElementById('mhDeleteAll').onclick = () => {
+    if (!confirm('Delete ALL checklist history?\n\nThis cannot be undone!')) return;
+    state.history = {};
+    state.streak = { current: 0, best: 0, lastDate: null };
+    store.set(KEYS.history, {});
+    store.set(KEYS.streak, state.streak);
+    renderStats();
+    renderManageData();
+    closeModal();
+    toast('History cleared', 'success');
+    vibrate([30, 50, 30]);
+  };
+  document.querySelectorAll('[data-del-hist]').forEach(btn => {
+    btn.onclick = () => {
+      const d = btn.dataset.delHist;
+      if (!confirm(`Delete ${d}?`)) return;
+      delete state.history[d];
+      store.set(KEYS.history, state.history);
+      renderStats();
+      renderManageData();
+      closeModal();
+      setTimeout(openManageHistory, 200);
+      toast('Day deleted', 'success');
+    };
+  });
+}
+
+/* ---------- Reflection manager ---------- */
+function openManageReflection(){
+  const days = Object.keys(state.reflection).sort().reverse();
+  let listHtml;
+  if (days.length === 0) {
+    listHtml = '<div class="empty-state" style="padding:1.5rem"><span class="es-icon">📭</span>No reflections yet.</div>';
+  } else {
+    listHtml = days.slice(0, 60).map(d => {
+      const r = state.reflection[d] || {};
+      const preview = (r.achievement || r.priority || '—').substring(0, 40);
+      return `<div class="manage-row">
+        <div class="mr-icon" style="background:var(--bg-2);color:var(--text-3);font-size:.7rem;font-weight:800">${d.slice(5)}</div>
+        <div class="mr-body">
+          <div class="mr-title">${new Date(d).toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'})}</div>
+          <div class="mr-sub">${esc(preview)}</div>
+        </div>
+        <button class="er-del" data-del-ref="${d}" style="background:rgba(255,107,122,.15);border:1px solid rgba(255,107,122,.4);color:var(--danger);font-size:.85rem;font-weight:900;padding:.4rem .6rem;border-radius:8px;cursor:pointer">✕</button>
+      </div>`;
+    }).join('');
+  }
+  openModal(`
+    <h3>Night Reflections</h3>
+    <p class="text-muted" style="font-size:.8rem;margin-bottom:.9rem">${days.length} notes saved</p>
+    <div style="max-height:50vh;overflow-y:auto;padding-right:.3rem">${listHtml}</div>
+    <div class="modal-actions">
+      <button class="btn" id="mrClose">Close</button>
+      <button class="btn danger" id="mrDeleteAll">Delete ALL reflections</button>
+    </div>
+  `);
+  document.getElementById('mrClose').onclick = closeModal;
+  document.getElementById('mrDeleteAll').onclick = () => {
+    if (!confirm('Delete ALL reflections?\n\nThis cannot be undone!')) return;
+    state.reflection = {};
+    store.set(KEYS.reflection, {});
+    renderManageData();
+    closeModal();
+    toast('Reflections cleared', 'success');
+  };
+  document.querySelectorAll('[data-del-ref]').forEach(btn => {
+    btn.onclick = () => {
+      const d = btn.dataset.delRef;
+      if (!confirm(`Delete reflection for ${d}?`)) return;
+      delete state.reflection[d];
+      store.set(KEYS.reflection, state.reflection);
+      renderManageData();
+      closeModal();
+      setTimeout(openManageReflection, 200);
+      toast('Deleted', 'success');
+    };
+  });
+}
+
+/* ---------- Router ---------- */
+function openManageSection(section){
+  if (section === 'brothers') openManageBrothers();
+  else if (section === 'jamaa') openManageJamaa();
+  else if (section === 'history') openManageHistory();
+  else if (section === 'reflection') openManageReflection();
+}
+
+window.renderManageData = renderManageData;
+
+/* Refresh Manage Data whenever Stats tab opens */
+document.addEventListener('click', e => {
+  const btn = e.target.closest('.nav-btn');
+  if (btn && btn.dataset.tab === 'stats') {
+    setTimeout(renderManageData, 100);
+  }
+});
 
 
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);
