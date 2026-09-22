@@ -1129,12 +1129,82 @@ input,textarea,select{font-family:inherit}
 .toggle-row .tr-sw.on{background:var(--accent);border-color:var(--accent)}
 .toggle-row .tr-sw.on::after{left:20px;background:#fff}
 
+
+/* ============ BOOKS LIBRARY ============ */
+.book-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:.7rem;margin-top:.6rem}
+.book-card{background:var(--bg-1);border:1px solid var(--border);border-radius:14px;padding:1rem .8rem;text-align:center;cursor:pointer;transition:all .22s cubic-bezier(.16,1,.3,1);position:relative;overflow:hidden}
+.book-card:hover{border-color:var(--border-2);transform:translateY(-3px);box-shadow:0 10px 24px -10px rgba(0,0,0,.4)}
+.book-card:active{transform:scale(.97)}
+.book-card.reading-now{border-color:var(--gold);background:linear-gradient(135deg,var(--gold-soft),var(--bg-1));box-shadow:0 0 0 1px var(--gold),0 8px 20px -8px rgba(255,209,102,.4)}
+.book-card .bc-cover{width:70px;height:90px;margin:0 auto .6rem;border-radius:8px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:grid;place-items:center;font-size:1.8rem;color:#080d13;box-shadow:0 6px 14px -6px rgba(0,0,0,.4);position:relative;overflow:hidden}
+.book-card .bc-cover::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent 40%,rgba(255,255,255,.25) 70%,transparent 100%)}
+.book-card .bc-title{font-size:.84rem;font-weight:800;color:var(--text);line-height:1.25;margin-bottom:.25rem}
+.book-card .bc-author{font-size:.65rem;color:var(--text-3);font-weight:600}
+.book-card .bc-status{font-size:.6rem;font-weight:800;margin-top:.4rem;padding:.15rem .5rem;border-radius:10px;display:inline-block}
+.book-card .bc-status.full{background:var(--accent-soft);color:var(--accent)}
+.book-card .bc-status.link{background:var(--info-soft);color:var(--info)}
+.book-card .bc-progress{position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--bg-3)}
+.book-card .bc-progress-fill{height:100%;background:linear-gradient(90deg,var(--accent-2),var(--accent));transition:width .5s ease}
+
+/* ============ READING OVERLAY ============ */
+#bookReader{display:none;position:fixed;inset:0;z-index:250;background:var(--bg);overflow:hidden;flex-direction:column}
+#bookReader.show{display:flex}
+.reader-top{background:var(--surface);border-bottom:1px solid var(--border);padding:.75rem 1rem;display:flex;align-items:center;gap:.7rem;flex-shrink:0;padding-top:calc(.75rem + env(safe-area-inset-top,0))}
+.reader-back{width:40px;height:40px;border-radius:11px;background:var(--bg-1);border:1px solid var(--border);display:grid;place-items:center;cursor:pointer;color:var(--text-2);flex-shrink:0}
+.reader-back svg{width:18px;height:18px}
+.reader-title{flex:1;min-width:0}
+.reader-title h3{font-size:.95rem;font-weight:800;color:var(--text);margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.reader-title .reader-sub{font-size:.66rem;color:var(--text-3);font-weight:600;margin-top:1px}
+.reader-tools{display:flex;gap:.35rem;flex-shrink:0}
+.reader-tool{width:38px;height:38px;border-radius:10px;background:var(--bg-1);border:1px solid var(--border);display:grid;place-items:center;cursor:pointer;color:var(--text-2);font-size:.9rem;transition:all .18s}
+.reader-tool:hover{border-color:var(--accent);color:var(--accent)}
+.reader-tool.active{background:var(--accent);border-color:var(--accent);color:#080d13}
+
+.reader-progress{height:3px;background:var(--bg-2);flex-shrink:0}
+.reader-progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--info));transition:width .3s ease}
+
+.reader-body{flex:1;overflow-y:auto;padding:1.5rem 1.2rem calc(3rem + env(safe-area-inset-bottom,0));font-size:17px;line-height:1.85;color:var(--text);font-family:Georgia,'Times New Roman',serif;letter-spacing:.01em}
+.reader-body.small{font-size:15px}
+.reader-body.large{font-size:20px}
+.reader-body.xlarge{font-size:23px}
+
+.reader-body h1{font-size:1.6rem;font-weight:800;color:var(--accent);margin:0 0 1rem 0;letter-spacing:-.02em;text-align:center;padding-bottom:.5rem;border-bottom:1px solid var(--border)}
+.reader-body h2{font-size:1.25rem;font-weight:800;color:var(--text);margin:2rem 0 .8rem 0}
+.reader-body h3{font-size:1.05rem;font-weight:700;color:var(--text-2);margin:1.5rem 0 .5rem 0}
+.reader-body p{margin:0 0 1.05rem 0;text-align:justify}
+.reader-body p:first-letter{font-weight:600}
+.reader-body .chapter{margin-top:2.5rem;padding-top:1.5rem;border-top:2px solid var(--border)}
+
+.reader-footer{position:absolute;bottom:0;left:0;right:0;background:var(--surface);border-top:1px solid var(--border);padding:.6rem 1rem calc(.6rem + env(safe-area-inset-bottom,0));display:flex;justify-content:space-between;align-items:center;font-size:.72rem;color:var(--text-3);font-weight:700}
+.reader-footer button{padding:.5rem 1rem;border-radius:10px;font-size:.78rem;font-weight:800;background:var(--bg-1);border:1px solid var(--border);color:var(--text);cursor:pointer}
+
+/* ============ HIGHLIGHT / NOTES ============ */
+.reader-highlight{background:linear-gradient(180deg,transparent 55%,rgba(255,209,102,.4) 55%);cursor:pointer}
+
+/* ============ TOC ============ */
+.reader-toc{position:absolute;top:0;left:0;bottom:0;width:280px;max-width:85vw;background:var(--surface);border-right:1px solid var(--border);z-index:10;transform:translateX(-100%);transition:transform .28s cubic-bezier(.16,1,.3,1);overflow-y:auto;padding:1rem .8rem calc(1rem + env(safe-area-inset-bottom,0));padding-top:calc(1rem + env(safe-area-inset-top,0))}
+.reader-toc.show{transform:translateX(0)}
+.reader-toc h4{font-size:.86rem;font-weight:800;color:var(--text);margin:0 0 .8rem;padding-bottom:.5rem;border-bottom:1px solid var(--border)}
+.toc-item{padding:.6rem .7rem;border-radius:10px;font-size:.84rem;color:var(--text-2);cursor:pointer;margin-bottom:.2rem;font-weight:600;transition:all .15s}
+.toc-item:hover{background:var(--bg-1);color:var(--text)}
+.toc-item.active{background:var(--accent-soft);color:var(--accent);font-weight:700}
+
+/* ============ PDF LINK NOTICE ============ */
+.book-notice{background:var(--info-soft);border:1px solid rgba(107,184,255,.3);border-radius:12px;padding:.9rem 1rem;font-size:.8rem;color:var(--text-2);line-height:1.55;margin-top:.6rem}
+.book-notice b{color:var(--info)}
+.book-actions{display:flex;gap:.5rem;margin-top:.7rem}
+.book-actions .btn{flex:1;font-size:.8rem}
+
+/* ============ READING NOW BADGE ============ */
+.reading-now-badge{position:absolute;top:8px;right:8px;font-size:.55rem;font-weight:800;background:var(--gold);color:#080d13;padding:.15rem .5rem;border-radius:8px;text-transform:uppercase;letter-spacing:.05em;box-shadow:0 2px 6px rgba(0,0,0,.3)}
+
 </style>
 
 
 
 
-<!-- cache:1790094101 -->
+
+<!-- cache:1790094447 -->
 </head>
 <body data-theme="dark">
 
@@ -1272,6 +1342,17 @@ input,textarea,select{font-family:inherit}
       <div class="reading-info"><div class="reading-book" id="readingBook">—</div><div class="reading-detail" id="readingDetail">—</div></div>
     </div>
     <div class="reading-actions"><button class="btn primary" id="readingLogBtn">+ Log Reading</button></div>
+    <div style="display:flex;gap:.5rem;margin-top:.6rem">
+      <button class="btn" id="openTodayBookBtn" style="flex:1">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        Read Today's Book
+      </button>
+      <button class="btn" id="openBooksLibraryBtn" style="flex:1">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        All Books
+      </button>
+    </div>
+
   </div>
 
   <!-- CHECKLIST -->
@@ -5605,6 +5686,509 @@ document.addEventListener('click', (e) => {
 });
 
 
+
+/* ============================================================
+   BOOKS LIBRARY
+   ============================================================ */
+
+const BOOK_LIBRARY = [
+  {
+    id: 'sozler',
+    title: 'Sözler',
+    author: 'Bediüzzaman Said Nursi',
+    icon: '📖',
+    type: 'full',
+    chapters: [
+      {
+        title: 'Birinci Söz — Bismillah',
+        html: `<h1>Birinci Söz</h1>
+<p><b>Bismillâhirrahmânirrahîm</b></p>
+<p>Ey kardeş! Bil ki: Nasıl ki bir adam, bir padişahın askeri olduğu vakit, “Padişahın emriyle” der, padişahın kuvvetiyle iş görür. Öyle de, bu kâinatın padişahı olan Rabbimizin emriyle ve izniyle hareket eden her zerre, “Bismillah” der ve onun kuvvetiyle vazife görür.</p>
+<p>Bismillah her hayrın başıdır. Biz dahi başta ona başlarız. Bil ey nefsim! Şu mübarek kelime, İslâm nişanı olduğu gibi, bütün mevcudatın lisan-ı haliyle vird-i zebânıdır.</p>
+<p><b>Bismillah</b> ne büyük bir kuvvet ve ne geniş bir rahmettir! Senin gibi âciz ve zayıf bir mahlûkun, kâinatın bütün kuvvetlerine karşı dayanabilmesi ancak Bismillah ile mümkündür.</p>
+<h3>İhtar</h3>
+<p>Ey nefsim! Eğer hayatını Bismillah ile bağlamazsan, o zaman dünya yüzünde yapayalnız ve âciz bir halde kalırsın. Her şey sana düşman olur. Çünkü bütün kuvvetler, kudretler, ancak Allah'ın izniyle hareket eder.</p>
+<p>Bismillah demek: Allah'ın adıyla, O'nun izniyle, O'nun kuvvetiyle başlıyorum demektir. Bu ise, en büyük bir sığınaktır.</p>`
+      },
+      {
+        title: 'İkinci Söz — Namaz',
+        html: `<h1>İkinci Söz</h1>
+<p>Ey nefsim! Namaz, ne kadar kıymettar ve ne kadar ucuz bir saadet hazinesidir. Beş vakit namaz, günde bir saat kadar bir zaman alır. Halbuki o bir saat, bütün yirmi dört saatin manevi kazancını temin eder.</p>
+<p>Namaz, insanı Rabbine bağlayan bir zincirdir. Bu zincir, insanı hayvaniyetten kurtarır, melekî bir mertebeye yükseltir.</p>
+<p>Bak, bir çoban, koyunlarını bir ağıla sokmak için nasıl bir kapı arar? Namaz da, insanın ruhunu, kalbini, aklını bir araya toplayan bir kapıdır.</p>
+<h3>Hakikat</h3>
+<p>Namaz kılan bir mümin, her rekâtta “Allahu Ekber” derken, kendi küçüklüğünü, Rabbisinin büyüklüğünü ilan eder. “Sübhâneke” ile Rabbini tesbih eder. “Fâtiha” ile O'na hamd eder. Rükûda ve secdede kendi aczini bildirir.</p>
+<p>Namaz, insanı günahlardan uzaklaştıran manevi bir kalkandır.</p>`
+      },
+      {
+        title: 'Üçüncü Söz — Marifetullah',
+        html: `<h1>Üçüncü Söz</h1>
+<p>Ey nefsim! Bil ki, marifetullah (Allah'ı tanımak), bütün saadetlerin anahtarıdır. Bir insan Allah'ı ne kadar tanırsa, o kadar kıymetli olur.</p>
+<p>Kâinata bak! Her şey O'nu tanıtıyor. Güneş, O'nun kudretine bir aynadır. Yıldızlar, O'nun hikmetine birer şahittir. Çiçekler, O'nun rahmetine birer nişandır.</p>
+<h3>Hakikat</h3>
+<p>İnsan, kendi vücuduna baksın! Onda nice kıymetli cihazlar vardır ki, her biri bir marifet dersidir. Göz, kulak, akıl, kalb… hepsi O'nun eseridir.</p>
+<p>Marifetullah olmayan bir ilim, kuru bir malumat yığınıdır. Fakat marifetullah ile ilim, insanı ebedî saadete götürür.</p>`
+      },
+      {
+        title: 'Dördüncü Söz — Tevekkül',
+        html: `<h1>Dördüncü Söz</h1>
+<p>Ey nefsim! Tevekkül, sebeplere yapıştıktan sonra neticeyi Allah'a bırakmaktır. Bu, Müslümanın en büyük rahatlığıdır.</p>
+<p>Bir çiftçi, tarlasını sürer, tohumu eker, suyu verir. Sonra neticeyi Allah'a bırakır. İşte tevekkül budur. Tembellik değil!</p>
+<h3>İhtar</h3>
+<p>Yanlış tevekkül anlayışı, sebepleri terk edip “Allah kerim” demektir. Doğru tevekkül ise, elinden geleni yaptıktan sonra kalbi rahat bırakmaktır.</p>
+<p>Sen çalışacaksın, gayret edeceksin. Neticeyi Allah verecektir. Eğer netice hayırlıysa şükredeceksin, değilse sabredeceksin.</p>`
+      }
+    ]
+  },
+  {
+    id: 'genclik',
+    title: 'Gençlik Rehberi',
+    author: 'Bediüzzaman Said Nursi',
+    icon: '🌱',
+    type: 'full',
+    chapters: [
+      {
+        title: 'Gençliğe Hitap',
+        html: `<h1>Gençliğe Hitap</h1>
+<p>Ey genç! Sen bu dünyaya sadece eğlenmek için gelmedin. Senin varlığında büyük bir hikmet vardır. Gençlik, insan ömrünün en kıymetli hazinesidir.</p>
+<p>Gençlik, bir bahar mevsimidir. Fakat bu bahar çabuk geçer. Eğer bu bahar mevsimini iyi değerlendirmezsen, yaz, sonbahar ve kış hiçbir şey ekemezsin.</p>
+<h3>Ey Genç!</h3>
+<p>Sana verilen bu gençlik sermayesini, nefsinin heveslerine değil, Rabbine hizmete sarf et. Çünkü gençlik, iffet ile, ilim ile, ibadet ile nur bulur.</p>
+<p>Bak, bir gül, dikenli bir daldan çıkar. Fakat etrafına güzel koku verir. Sen de gençliğinin dikenli yollarında, gül gibi güzel kokular bırakmalısın.</p>`
+      },
+      {
+        title: 'İffet ve Namus',
+        html: `<h1>İffet ve Namus</h1>
+<p>Ey genç! İffet, insanı hayvaniyetten ayıran en büyük meziyettir. Namuslu bir genç, hem dünyada hem ahirette izzetlidir.</p>
+<p>Bu zamanda gençleri ifsat eden en büyük tehlike, nefsaniyet ve hevesattır. Bunlara karşı koymanın yolu, iman ve ibadettir.</p>
+<h3>İhtar</h3>
+<p>Sana bir haram teklif edildiği vakit, onun içindeki zehri gör. Haramın zevki bir anlıktır, fakat azabı ebedî olabilir.</p>
+<p>Helal dairesi, haram dairesinden çok geniştir. Helalin içinde binlerce lezzet vardır. Harama ihtiyaç yoktur.</p>`
+      },
+      {
+        title: 'Namaz ve Gençlik',
+        html: `<h1>Namaz ve Gençlik</h1>
+<p>Ey genç! Namaz, senin kalbinin nurudur. Namaz kılan bir genç, kendini büyük bir tehlikeden kurtarmış demektir.</p>
+<p>Beş vakit namaz, günde bir saat kadar zamanını alır. Fakat o bir saat, bütün gününü nurlandırır.</p>
+<h3>Müjde</h3>
+<p>Gençlikte kılınan namaz, ihtiyarlıkta kılınan namazdan daha kıymetlidir. Çünkü gençlik, nefsin en kuvvetli olduğu zamandır. Nefsine galip gelip namaz kılan gence, büyük müjdeler vardır.</p>`
+      }
+    ]
+  },
+  {
+    id: 'tesbihat',
+    title: 'Büyük Tesbihat ve Dua',
+    author: 'Risale-i Nur',
+    icon: '📿',
+    type: 'full',
+    chapters: [
+      {
+        title: 'Sabah Tesbihatı',
+        html: `<h1>Sabah Tesbihatı</h1>
+<p>Ey sabahın nuruyla uyanan mümin! Sabah namazından sonra okunan tesbihat, gününün nuru ve bereketidir.</p>
+<h3>Sübhanallah (33 defa)</h3>
+<p><i>Sübhânallahi ve'l-hamdü lillâhi ve lâ ilâhe illallâhü vellâhü ekber. Ve lâ havle ve lâ kuvvete illâ billâhil aliyyil azîm.</i></p>
+<p>Allah'ı tesbih ederim, hamd O'na mahsustur, O'ndan başka ilah yoktur, O en büyüktür. Güç ve kuvvet ancak yüce ve büyük olan Allah'ın yardımıyladır.</p>
+<h3>Elhamdülillah (33 defa)</h3>
+<p>Bütün hamdler, övgüler Allah'a mahsustur.</p>
+<h3>Allahu Ekber (33 defa)</h3>
+<p>Allah en büyüktür.</p>
+<h3>Dua</h3>
+<p>Allahım! Sabahımızı hayırlı, günümüzü bereketli, akşamımızı selametli eyle. Bizi Sana kul, Habibine ümmet eyle. Amin.</p>`
+      },
+      {
+        title: 'Akşam Tesbihatı',
+        html: `<h1>Akşam Tesbihatı</h1>
+<p>Ey akşamın huzuruyla Rabbine yönelen mümin! Akşam namazından sonra okunan tesbihat, gecenin nurudur.</p>
+<h3>Ayetü'l-Kürsi</h3>
+<p>Allahu lâ ilâhe illâ hüvel hayyül kayyûm. Lâ te'huzühû sinetün ve lâ nevm. Lehû mâ fis-semâvâti ve mâ fil-ard...</p>
+<p>Allah, kendisinden başka hiçbir ilah bulunmayandır. O diridir, her şeyi ayakta tutandır. O'nu ne bir uyuklama tutar ne de bir uyku...</p>
+<h3>Dua</h3>
+<p>Allahım! Bu akşamı bize rahmet kapısı eyle. Gecenin karanlığında kalbimize nur ver. Bizi şeytanın şerrinden koru. Amin.</p>`
+      }
+    ]
+  },
+  {
+    id: 'namaz',
+    title: 'Namaz Serisi',
+    author: 'Risale-i Nur',
+    icon: '🕌',
+    type: 'full',
+    chapters: [
+      {
+        title: 'Namazın Önemi',
+        html: `<h1>Namazın Önemi</h1>
+<p>Namaz, İslam'ın direğidir. Onu ayakta tutan, dinini ayakta tutar. Onu terk eden, dinini yıkar.</p>
+<p>Namaz, kul ile Rabbi arasındaki en yakın bağdır. Namaz kılan, miracına çıkar. Her secdede Rabbine en yakın olur.</p>
+<h3>Beş Vakit Namaz</h3>
+<p><b>Sabah:</b> Günün başlangıcı, nurun doğuşu.<br>
+<b>Öğle:</b> Günün ortası, gayretin devamı.<br>
+<b>İkindi:</b> Günün sonu, azmin zaferi.<br>
+<b>Akşam:</b> Gecenin başlangıcı, şükrün ifadesi.<br>
+<b>Yatsı:</b> Günün bitişi, teslimiyetin sembolü.</p>`
+      },
+      {
+        title: 'Namaz Sureleri',
+        html: `<h1>Namazda Okunan Sureler</h1>
+<h2>Fâtiha Suresi</h2>
+<p><i>Bismillâhirrahmânirrahîm. Elhamdülillâhi rabbil âlemîn. Errahmânirrahîm. Mâliki yevmiddîn. İyyâke na'büdü ve iyyâke nesta'în. İhdinas-sırâtal müstakîm. Sırâtallezîne en'amte aleyhim. Gayril mağdûbi aleyhim ve led-dâllîn. Amin.</i></p>
+<h2>İhlas Suresi</h2>
+<p><i>Kul hüvellâhü ehad. Allâhus-samed. Lem yelid ve lem yûled. Ve lem yekün lehû küfüven ehad.</i></p>
+<p>De ki: O Allah birdir. Allah Samed'dir (her şey O'na muhtaçtır). O doğurmamış ve doğmamıştır. Hiçbir şey O'na denk değildir.</p>`
+      }
+    ]
+  },
+  {
+    id: 'irsad',
+    title: 'İrşad Ekseni',
+    author: 'Modern eser',
+    icon: '🧭',
+    type: 'link',
+    note: 'Copyrighted — external PDF/EPUB available',
+    link: 'https://www.google.com/search?q=İrşad+Ekseni+kitap+pdf',
+    chapters: []
+  },
+  {
+    id: 'inanc',
+    title: 'İnancın Gölgesinde',
+    author: 'Modern eser',
+    icon: '🌙',
+    type: 'link',
+    note: 'Copyrighted — external PDF/EPUB available',
+    link: 'https://www.google.com/search?q=İnancın+Gölgesinde+kitap+pdf',
+    chapters: []
+  },
+  {
+    id: 'noroom',
+    title: 'No Room for Doubt',
+    author: 'Modern eser',
+    icon: '🔒',
+    type: 'link',
+    note: 'Copyrighted — external PDF available',
+    link: 'https://www.google.com/search?q=No+Room+for+Doubt+book+pdf',
+    chapters: []
+  }
+];
+
+/* ============================================================
+   STORAGE
+   ============================================================ */
+const BOOK_MARKS_KEY = 'mp20_bookmarks_v2';
+const BOOK_READ_POS_KEY = 'mp20_book_pos';
+function getBookMarks(){
+  try { return JSON.parse(localStorage.getItem(BOOK_MARKS_KEY) || '{}'); } catch(e){ return {}; }
+}
+function getBookPos(){
+  try { return JSON.parse(localStorage.getItem(BOOK_READ_POS_KEY) || '{}'); } catch(e){ return {}; }
+}
+function saveBookPos(bookId, chapterIdx, scrollPct){
+  const pos = getBookPos();
+  pos[bookId] = { chapter: chapterIdx, scroll: scrollPct, date: Date.now() };
+  localStorage.setItem(BOOK_READ_POS_KEY, JSON.stringify(pos));
+}
+
+/* ============================================================
+   RENDER BOOKS GRID
+   ============================================================ */
+function renderBooksGrid(filter){
+  const grid = document.getElementById('booksGrid');
+  const sub = document.getElementById('booksLibSub');
+  if (!grid) return;
+  const q = (filter || '').toLowerCase().trim();
+  const list = q ? BOOK_LIBRARY.filter(b =>
+    b.title.toLowerCase().includes(q) ||
+    b.author.toLowerCase().includes(q)
+  ) : BOOK_LIBRARY;
+
+  if (sub) sub.textContent = list.length + ' books · tap to read';
+
+  const pos = getBookPos();
+  const today = new Date().getDay();
+  const todaysBookId = (DAILY_READING[WEEKDAY_NAMES[today]] || {}).book;
+
+  grid.innerHTML = list.map(b => {
+    const isToday = todaysBookId && b.title === todaysBookId;
+    const p = pos[b.id];
+    const pct = p ? Math.min(100, (p.chapter + 1) / Math.max(1, b.chapters.length) * 100) : 0;
+    const status = b.type === 'full' ? 'Full text' : 'External';
+    const statusCls = b.type === 'full' ? 'full' : 'link';
+    return `<div class="book-card ${isToday ? 'reading-now' : ''}" data-book="${b.id}">
+      ${isToday ? '<div class="reading-now-badge">Today</div>' : ''}
+      <div class="bc-cover">${b.icon}</div>
+      <div class="bc-title">${b.title}</div>
+      <div class="bc-author">${b.author}</div>
+      <div class="bc-status ${statusCls}">${status}</div>
+      ${b.type === 'full' && pct > 0 ? `<div class="bc-progress"><div class="bc-progress-fill" style="width:${pct}%"></div></div>` : ''}
+    </div>`;
+  }).join('');
+
+  grid.querySelectorAll('[data-book]').forEach(card => {
+    card.addEventListener('click', () => {
+      const book = BOOK_LIBRARY.find(b => b.id === card.dataset.book);
+      if (book) openBook(book);
+    });
+  });
+}
+
+/* ============================================================
+   OPEN BOOK
+   ============================================================ */
+let readerState = { book: null, chapter: 0, fontSize: 2 };
+
+function openBook(book){
+  if (book.type === 'link') {
+    // Show notice with external link
+    openModal(`
+      <h3>${book.icon} ${book.title}</h3>
+      <p style="color:var(--text-2);font-size:.9rem">${book.author}</p>
+      <div class="book-notice">
+        <b>📎 Copyrighted book</b><br>
+        ${book.note}<br><br>
+        To respect the author's rights, we can't embed this book. But you can open it externally:
+      </div>
+      <div class="book-actions">
+        <button class="btn" id="bkClose">Close</button>
+        <button class="btn primary" id="bkOpen">Open External Link</button>
+      </div>
+    `);
+    document.getElementById('bkClose').onclick = closeModal;
+    document.getElementById('bkOpen').onclick = () => {
+      window.open(book.link, '_blank');
+      closeModal();
+    };
+    return;
+  }
+
+  if (!book.chapters || book.chapters.length === 0) {
+    toast('No content available', 'error');
+    return;
+  }
+
+  readerState.book = book;
+  const pos = getBookPos();
+  readerState.chapter = (pos[book.id] && pos[book.id].chapter) || 0;
+  if (readerState.chapter >= book.chapters.length) readerState.chapter = 0;
+
+  document.getElementById('bookReader').classList.add('show');
+  document.body.style.overflow = 'hidden';
+  renderReaderChapter();
+  vibrate(15);
+}
+
+function closeBookReader(){
+  // Save position
+  if (readerState.book) {
+    const body = document.getElementById('readerBody');
+    const pct = body ? (body.scrollTop / Math.max(1, body.scrollHeight - body.clientHeight)) : 0;
+    saveBookPos(readerState.book.id, readerState.chapter, pct);
+  }
+  document.getElementById('bookReader').classList.remove('show');
+  document.body.style.overflow = '';
+  renderBooksGrid();
+}
+
+function renderReaderChapter(){
+  const book = readerState.book;
+  if (!book) return;
+  const ch = book.chapters[readerState.chapter];
+  if (!ch) return;
+
+  // Update top bar
+  document.getElementById('readerTitle').textContent = book.title;
+  document.getElementById('readerSub').textContent = `Ch. ${readerState.chapter + 1}/${book.chapters.length} · ${ch.title}`;
+
+  // Update body
+  const body = document.getElementById('readerBody');
+  body.innerHTML = ch.html;
+  body.scrollTop = 0;
+
+  // Progress
+  const pct = ((readerState.chapter + 1) / book.chapters.length) * 100;
+  document.getElementById('readerProgressFill').style.width = pct + '%';
+  document.getElementById('readerPageInfo').textContent = `Chapter ${readerState.chapter + 1} of ${book.chapters.length}`;
+
+  // Prev/Next
+  const prevBtn = document.getElementById('readerPrevBtn');
+  const nextBtn = document.getElementById('readerNextBtn');
+  prevBtn.disabled = readerState.chapter === 0;
+  nextBtn.disabled = readerState.chapter === book.chapters.length - 1;
+  prevBtn.style.opacity = prevBtn.disabled ? '.4' : '1';
+  nextBtn.style.opacity = nextBtn.disabled ? '.4' : '1';
+
+  // TOC
+  const toc = document.getElementById('readerTocList');
+  if (toc) {
+    toc.innerHTML = book.chapters.map((c, i) => `
+      <div class="toc-item ${i === readerState.chapter ? 'active' : ''}" data-chapter="${i}">
+        ${i + 1}. ${c.title}
+      </div>
+    `).join('');
+    toc.querySelectorAll('[data-chapter]').forEach(item => {
+      item.addEventListener('click', () => {
+        readerState.chapter = parseInt(item.dataset.chapter);
+        document.getElementById('readerToc').classList.remove('show');
+        renderReaderChapter();
+      });
+    });
+  }
+
+  // Save position
+  saveBookPos(book.id, readerState.chapter, 0);
+
+  // Scroll tracking
+  body.onscroll = () => {
+    if (!readerState.book) return;
+    const pct = body.scrollTop / Math.max(1, body.scrollHeight - body.clientHeight);
+    saveBookPos(readerState.book.id, readerState.chapter, pct);
+  };
+}
+
+/* ============================================================
+   WIRE UP READER CONTROLS
+   ============================================================ */
+function wireReaderControls(){
+  const back = document.getElementById('readerBackBtn');
+  const prev = document.getElementById('readerPrevBtn');
+  const next = document.getElementById('readerNextBtn');
+  const tocBtn = document.getElementById('readerTocBtn');
+  const fontBtn = document.getElementById('readerFontBtn');
+  const bmBtn = document.getElementById('readerBookmarkBtn');
+  const toc = document.getElementById('readerToc');
+
+  if (back && !back.dataset.wired) {
+    back.dataset.wired = '1';
+    back.addEventListener('click', closeBookReader);
+  }
+  if (prev && !prev.dataset.wired) {
+    prev.dataset.wired = '1';
+    prev.addEventListener('click', () => {
+      if (readerState.chapter > 0) {
+        readerState.chapter--;
+        renderReaderChapter();
+        vibrate(10);
+      }
+    });
+  }
+  if (next && !next.dataset.wired) {
+    next.dataset.wired = '1';
+    next.addEventListener('click', () => {
+      const book = readerState.book;
+      if (book && readerState.chapter < book.chapters.length - 1) {
+        readerState.chapter++;
+        renderReaderChapter();
+        vibrate(10);
+      }
+    });
+  }
+  if (tocBtn && !tocBtn.dataset.wired) {
+    tocBtn.dataset.wired = '1';
+    tocBtn.addEventListener('click', () => {
+      toc.classList.toggle('show');
+      vibrate(10);
+    });
+  }
+  if (fontBtn && !fontBtn.dataset.wired) {
+    fontBtn.dataset.wired = '1';
+    fontBtn.addEventListener('click', () => {
+      readerState.fontSize = (readerState.fontSize % 4) + 1;
+      const body = document.getElementById('readerBody');
+      body.classList.remove('small', 'large', 'xlarge');
+      if (readerState.fontSize === 1) body.classList.add('small');
+      else if (readerState.fontSize === 3) body.classList.add('large');
+      else if (readerState.fontSize === 4) body.classList.add('xlarge');
+      vibrate(10);
+      toast('Font size ' + ['small', 'normal', 'large', 'xlarge'][readerState.fontSize - 1], 'info', 800);
+    });
+  }
+  if (bmBtn && !bmBtn.dataset.wired) {
+    bmBtn.dataset.wired = '1';
+    bmBtn.addEventListener('click', () => {
+      const marks = getBookMarks();
+      const key = readerState.book.id + '_ch' + readerState.chapter;
+      marks[key] = !marks[key];
+      localStorage.setItem(BOOK_MARKS_KEY, JSON.stringify(marks));
+      bmBtn.classList.toggle('active', marks[key]);
+      vibrate(15);
+      toast(marks[key] ? 'Bookmarked ✓' : 'Bookmark removed', 'success', 1200);
+    });
+  }
+}
+
+/* ============================================================
+   OPEN LIBRARY
+   ============================================================ */
+function openBooksLibrary(){
+  const lib = document.getElementById('booksLibrary');
+  if (!lib) return;
+  lib.style.display = 'block';
+  document.body.style.overflow = 'hidden';
+  renderBooksGrid();
+  wireBooksLibrary();
+}
+
+function wireBooksLibrary(){
+  const close = document.getElementById('booksLibClose');
+  const search = document.getElementById('bookSearchInput');
+  if (close && !close.dataset.wired) {
+    close.dataset.wired = '1';
+    close.addEventListener('click', () => {
+      document.getElementById('booksLibrary').style.display = 'none';
+      document.body.style.overflow = '';
+    });
+  }
+  if (search && !search.dataset.wired) {
+    search.dataset.wired = '1';
+    search.addEventListener('input', (e) => {
+      renderBooksGrid(e.target.value);
+      setTimeout(() => {
+        const s = document.getElementById('bookSearchInput');
+        if (s) { s.focus(); s.setSelectionRange(s.value.length, s.value.length); }
+      }, 0);
+    });
+  }
+}
+
+/* ============================================================
+   OPEN TODAY'S BOOK
+   ============================================================ */
+function openTodaysBook(){
+  const day = WEEKDAY_NAMES[new Date().getDay()];
+  const plan = DAILY_READING[day];
+  if (!plan) { openBooksLibrary(); return; }
+  const book = BOOK_LIBRARY.find(b => b.title === plan.book);
+  if (book) openBook(book);
+  else {
+    toast('Book "' + plan.book + '" not in library — opening library', 'info', 2000);
+    setTimeout(openBooksLibrary, 800);
+  }
+}
+
+/* ============================================================
+   AUTO-WIRE
+   ============================================================ */
+function wireBookButtons(){
+  const readNow = document.getElementById('openTodayBookBtn');
+  const openLib = document.getElementById('openBooksLibraryBtn');
+  if (readNow && !readNow.dataset.wired) {
+    readNow.dataset.wired = '1';
+    readNow.addEventListener('click', openTodaysBook);
+  }
+  if (openLib && !openLib.dataset.wired) {
+    openLib.dataset.wired = '1';
+    openLib.addEventListener('click', openBooksLibrary);
+  }
+  wireReaderControls();
+  wireBooksLibrary();
+}
+
+document.addEventListener('DOMContentLoaded', () => setTimeout(wireBookButtons, 600));
+window.addEventListener('load', () => setTimeout(wireBookButtons, 1200));
+setInterval(wireBookButtons, 3000);
+
+window.openBooksLibrary = openBooksLibrary;
+window.openBook = openBook;
+
+
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);
 else init();
 
@@ -5864,6 +6448,55 @@ if ('serviceWorker' in navigator) {
     <div class="lesson-body" id="dsLessonBody" style="flex:1;max-height:none">
       <!-- Dynamic content -->
     </div>
+  </div>
+</div>
+
+
+<div id="booksLibrary" style="display:none;position:fixed;inset:0;z-index:220;background:var(--bg);overflow-y:auto">
+  <div style="min-height:100vh;display:flex;flex-direction:column">
+    <div class="reader-top">
+      <div class="reader-back" id="booksLibClose">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </div>
+      <div class="reader-title">
+        <h3>Library</h3>
+        <div class="reader-sub" id="booksLibSub">All books · tap to read</div>
+      </div>
+    </div>
+    <div style="padding:1rem 1.1rem;flex:1">
+      <input type="text" class="ds-lib-search" id="bookSearchInput" placeholder="Search books or authors..." style="width:100%;margin-bottom:.8rem">
+      <div class="book-grid" id="booksGrid"></div>
+    </div>
+  </div>
+</div>
+
+<div id="bookReader">
+  <div class="reader-top">
+    <div class="reader-back" id="readerBackBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    </div>
+    <div class="reader-title">
+      <h3 id="readerTitle">—</h3>
+      <div class="reader-sub" id="readerSub">—</div>
+    </div>
+    <div class="reader-tools">
+      <div class="reader-tool" id="readerTocBtn" title="Contents">☰</div>
+      <div class="reader-tool" id="readerFontBtn" title="Font size">Aa</div>
+      <div class="reader-tool" id="readerBookmarkBtn" title="Bookmark">🔖</div>
+    </div>
+  </div>
+  <div class="reader-progress"><div class="reader-progress-fill" id="readerProgressFill" style="width:0%"></div></div>
+  <div class="reader-body" id="readerBody"></div>
+  <div class="reader-footer">
+    <span id="readerPageInfo">—</span>
+    <div style="display:flex;gap:.4rem">
+      <button id="readerPrevBtn">← Prev</button>
+      <button id="readerNextBtn">Next →</button>
+    </div>
+  </div>
+  <div class="reader-toc" id="readerToc">
+    <h4>Contents</h4>
+    <div id="readerTocList"></div>
   </div>
 </div>
 
