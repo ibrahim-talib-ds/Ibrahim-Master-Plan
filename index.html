@@ -1285,7 +1285,8 @@ input,textarea,select{font-family:inherit}
 
 
 
-<!-- cache:1790224224 -->
+
+<!-- cache:1790224697 -->
 </head>
 <body data-theme="dark">
 
@@ -6665,9 +6666,12 @@ function renderMyLibrary(){
   const label = document.getElementById('myLibLabel');
   const cats = document.getElementById('myLibCats');
   if (!grid) return;
+
   const SHOW = ['Risale-i Nur', 'Pirlanta'];
   const allBooks = getPDFBooks().filter(b => SHOW.includes(b.collection));
   const q = (document.getElementById('myLibSearch')?.value || '').toLowerCase().trim();
+
+  // Category pills
   if (cats) {
     const pills = ['All'].concat(SHOW);
     cats.innerHTML = pills.map(c =>
@@ -6677,6 +6681,8 @@ function renderMyLibrary(){
       pill.onclick = () => { myLibFilter = pill.dataset.cat; renderMyLibrary(); };
     });
   }
+
+  // Filter
   let list = allBooks;
   if (myLibFilter !== 'All') list = list.filter(b => b.collection === myLibFilter);
   if (q) list = list.filter(b =>
@@ -6684,48 +6690,96 @@ function renderMyLibrary(){
     (b.titleTr || '').toLowerCase().includes(q) ||
     (b.author || '').toLowerCase().includes(q)
   );
+
+  // Counts
   const linked = allBooks.filter(b => b.pdfUrl).length;
-  if (sub) sub.textContent = linked + '/' + allBooks.length + ' linked - tap to connect';
+  if (sub) sub.textContent = linked + '/' + allBooks.length + ' linked · tap to read';
   if (count) count.textContent = list.length + ' books';
   if (label) label.textContent = myLibFilter === 'All' ? 'All Books' : myLibFilter;
+
+  // Today's Book banner
   const bannerName = document.getElementById('todayBookName');
   if (bannerName) {
     let pick = null;
     try { pick = JSON.parse(localStorage.getItem('mp20_today_book') || 'null'); } catch(e){}
     if (pick && pick.bookId) {
       const b = allBooks.find(x => x.id === pick.bookId);
-      if (b) bannerName.textContent = b.title + (b.titleTr ? ' - ' + b.titleTr : '');
+      if (b) bannerName.textContent = b.title + (b.titleTr ? ' · ' + b.titleTr : '');
     }
   }
+
   if (list.length === 0) {
-    grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1;padding:2rem"><div class="es-title">No books found</div><div class="es-text">Try another search.</div></div>';
+    grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1;padding:2rem"><div class="es-title">No books found</div></div>';
     return;
   }
+
+  // Render cards (use placeholder that gets updated async)
   grid.innerHTML = list.map(b => {
-    const prog = getBookProgress(b.id);
-    const pct = b.totalPages > 0 ? Math.min(100, (prog.currentPage / b.totalPages) * 100) : 0;
-    const isLinked = !!b.pdfUrl; // initial — refreshed async below
     const trLine = b.titleTr ? '<div class="lbc-title-tr">' + esc(b.titleTr) + '</div>' : '';
     const colTag = b.collection ? '<div class="lbc-collection">' + esc(b.collection) + '</div>' : '';
-    return '<div class="lib-book-card ' + (isLinked ? 'linked' : '') + '" data-lib-book="' + b.id + '">' +
+    return '<div class="lib-book-card" data-lib-book="' + b.id + '">' +
       '<div class="lbc-icon">' + b.icon + '</div>' +
       '<div class="lbc-title">' + esc(b.title) + '</div>' + trLine +
       '<div class="lbc-author">' + esc(b.author) + '</div>' + colTag +
-      '<div class="lbc-status ' + (isLinked ? 'linked' : 'empty') + '">' + (isLinked ? 'Linked' : '+ Add PDF') + '</div>' +
-      (isLinked ? '<div class="lbc-progress"><div class="lbc-progress-fill" style="width:' + pct + '%"></div></div>' : '') +
+      '<div class="lbc-status empty" data-status-for="' + b.id + '">Checking…</div>' +
+      '<div class="lbc-progress" style="display:none" data-progress-for="' + b.id + '"><div class="lbc-progress-fill" style="width:0%"></div></div>' +
       '</div>';
   }).join('');
+
+  // Wire cards — CLICK = open PDF if linked, else edit
   grid.querySelectorAll('[data-lib-book]').forEach(card => {
-    card.onclick = () => {
-      const book = getPDFBooks().find(b => b.id === card.dataset.libBook);
-      if (book) editPDFBook(book.id);
+    card.onclick = async () => {
+      const bookId = card.dataset.libBook;
+      const book = getPDFBooks().find(b => b.id === bookId);
+      if (!book) return;
+      // Check if linked
+      const linked = await isBookLinked(bookId);
+      if (linked) {
+        // Open the PDF directly
+        const prog = getBookProgress(bookId);
+        if (typeof openPDFAtPage === 'function') {
+          openPDFAtPage(book, prog.currentPage || 1);
+        }
+      } else {
+        // Open editor to upload
+        editPDFBook(bookId);
+      }
     };
+    // Long-press opens editor regardless
+    let pressTimer = null;
+    card.addEventListener('touchstart', () => {
+      pressTimer = setTimeout(() => {
+        vibrate([30, 20, 30]);
+        editPDFBook(card.dataset.libBook);
+      }, 600);
+    }, {passive: true});
+    card.addEventListener('touchend', () => clearTimeout(pressTimer), {passive: true});
+    card.addEventListener('touchmove', () => clearTimeout(pressTimer), {passive: true});
   });
 
-  // Async: mark cards that have PDFs in IndexedDB
-  if (typeof refreshLibraryLinkedStatus === 'function') {
-    setTimeout(refreshLibraryLinkedStatus, 100);
-  }
+  // Async update each card's status
+  (async () => {
+    for (const b of list) {
+      const linked = await isBookLinked(b.id);
+      const statusEl = grid.querySelector('[data-status-for="' + b.id + '"]');
+      const progEl = grid.querySelector('[data-progress-for="' + b.id + '"]');
+      const cardEl = grid.querySelector('[data-lib-book="' + b.id + '"]');
+      if (statusEl) {
+        statusEl.className = 'lbc-status ' + (linked ? 'linked' : 'empty');
+        statusEl.textContent = linked ? '🔗 PDF Ready' : '＋ Add PDF';
+      }
+      if (cardEl) {
+        if (linked) cardEl.classList.add('linked');
+        else cardEl.classList.remove('linked');
+      }
+      if (progEl && linked) {
+        const prog = getBookProgress(b.id);
+        const pct = b.totalPages > 0 ? Math.min(100, (prog.currentPage / b.totalPages) * 100) : 0;
+        progEl.style.display = 'block';
+        progEl.querySelector('.lbc-progress-fill').style.width = pct + '%';
+      }
+    }
+  })();
 }
 
 function openMyLibrary(){
@@ -6800,29 +6854,65 @@ function renderSpecialPage(collection, gridId, countId, searchId){
     return;
   }
   grid.innerHTML = list.map(b => {
-    const prog = getBookProgress(b.id);
-    const pct = b.totalPages > 0 ? Math.min(100, (prog.currentPage / b.totalPages) * 100) : 0;
-    const isLinked = !!b.pdfUrl;
     const trLine = b.titleTr ? '<div class="lbc-title-tr">' + esc(b.titleTr) + '</div>' : '';
-    return '<div class="lib-book-card ' + (isLinked ? 'linked' : '') + '" data-sp-book="' + b.id + '">' +
+    return '<div class="lib-book-card" data-sp-book="' + b.id + '">' +
       '<div class="lbc-icon">' + b.icon + '</div>' +
       '<div class="lbc-title">' + esc(b.title) + '</div>' + trLine +
       '<div class="lbc-author">' + esc(b.author) + '</div>' +
-      '<div class="lbc-status ' + (isLinked ? 'linked' : 'empty') + '">' + (isLinked ? 'Linked' : '+ Add PDF') + '</div>' +
-      (isLinked ? '<div class="lbc-progress"><div class="lbc-progress-fill" style="width:' + pct + '%"></div></div>' : '') +
+      '<div class="lbc-status empty" data-status-for="' + b.id + '">Checking…</div>' +
+      '<div class="lbc-progress" style="display:none" data-progress-for="' + b.id + '"><div class="lbc-progress-fill" style="width:0%"></div></div>' +
       '</div>';
   }).join('');
+
   grid.querySelectorAll('[data-sp-book]').forEach(card => {
-    card.onclick = () => {
-      const book = getPDFBooks().find(b => b.id === card.dataset.spBook);
-      if (book) editPDFBook(book.id);
+    card.onclick = async () => {
+      const bookId = card.dataset.spBook;
+      const book = getPDFBooks().find(b => b.id === bookId);
+      if (!book) return;
+      const linked = await isBookLinked(bookId);
+      if (linked) {
+        const prog = getBookProgress(bookId);
+        if (typeof openPDFAtPage === 'function') {
+          openPDFAtPage(book, prog.currentPage || 1);
+        }
+      } else {
+        editPDFBook(bookId);
+      }
     };
+    let pressTimer = null;
+    card.addEventListener('touchstart', () => {
+      pressTimer = setTimeout(() => {
+        vibrate([30, 20, 30]);
+        editPDFBook(card.dataset.spBook);
+      }, 600);
+    }, {passive: true});
+    card.addEventListener('touchend', () => clearTimeout(pressTimer), {passive: true});
+    card.addEventListener('touchmove', () => clearTimeout(pressTimer), {passive: true});
   });
 
-  // Async: mark cards with PDFs
-  if (typeof refreshLibraryLinkedStatus === 'function') {
-    setTimeout(refreshLibraryLinkedStatus, 100);
-  }
+  // Async update
+  (async () => {
+    for (const b of list) {
+      const linked = await isBookLinked(b.id);
+      const statusEl = grid.querySelector('[data-status-for="' + b.id + '"]');
+      const progEl = grid.querySelector('[data-progress-for="' + b.id + '"]');
+      const cardEl = grid.querySelector('[data-sp-book="' + b.id + '"]');
+      if (statusEl) {
+        statusEl.className = 'lbc-status ' + (linked ? 'linked' : 'empty');
+        statusEl.textContent = linked ? '🔗 PDF Ready' : '＋ Add PDF';
+      }
+      if (cardEl) {
+        if (linked) cardEl.classList.add('linked');
+        else cardEl.classList.remove('linked');
+      }
+      if (progEl && linked) {
+        const prog = getBookProgress(b.id);
+        const pct = b.totalPages > 0 ? Math.min(100, (prog.currentPage / b.totalPages) * 100) : 0;
+        progEl.style.display = 'block';
+        progEl.querySelector('.lbc-progress-fill').style.width = pct + '%';
+      }
+    }
+  })();
 }
 
 function openRisalePage(){
