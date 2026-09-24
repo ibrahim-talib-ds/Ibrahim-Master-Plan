@@ -1198,13 +1198,57 @@ input,textarea,select{font-family:inherit}
 /* ============ READING NOW BADGE ============ */
 .reading-now-badge{position:absolute;top:8px;right:8px;font-size:.55rem;font-weight:800;background:var(--gold);color:#080d13;padding:.15rem .5rem;border-radius:8px;text-transform:uppercase;letter-spacing:.05em;box-shadow:0 2px 6px rgba(0,0,0,.3)}
 
+
+/* ============ PDF BOOK CARDS ============ */
+.pdf-card{background:var(--bg-1);border:1px solid var(--border);border-radius:16px;padding:1rem .9rem;margin-bottom:.6rem;position:relative;overflow:hidden;transition:all .2s ease}
+.pdf-card:hover{border-color:var(--border-2)}
+.pdf-card.active-read{border-left:4px solid var(--accent);background:linear-gradient(90deg,var(--accent-soft),var(--bg-1))}
+.pdf-card .pdf-head{display:flex;align-items:center;gap:.7rem;margin-bottom:.6rem}
+.pdf-card .pdf-icon{width:44px;height:56px;border-radius:6px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:grid;place-items:center;font-size:1.4rem;color:#080d13;flex-shrink:0;box-shadow:0 4px 10px -3px rgba(0,0,0,.4);position:relative}
+.pdf-card .pdf-icon::after{content:'';position:absolute;top:0;right:0;width:14px;height:14px;background:var(--bg-1);border-radius:0 0 0 6px}
+.pdf-card .pdf-info{flex:1;min-width:0}
+.pdf-card .pdf-title{font-size:.9rem;font-weight:800;color:var(--text);margin-bottom:2px;line-height:1.2}
+.pdf-card .pdf-author{font-size:.7rem;color:var(--text-3);font-weight:600}
+.pdf-card .pdf-actions{display:flex;gap:.4rem;margin-top:.6rem}
+.pdf-card .pdf-actions .btn{flex:1;font-size:.78rem;padding:.6rem .5rem;min-height:42px}
+
+/* Page tracker */
+.page-tracker{background:var(--bg-2);border:1px solid var(--border);border-radius:12px;padding:.7rem .85rem;margin-top:.5rem}
+.page-tracker .pt-row{display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem}
+.page-tracker .pt-label{font-size:.68rem;font-weight:800;color:var(--text-3);text-transform:uppercase;letter-spacing:.05em;flex-shrink:0;min-width:60px}
+.page-tracker input{background:var(--bg-1);border:1px solid var(--border);border-radius:8px;padding:.45rem .7rem;color:var(--text);font-size:.85rem;font-weight:700;font-variant-numeric:tabular-nums;width:80px;text-align:center}
+.page-tracker input:focus{outline:none;border-color:var(--accent)}
+.page-tracker .pt-sep{color:var(--text-4);font-weight:800}
+.page-tracker .pt-total{color:var(--text-2);font-size:.82rem;font-weight:700;font-variant-numeric:tabular-nums}
+
+.page-progress-bar{height:8px;background:var(--bg-3);border-radius:8px;overflow:hidden;margin-top:.4rem}
+.page-progress-fill{height:100%;background:linear-gradient(90deg,var(--accent-2),var(--accent));border-radius:8px;transition:width .5s ease}
+
+/* Daily target card */
+.daily-target{background:linear-gradient(135deg,rgba(255,209,102,.15),rgba(181,143,255,.08));border:1px solid rgba(255,209,102,.4);border-radius:14px;padding:.9rem;margin-bottom:.7rem}
+.daily-target h4{font-size:.72rem;font-weight:800;color:var(--gold);text-transform:uppercase;letter-spacing:.06em;margin:0 0 .4rem 0;display:flex;align-items:center;gap:.4rem}
+.daily-target .dt-book{font-size:1rem;font-weight:800;color:var(--text);margin-bottom:.2rem}
+.daily-target .dt-pages{font-size:.85rem;color:var(--text-2);font-weight:600;margin-bottom:.5rem}
+.daily-target .dt-pages b{color:var(--gold)}
+.daily-target .dt-actions{display:flex;gap:.4rem;margin-top:.6rem}
+.daily-target .dt-actions .btn{flex:1;font-size:.78rem;padding:.55rem}
+
+/* PDF URL editor modal */
+.url-input-row{display:flex;flex-direction:column;gap:.5rem}
+.url-input-row input{width:100%}
+.url-hint{font-size:.7rem;color:var(--text-4);font-style:italic;line-height:1.5}
+
+/* Continue reading badge */
+.continue-badge{position:absolute;top:8px;right:8px;background:var(--info);color:#fff;font-size:.6rem;font-weight:800;padding:.2rem .5rem;border-radius:8px;text-transform:uppercase;letter-spacing:.04em}
+
 </style>
 
 
 
 
 
-<!-- cache:1790094447 -->
+
+<!-- cache:1790215161 -->
 </head>
 <body data-theme="dark">
 
@@ -1525,6 +1569,17 @@ input,textarea,select{font-family:inherit}
 
 <!-- LEARN TAB — quizzes, flashcards, roadmap, projects, QA -->
 <div class="tab-panel" id="tab-learn">
+
+<div class="card" id="pdfBooksCard" style="display:none">
+  <div class="card-title">
+    <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg></span>
+    <span>My PDF Books</span>
+    <span class="badge" id="pdfBookCount">0</span>
+  </div>
+  <div class="section-sub">Connect your own PDF links. Track pages automatically. Daily reading plan.</div>
+  <div id="pdfBooksList"></div>
+</div>
+
   <div class="card">
     <div class="card-title"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/></svg></span><span>Daily Quiz</span><span class="badge" id="quizScore">—</span></div>
     <div class="section-sub">Test yourself — 3 questions from this week's topics</div>
@@ -5691,184 +5746,7 @@ document.addEventListener('click', (e) => {
    BOOKS LIBRARY
    ============================================================ */
 
-const BOOK_LIBRARY = [
-  {
-    id: 'sozler',
-    title: 'Sözler',
-    author: 'Bediüzzaman Said Nursi',
-    icon: '📖',
-    type: 'full',
-    chapters: [
-      {
-        title: 'Birinci Söz — Bismillah',
-        html: `<h1>Birinci Söz</h1>
-<p><b>Bismillâhirrahmânirrahîm</b></p>
-<p>Ey kardeş! Bil ki: Nasıl ki bir adam, bir padişahın askeri olduğu vakit, “Padişahın emriyle” der, padişahın kuvvetiyle iş görür. Öyle de, bu kâinatın padişahı olan Rabbimizin emriyle ve izniyle hareket eden her zerre, “Bismillah” der ve onun kuvvetiyle vazife görür.</p>
-<p>Bismillah her hayrın başıdır. Biz dahi başta ona başlarız. Bil ey nefsim! Şu mübarek kelime, İslâm nişanı olduğu gibi, bütün mevcudatın lisan-ı haliyle vird-i zebânıdır.</p>
-<p><b>Bismillah</b> ne büyük bir kuvvet ve ne geniş bir rahmettir! Senin gibi âciz ve zayıf bir mahlûkun, kâinatın bütün kuvvetlerine karşı dayanabilmesi ancak Bismillah ile mümkündür.</p>
-<h3>İhtar</h3>
-<p>Ey nefsim! Eğer hayatını Bismillah ile bağlamazsan, o zaman dünya yüzünde yapayalnız ve âciz bir halde kalırsın. Her şey sana düşman olur. Çünkü bütün kuvvetler, kudretler, ancak Allah'ın izniyle hareket eder.</p>
-<p>Bismillah demek: Allah'ın adıyla, O'nun izniyle, O'nun kuvvetiyle başlıyorum demektir. Bu ise, en büyük bir sığınaktır.</p>`
-      },
-      {
-        title: 'İkinci Söz — Namaz',
-        html: `<h1>İkinci Söz</h1>
-<p>Ey nefsim! Namaz, ne kadar kıymettar ve ne kadar ucuz bir saadet hazinesidir. Beş vakit namaz, günde bir saat kadar bir zaman alır. Halbuki o bir saat, bütün yirmi dört saatin manevi kazancını temin eder.</p>
-<p>Namaz, insanı Rabbine bağlayan bir zincirdir. Bu zincir, insanı hayvaniyetten kurtarır, melekî bir mertebeye yükseltir.</p>
-<p>Bak, bir çoban, koyunlarını bir ağıla sokmak için nasıl bir kapı arar? Namaz da, insanın ruhunu, kalbini, aklını bir araya toplayan bir kapıdır.</p>
-<h3>Hakikat</h3>
-<p>Namaz kılan bir mümin, her rekâtta “Allahu Ekber” derken, kendi küçüklüğünü, Rabbisinin büyüklüğünü ilan eder. “Sübhâneke” ile Rabbini tesbih eder. “Fâtiha” ile O'na hamd eder. Rükûda ve secdede kendi aczini bildirir.</p>
-<p>Namaz, insanı günahlardan uzaklaştıran manevi bir kalkandır.</p>`
-      },
-      {
-        title: 'Üçüncü Söz — Marifetullah',
-        html: `<h1>Üçüncü Söz</h1>
-<p>Ey nefsim! Bil ki, marifetullah (Allah'ı tanımak), bütün saadetlerin anahtarıdır. Bir insan Allah'ı ne kadar tanırsa, o kadar kıymetli olur.</p>
-<p>Kâinata bak! Her şey O'nu tanıtıyor. Güneş, O'nun kudretine bir aynadır. Yıldızlar, O'nun hikmetine birer şahittir. Çiçekler, O'nun rahmetine birer nişandır.</p>
-<h3>Hakikat</h3>
-<p>İnsan, kendi vücuduna baksın! Onda nice kıymetli cihazlar vardır ki, her biri bir marifet dersidir. Göz, kulak, akıl, kalb… hepsi O'nun eseridir.</p>
-<p>Marifetullah olmayan bir ilim, kuru bir malumat yığınıdır. Fakat marifetullah ile ilim, insanı ebedî saadete götürür.</p>`
-      },
-      {
-        title: 'Dördüncü Söz — Tevekkül',
-        html: `<h1>Dördüncü Söz</h1>
-<p>Ey nefsim! Tevekkül, sebeplere yapıştıktan sonra neticeyi Allah'a bırakmaktır. Bu, Müslümanın en büyük rahatlığıdır.</p>
-<p>Bir çiftçi, tarlasını sürer, tohumu eker, suyu verir. Sonra neticeyi Allah'a bırakır. İşte tevekkül budur. Tembellik değil!</p>
-<h3>İhtar</h3>
-<p>Yanlış tevekkül anlayışı, sebepleri terk edip “Allah kerim” demektir. Doğru tevekkül ise, elinden geleni yaptıktan sonra kalbi rahat bırakmaktır.</p>
-<p>Sen çalışacaksın, gayret edeceksin. Neticeyi Allah verecektir. Eğer netice hayırlıysa şükredeceksin, değilse sabredeceksin.</p>`
-      }
-    ]
-  },
-  {
-    id: 'genclik',
-    title: 'Gençlik Rehberi',
-    author: 'Bediüzzaman Said Nursi',
-    icon: '🌱',
-    type: 'full',
-    chapters: [
-      {
-        title: 'Gençliğe Hitap',
-        html: `<h1>Gençliğe Hitap</h1>
-<p>Ey genç! Sen bu dünyaya sadece eğlenmek için gelmedin. Senin varlığında büyük bir hikmet vardır. Gençlik, insan ömrünün en kıymetli hazinesidir.</p>
-<p>Gençlik, bir bahar mevsimidir. Fakat bu bahar çabuk geçer. Eğer bu bahar mevsimini iyi değerlendirmezsen, yaz, sonbahar ve kış hiçbir şey ekemezsin.</p>
-<h3>Ey Genç!</h3>
-<p>Sana verilen bu gençlik sermayesini, nefsinin heveslerine değil, Rabbine hizmete sarf et. Çünkü gençlik, iffet ile, ilim ile, ibadet ile nur bulur.</p>
-<p>Bak, bir gül, dikenli bir daldan çıkar. Fakat etrafına güzel koku verir. Sen de gençliğinin dikenli yollarında, gül gibi güzel kokular bırakmalısın.</p>`
-      },
-      {
-        title: 'İffet ve Namus',
-        html: `<h1>İffet ve Namus</h1>
-<p>Ey genç! İffet, insanı hayvaniyetten ayıran en büyük meziyettir. Namuslu bir genç, hem dünyada hem ahirette izzetlidir.</p>
-<p>Bu zamanda gençleri ifsat eden en büyük tehlike, nefsaniyet ve hevesattır. Bunlara karşı koymanın yolu, iman ve ibadettir.</p>
-<h3>İhtar</h3>
-<p>Sana bir haram teklif edildiği vakit, onun içindeki zehri gör. Haramın zevki bir anlıktır, fakat azabı ebedî olabilir.</p>
-<p>Helal dairesi, haram dairesinden çok geniştir. Helalin içinde binlerce lezzet vardır. Harama ihtiyaç yoktur.</p>`
-      },
-      {
-        title: 'Namaz ve Gençlik',
-        html: `<h1>Namaz ve Gençlik</h1>
-<p>Ey genç! Namaz, senin kalbinin nurudur. Namaz kılan bir genç, kendini büyük bir tehlikeden kurtarmış demektir.</p>
-<p>Beş vakit namaz, günde bir saat kadar zamanını alır. Fakat o bir saat, bütün gününü nurlandırır.</p>
-<h3>Müjde</h3>
-<p>Gençlikte kılınan namaz, ihtiyarlıkta kılınan namazdan daha kıymetlidir. Çünkü gençlik, nefsin en kuvvetli olduğu zamandır. Nefsine galip gelip namaz kılan gence, büyük müjdeler vardır.</p>`
-      }
-    ]
-  },
-  {
-    id: 'tesbihat',
-    title: 'Büyük Tesbihat ve Dua',
-    author: 'Risale-i Nur',
-    icon: '📿',
-    type: 'full',
-    chapters: [
-      {
-        title: 'Sabah Tesbihatı',
-        html: `<h1>Sabah Tesbihatı</h1>
-<p>Ey sabahın nuruyla uyanan mümin! Sabah namazından sonra okunan tesbihat, gününün nuru ve bereketidir.</p>
-<h3>Sübhanallah (33 defa)</h3>
-<p><i>Sübhânallahi ve'l-hamdü lillâhi ve lâ ilâhe illallâhü vellâhü ekber. Ve lâ havle ve lâ kuvvete illâ billâhil aliyyil azîm.</i></p>
-<p>Allah'ı tesbih ederim, hamd O'na mahsustur, O'ndan başka ilah yoktur, O en büyüktür. Güç ve kuvvet ancak yüce ve büyük olan Allah'ın yardımıyladır.</p>
-<h3>Elhamdülillah (33 defa)</h3>
-<p>Bütün hamdler, övgüler Allah'a mahsustur.</p>
-<h3>Allahu Ekber (33 defa)</h3>
-<p>Allah en büyüktür.</p>
-<h3>Dua</h3>
-<p>Allahım! Sabahımızı hayırlı, günümüzü bereketli, akşamımızı selametli eyle. Bizi Sana kul, Habibine ümmet eyle. Amin.</p>`
-      },
-      {
-        title: 'Akşam Tesbihatı',
-        html: `<h1>Akşam Tesbihatı</h1>
-<p>Ey akşamın huzuruyla Rabbine yönelen mümin! Akşam namazından sonra okunan tesbihat, gecenin nurudur.</p>
-<h3>Ayetü'l-Kürsi</h3>
-<p>Allahu lâ ilâhe illâ hüvel hayyül kayyûm. Lâ te'huzühû sinetün ve lâ nevm. Lehû mâ fis-semâvâti ve mâ fil-ard...</p>
-<p>Allah, kendisinden başka hiçbir ilah bulunmayandır. O diridir, her şeyi ayakta tutandır. O'nu ne bir uyuklama tutar ne de bir uyku...</p>
-<h3>Dua</h3>
-<p>Allahım! Bu akşamı bize rahmet kapısı eyle. Gecenin karanlığında kalbimize nur ver. Bizi şeytanın şerrinden koru. Amin.</p>`
-      }
-    ]
-  },
-  {
-    id: 'namaz',
-    title: 'Namaz Serisi',
-    author: 'Risale-i Nur',
-    icon: '🕌',
-    type: 'full',
-    chapters: [
-      {
-        title: 'Namazın Önemi',
-        html: `<h1>Namazın Önemi</h1>
-<p>Namaz, İslam'ın direğidir. Onu ayakta tutan, dinini ayakta tutar. Onu terk eden, dinini yıkar.</p>
-<p>Namaz, kul ile Rabbi arasındaki en yakın bağdır. Namaz kılan, miracına çıkar. Her secdede Rabbine en yakın olur.</p>
-<h3>Beş Vakit Namaz</h3>
-<p><b>Sabah:</b> Günün başlangıcı, nurun doğuşu.<br>
-<b>Öğle:</b> Günün ortası, gayretin devamı.<br>
-<b>İkindi:</b> Günün sonu, azmin zaferi.<br>
-<b>Akşam:</b> Gecenin başlangıcı, şükrün ifadesi.<br>
-<b>Yatsı:</b> Günün bitişi, teslimiyetin sembolü.</p>`
-      },
-      {
-        title: 'Namaz Sureleri',
-        html: `<h1>Namazda Okunan Sureler</h1>
-<h2>Fâtiha Suresi</h2>
-<p><i>Bismillâhirrahmânirrahîm. Elhamdülillâhi rabbil âlemîn. Errahmânirrahîm. Mâliki yevmiddîn. İyyâke na'büdü ve iyyâke nesta'în. İhdinas-sırâtal müstakîm. Sırâtallezîne en'amte aleyhim. Gayril mağdûbi aleyhim ve led-dâllîn. Amin.</i></p>
-<h2>İhlas Suresi</h2>
-<p><i>Kul hüvellâhü ehad. Allâhus-samed. Lem yelid ve lem yûled. Ve lem yekün lehû küfüven ehad.</i></p>
-<p>De ki: O Allah birdir. Allah Samed'dir (her şey O'na muhtaçtır). O doğurmamış ve doğmamıştır. Hiçbir şey O'na denk değildir.</p>`
-      }
-    ]
-  },
-  {
-    id: 'irsad',
-    title: 'İrşad Ekseni',
-    author: 'Modern eser',
-    icon: '🧭',
-    type: 'link',
-    note: 'Copyrighted — external PDF/EPUB available',
-    link: 'https://www.google.com/search?q=İrşad+Ekseni+kitap+pdf',
-    chapters: []
-  },
-  {
-    id: 'inanc',
-    title: 'İnancın Gölgesinde',
-    author: 'Modern eser',
-    icon: '🌙',
-    type: 'link',
-    note: 'Copyrighted — external PDF/EPUB available',
-    link: 'https://www.google.com/search?q=İnancın+Gölgesinde+kitap+pdf',
-    chapters: []
-  },
-  {
-    id: 'noroom',
-    title: 'No Room for Doubt',
-    author: 'Modern eser',
-    icon: '🔒',
-    type: 'link',
-    note: 'Copyrighted — external PDF available',
-    link: 'https://www.google.com/search?q=No+Room+for+Doubt+book+pdf',
-    chapters: []
-  }
-];
+
 
 /* ============================================================
    STORAGE
@@ -6187,6 +6065,396 @@ setInterval(wireBookButtons, 3000);
 
 window.openBooksLibrary = openBooksLibrary;
 window.openBook = openBook;
+
+
+
+/* ============================================================
+   PDF BOOKS SYSTEM — REAL PDFs with page tracking
+   ============================================================ */
+
+const PDF_BOOKS_KEY = 'mp20_pdf_books';
+const PDF_PROGRESS_KEY = 'mp20_pdf_progress';
+
+// Default PDF book list (user can edit URLs)
+const DEFAULT_PDF_BOOKS = [
+  {
+    id: 'sozler',
+    title: 'Sözler',
+    author: 'Bediüzzaman Said Nursi',
+    icon: '📖',
+    pdfUrl: '',
+    totalPages: 800,
+    dailyPages: 15
+  },
+  {
+    id: 'genclik',
+    title: 'Gençlik Rehberi',
+    author: 'Bediüzzaman Said Nursi',
+    icon: '🌱',
+    pdfUrl: '',
+    totalPages: 150,
+    dailyPages: 10
+  },
+  {
+    id: 'irsad',
+    title: 'İrşad Ekseni',
+    author: 'Pırlanta',
+    icon: '🧭',
+    pdfUrl: '',
+    totalPages: 400,
+    dailyPages: 12
+  },
+  {
+    id: 'inanc',
+    title: 'İnancın Gölgesinde',
+    author: 'Pırlanta',
+    icon: '🌙',
+    pdfUrl: '',
+    totalPages: 350,
+    dailyPages: 12
+  },
+  {
+    id: 'noroom',
+    title: 'No Room for Doubt',
+    author: 'Dini',
+    icon: '🔒',
+    pdfUrl: '',
+    totalPages: 200,
+    dailyPages: 8
+  },
+  {
+    id: 'tesbihat',
+    title: 'Büyük Tesbihat ve Dua',
+    author: 'Ezber',
+    icon: '📿',
+    pdfUrl: '',
+    totalPages: 80,
+    dailyPages: 5
+  },
+  {
+    id: 'namaz',
+    title: 'Namaz Serisi',
+    author: 'Kaset',
+    icon: '🕌',
+    pdfUrl: '',
+    totalPages: 120,
+    dailyPages: 6
+  }
+];
+
+/* ---------- Storage helpers ---------- */
+function getPDFBooks(){
+  try {
+    const saved = JSON.parse(localStorage.getItem(PDF_BOOKS_KEY) || 'null');
+    if (saved && Array.isArray(saved) && saved.length) return saved;
+  } catch(e){}
+  return JSON.parse(JSON.stringify(DEFAULT_PDF_BOOKS));
+}
+function savePDFBooks(books){
+  localStorage.setItem(PDF_BOOKS_KEY, JSON.stringify(books));
+}
+function getPDFProgress(){
+  try { return JSON.parse(localStorage.getItem(PDF_PROGRESS_KEY) || '{}'); } catch(e){ return {}; }
+}
+function savePDFProgress(p){
+  localStorage.setItem(PDF_PROGRESS_KEY, JSON.stringify(p));
+}
+function getBookProgress(bookId){
+  const p = getPDFProgress();
+  return p[bookId] || { currentPage: 1, lastReadDate: null, pagesReadToday: 0, todayDate: null };
+}
+function setBookProgress(bookId, updates){
+  const p = getPDFProgress();
+  p[bookId] = Object.assign(getBookProgress(bookId), updates);
+  savePDFProgress(p);
+}
+
+/* ---------- Today's book ---------- */
+function getTodaysPDFBook(){
+  const day = WEEKDAY_NAMES[new Date().getDay()];
+  const plan = DAILY_READING[day];
+  if (!plan) return null;
+  const books = getPDFBooks();
+  return books.find(b => b.title === plan.book) || books[0];
+}
+
+/* ---------- Open PDF at page ---------- */
+function openPDFAtPage(book, page){
+  if (!book.pdfUrl) {
+    toast('No PDF link set — tap Edit to add one', 'warn', 2500);
+    editPDFBook(book.id);
+    return;
+  }
+  // Chrome/Safari PDF viewer supports #page=N
+  const url = book.pdfUrl + '#page=' + page;
+  window.open(url, '_blank');
+  vibrate(20);
+  // Update last read date
+  const today = todayKey();
+  const prog = getBookProgress(book.id);
+  if (prog.todayDate !== today) {
+    setBookProgress(book.id, { todayDate: today, pagesReadToday: 0, lastReadDate: today });
+  }
+}
+
+/* ---------- Mark reading progress (advance pages) ---------- */
+function advancePages(bookId, pages){
+  const book = getPDFBooks().find(b => b.id === bookId);
+  if (!book) return;
+  const prog = getBookProgress(bookId);
+  const today = todayKey();
+
+  let pagesReadToday = prog.pagesReadToday || 0;
+  if (prog.todayDate !== today) pagesReadToday = 0;
+
+  const newPage = Math.min(book.totalPages, (prog.currentPage || 1) + pages);
+  setBookProgress(bookId, {
+    currentPage: newPage,
+    pagesReadToday: pagesReadToday + pages,
+    todayDate: today,
+    lastReadDate: today
+  });
+  renderPDFBooks();
+  vibrate([15, 30, 15]);
+  toast(`Page ${newPage}/${book.totalPages} ✓`, 'success', 1500);
+}
+
+/* ---------- Set current page manually ---------- */
+function setCurrentPage(bookId, page){
+  const book = getPDFBooks().find(b => b.id === bookId);
+  if (!book) return;
+  const p = Math.max(1, Math.min(book.totalPages, parseInt(page) || 1));
+  setBookProgress(bookId, { currentPage: p });
+  renderPDFBooks();
+  vibrate(15);
+}
+
+/* ---------- Edit PDF link ---------- */
+function editPDFBook(bookId){
+  const books = getPDFBooks();
+  const book = books.find(b => b.id === bookId);
+  if (!book) return;
+
+  openModal(`
+    <h3><span style="width:34px;height:34px;border-radius:10px;background:var(--accent-soft);display:inline-grid;place-items:center;color:var(--accent)">${book.icon}</span>${esc(book.title)}</h3>
+    <p style="color:var(--text-2);font-size:.85rem;margin-bottom:1rem">${esc(book.author)}</p>
+
+    <div class="field">
+      <label>PDF URL (link to your PDF file)</label>
+      <input type="url" id="pbUrl" placeholder="https://example.com/sozler.pdf" value="${esc(book.pdfUrl)}">
+    </div>
+    <div class="url-hint">
+      💡 Paste any public PDF link (Dropbox, Google Drive, your own server).<br>
+      Google Drive: change <b>view</b> → <b>preview</b> and remove everything after the file ID.
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-top:1rem">
+      <div class="field" style="margin:0">
+        <label>Total pages</label>
+        <input type="number" id="pbTotal" min="1" value="${book.totalPages}">
+      </div>
+      <div class="field" style="margin:0">
+        <label>Daily target (pages)</label>
+        <input type="number" id="pbDaily" min="1" value="${book.dailyPages}">
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn" id="pbCancel">Cancel</button>
+      <button class="btn primary" id="pbSave">Save</button>
+    </div>
+  `);
+  document.getElementById('pbCancel').onclick = closeModal;
+  document.getElementById('pbSave').onclick = () => {
+    const url = document.getElementById('pbUrl').value.trim();
+    const total = parseInt(document.getElementById('pbTotal').value) || 1;
+    const daily = parseInt(document.getElementById('pbDaily').value) || 1;
+    const books2 = getPDFBooks();
+    const idx = books2.findIndex(b => b.id === bookId);
+    if (idx >= 0) {
+      books2[idx].pdfUrl = url;
+      books2[idx].totalPages = total;
+      books2[idx].dailyPages = daily;
+      savePDFBooks(books2);
+    }
+    closeModal();
+    renderPDFBooks();
+    renderDailyTarget();
+    toast('Saved ✓', 'success');
+  };
+}
+
+/* ---------- Render books list ---------- */
+function renderPDFBooks(){
+  const list = document.getElementById('pdfBooksList');
+  const count = document.getElementById('pdfBookCount');
+  if (!list) return;
+  const books = getPDFBooks();
+  const todayBook = getTodaysPDFBook();
+
+  if (count) {
+    const withUrl = books.filter(b => b.pdfUrl).length;
+    count.textContent = withUrl + '/' + books.length + ' linked';
+  }
+
+  list.innerHTML = books.map(b => {
+    const prog = getBookProgress(b.id);
+    const pct = b.totalPages > 0 ? Math.min(100, (prog.currentPage / b.totalPages) * 100) : 0;
+    const isToday = todayBook && todayBook.id === b.id;
+    const hasUrl = !!b.pdfUrl;
+    const daily = b.dailyPages || 10;
+    const toPage = Math.min(b.totalPages, prog.currentPage + daily - 1);
+
+    return `
+      <div class="pdf-card ${isToday ? 'active-read' : ''}">
+        ${isToday ? '<div class="continue-badge">Today</div>' : ''}
+        <div class="pdf-head">
+          <div class="pdf-icon">${b.icon}</div>
+          <div class="pdf-info">
+            <div class="pdf-title">${esc(b.title)}</div>
+            <div class="pdf-author">${esc(b.author)}</div>
+          </div>
+        </div>
+
+        <div class="page-tracker">
+          <div class="pt-row" style="justify-content:space-between">
+            <div style="display:flex;align-items:center;gap:.5rem">
+              <span class="pt-label">Page</span>
+              <input type="number" min="1" max="${b.totalPages}" value="${prog.currentPage}" data-page-input="${b.id}">
+              <span class="pt-sep">/</span>
+              <span class="pt-total">${b.totalPages}</span>
+            </div>
+            <span style="font-size:.72rem;font-weight:800;color:var(--accent)">${Math.round(pct)}%</span>
+          </div>
+          <div class="page-progress-bar">
+            <div class="page-progress-fill" style="width:${pct}%"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;margin-top:.4rem;font-size:.7rem;color:var(--text-3);font-weight:600">
+            <span>Today: ${prog.todayDate === todayKey() ? (prog.pagesReadToday || 0) : 0} pages read</span>
+            <span>Target: ${daily} pages/day</span>
+          </div>
+        </div>
+
+        <div class="pdf-actions">
+          <button class="btn" data-edit-book="${b.id}">✏️ Edit</button>
+          ${hasUrl ? `
+            <button class="btn primary" data-open-book="${b.id}" data-open-page="${prog.currentPage}">📄 Open PDF</button>
+          ` : `
+            <button class="btn primary" data-edit-book="${b.id}">+ Add PDF</button>
+          `}
+          ${hasUrl ? `
+            <button class="btn" data-advance-book="${b.id}" title="Mark ${daily} pages read">+${daily}p</button>
+          ` : ''}
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  // Wire inputs
+  list.querySelectorAll('[data-page-input]').forEach(inp => {
+    inp.addEventListener('change', () => {
+      setCurrentPage(inp.dataset.pageInput, inp.value);
+    });
+  });
+  list.querySelectorAll('[data-open-book]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const book = books.find(b => b.id === btn.dataset.openBook);
+      if (book) openPDFAtPage(book, parseInt(btn.dataset.openPage));
+    });
+  });
+  list.querySelectorAll('[data-edit-book]').forEach(btn => {
+    btn.addEventListener('click', () => editPDFBook(btn.dataset.editBook));
+  });
+  list.querySelectorAll('[data-advance-book]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const book = books.find(b => b.id === btn.dataset.advanceBook);
+      if (book) advancePages(book.id, book.dailyPages || 10);
+    });
+  });
+}
+
+/* ---------- Daily target card ---------- */
+function renderDailyTarget(){
+  const wrap = document.getElementById('dailyTargetWrap');
+  if (!wrap) return;
+
+  const book = getTodaysPDFBook();
+  if (!book) { wrap.innerHTML = ''; return; }
+
+  const prog = getBookProgress(book.id);
+  const daily = book.dailyPages || 10;
+  const fromPage = prog.currentPage;
+  const toPage = Math.min(book.totalPages, fromPage + daily - 1);
+  const hasUrl = !!book.pdfUrl;
+  const today = todayKey();
+  const readToday = prog.todayDate === today ? (prog.pagesReadToday || 0) : 0;
+
+  wrap.innerHTML = `
+    <div class="daily-target">
+      <h4>📖 Today's Reading Target</h4>
+      <div class="dt-book">${book.icon} ${esc(book.title)}</div>
+      <div class="dt-pages">
+        Read pages <b>${fromPage} – ${toPage}</b> (${daily} pages)<br>
+        <span style="font-size:.75rem;color:var(--text-3)">Already today: ${readToday} pages</span>
+      </div>
+      <div class="dt-actions">
+        ${hasUrl ? `
+          <button class="btn primary" id="dtOpenBtn">📄 Open PDF at page ${fromPage}</button>
+        ` : `
+          <button class="btn primary" id="dtLinkBtn">+ Add PDF link</button>
+        `}
+        <button class="btn" id="dtDoneBtn">+${daily}p Done</button>
+      </div>
+    </div>
+  `;
+
+  const dtOpenBtn = document.getElementById('dtOpenBtn');
+  const dtLinkBtn = document.getElementById('dtLinkBtn');
+  const dtDoneBtn = document.getElementById('dtDoneBtn');
+  if (dtOpenBtn) dtOpenBtn.onclick = () => openPDFAtPage(book, fromPage);
+  if (dtLinkBtn) dtLinkBtn.onclick = () => editPDFBook(book.id);
+  if (dtDoneBtn) dtDoneBtn.onclick = () => advancePages(book.id, daily);
+}
+
+/* ---------- Init ---------- */
+function initPDFBooks(){
+  // Show the PDF card only if we're on the Learn tab or somewhere relevant
+  const card = document.getElementById('pdfBooksCard');
+  if (card) card.style.display = 'block';
+
+  renderPDFBooks();
+  renderDailyTarget();
+}
+
+// Add daily target slot to Today's Reading card
+document.addEventListener('DOMContentLoaded', () => {
+  setTimeout(() => {
+    const readingCard = document.querySelector('.reading-card');
+    if (readingCard && !document.getElementById('dailyTargetWrap')) {
+      const targetWrap = document.createElement('div');
+      targetWrap.id = 'dailyTargetWrap';
+      targetWrap.style.marginTop = '.7rem';
+      readingCard.appendChild(targetWrap);
+      renderDailyTarget();
+    }
+    initPDFBooks();
+  }, 800);
+});
+
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    initPDFBooks();
+    renderDailyTarget();
+  }, 1200);
+});
+
+// Re-render on tab clicks
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('.nav-btn');
+  if (!btn) return;
+  if (btn.dataset.tab === 'home') setTimeout(renderDailyTarget, 200);
+  if (btn.dataset.tab === 'learn') setTimeout(renderPDFBooks, 200);
+});
 
 
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);
