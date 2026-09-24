@@ -649,8 +649,8 @@ input,textarea,select{font-family:inherit}
 .bottom-nav::-webkit-scrollbar{display:none}
 
 .nav-btn{
-  flex:1 1 0;
-  min-width:44px;
+  flex:0 0 auto;
+  min-width:52px;
   max-width:70px;
   display:flex;
   flex-direction:column;
@@ -1269,7 +1269,8 @@ input,textarea,select{font-family:inherit}
 
 
 
-<!-- cache:1790216736 -->
+
+<!-- cache:1790216954 -->
 </head>
 <body data-theme="dark">
 
@@ -1758,6 +1759,11 @@ print("Squares:", [x*x for x in nums])</textarea>
   <button class="nav-btn" data-tab="jamaa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L4 8v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg><span>Jamaa</span></button>
   <button class="nav-btn" data-tab="remind"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/></svg><span>Remind</span></button>
   <button class="nav-btn" data-tab="share"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16,6 12,2 8,6"/><line x1="12" y1="2" x2="12" y2="15"/></svg><span>Share</span></button>
+  <button class="nav-btn" data-tab="learn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Learn</span></button>
+  <button class="nav-btn" data-tab="tools"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg><span>Tools</span></button>
+  <button class="nav-btn" data-tab="stats"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg><span>Stats</span></button>
+  <button class="nav-btn" data-tab="achv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg><span>Achv</span></button>
+  <button class="nav-btn" data-tab="charts"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg><span>Charts</span></button>
 </div>
 
 
@@ -1821,13 +1827,13 @@ const BOOKS=[
   {id:'noroom',name:'No Room for Doubt'}
 ];
 const DAILY_READING={
-  Monday:{book:'Sözler',detail:'Risale',min:30},
-  Tuesday:{book:'Gençlik Rehberi',detail:'Risale',min:30},
-  Wednesday:{book:'İrşad Ekseni',detail:'Pırlanta',min:30},
-  Thursday:{book:'İnancın Gölgesinde',detail:'Pırlanta',min:30},
-  Friday:{book:'No Room for Doubt',detail:'Dini',min:30},
-  Saturday:{book:'Sözler',detail:'Focus',min:30},
-  Sunday:{book:'Family reading',detail:'Light',min:30}
+  Monday:{book:'Python Crash Course',detail:'Data Science',min:30},
+  Tuesday:{book:'Atomic Habits',detail:'Self-Development',min:30},
+  Wednesday:{book:'Python for Data Analysis',detail:'Data Science',min:30},
+  Thursday:{book:'The Sealed Nectar',detail:'Seerah',min:30},
+  Friday:{book:'Hands-On Machine Learning',detail:'Data Science',min:30},
+  Saturday:{book:'Deep Work',detail:'Self-Development',min:30},
+  Sunday:{book:'Reclaim Your Heart',detail:'Spirituality',min:30}
 };
 const DAILY_DS={
   Monday:{level:'L1',title:'Python Fundamentals',detail:'Variables, control flow, functions, lists, dictionaries, OOP basics',topics:['Variables','Control flow','Functions','Lists/Dicts','File I/O','Errors']},
@@ -1858,6 +1864,7 @@ const PROJECTS=[
 ];
 
 /* ============ STORAGE ============ */
+const BOOK_LIBRARY=[]; /* placeholder — new PDF library replaces old reader */
 const KEYS={
   checklist:'mp20_checklist',reflection:'mp20_reflection',history:'mp20_history',streak:'mp20_streak',
   dsTree:'mp20_dsTree',brotherReports:'mp20_brotherReports',jamaa:'mp20_jamaa',
@@ -2670,7 +2677,7 @@ document.getElementById('settingsBtn').onclick=()=>{
         <button class="btn small ${s.theme==='light'?'primary':''}" data-theme-pick="light" style="flex:1;border:none">Light</button>
       </div>
     </div>
-    <div class="section-label">App</div><div class="setting-row"><div><div class="sr-label">Version</div><div class="sr-sub" id="appVersion">v21 · auto-updates on push</div></div></div><div class="section-label">App</div><div class="setting-row"><div><div class="sr-label">Version</div><div class="sr-sub" id="appVersion">v21 · auto-updates on push</div></div></div><div class="section-label">Location — prayer times</div>
+    <div class="section-label">App</div><div class="setting-row"><div><div class="sr-label">Version</div><div class="sr-sub" id="appVersion">v21 · auto-updates on push</div></div></div><div class="section-label">Location — prayer times</div>
     <div class="field"><label>City</label><input type="text" id="setCity" value="${esc(s.city)}" placeholder="Istanbul"></div>
     <div class="field"><label>Country</label><input type="text" id="setCountry" value="${esc(s.country)}" placeholder="Turkey"></div>
     <div class="modal-actions"><button class="btn" id="settingsCancel">Cancel</button><button class="btn primary" id="settingsSave">Save</button></div>
@@ -2752,7 +2759,7 @@ function renderAll(){
 }
 
 async function init(){
-  const c=store.get('mp20_prayerCache',null);
+  const c=store.get('mp20_prayerCache_v2',null);
   if(c&&c.date===todayKey())prayerTimes=c.times;
   renderAll();applyTheme();fetchPrayerTimes();
   setInterval(renderNow,1000);
@@ -6017,6 +6024,8 @@ function wireReaderControls(){
    OPEN LIBRARY
    ============================================================ */
 function openBooksLibrary(){
+  /* Route to the new PDF library (openMyLibrary defined later) */
+  if (typeof openMyLibrary === 'function') { openMyLibrary(); return; }
   const lib = document.getElementById('booksLibrary');
   if (!lib) return;
   lib.style.display = 'block';
@@ -6051,15 +6060,16 @@ function wireBooksLibrary(){
    OPEN TODAY'S BOOK
    ============================================================ */
 function openTodaysBook(){
-  const day = WEEKDAY_NAMES[new Date().getDay()];
-  const plan = DAILY_READING[day];
-  if (!plan) { openBooksLibrary(); return; }
-  const book = BOOK_LIBRARY.find(b => b.title === plan.book);
-  if (book) openBook(book);
-  else {
-    toast('Book "' + plan.book + '" not in library — opening library', 'info', 2000);
-    setTimeout(openBooksLibrary, 800);
+  /* Route to PDF system (getTodaysPDFBook defined later) */
+  if (typeof getTodaysPDFBook === 'function' && typeof openPDFAtPage === 'function') {
+    const book = getTodaysPDFBook();
+    if (book) {
+      const prog = getBookProgress(book.id);
+      openPDFAtPage(book, prog.currentPage || 1);
+      return;
+    }
   }
+  openBooksLibrary();
 }
 
 /* ============================================================
