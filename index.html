@@ -1277,7 +1277,9 @@ input,textarea,select{font-family:inherit}
 
 
 
-<!-- cache:1790219002 -->
+
+
+<!-- cache:1790221095 -->
 </head>
 <body data-theme="dark">
 
@@ -1766,6 +1768,8 @@ print("Squares:", [x*x for x in nums])</textarea>
   <button class="nav-btn" data-tab="jamaa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L4 8v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg><span>Jamaa</span></button>
   <button class="nav-btn" data-tab="remind"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/></svg><span>Remind</span></button>
   <button class="nav-btn" data-tab="share"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16,6 12,2 8,6"/><line x1="12" y1="2" x2="12" y2="15"/></svg><span>Share</span></button>
+  <button class="nav-btn" id="navRisale"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Risale</span></button>
+  <button class="nav-btn" id="navPirlanta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l4 6-10 12L2 9z"/></svg><span>Pirlanta</span></button>
   <button class="nav-btn" data-tab="learn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Learn</span></button>
   <button class="nav-btn" data-tab="tools"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg><span>Tools</span></button>
   <button class="nav-btn" data-tab="stats"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg><span>Stats</span></button>
@@ -6130,45 +6134,48 @@ window.openBook = openBook;
    PDF BOOKS SYSTEM — REAL PDFs with page tracking
    ============================================================ */
 
-const PDF_BOOKS_KEY = 'mp20_pdf_books_v5';
+const PDF_BOOKS_KEY = 'mp20_pdf_books_v6';
 const PDF_PROGRESS_KEY = 'mp20_pdf_progress';
 
 // Default PDF book list (user can edit URLs)
 const DEFAULT_PDF_BOOKS = [
-  {id:'words',title:'The Words',titleTr:'Sozler',author:'Bediuzzaman Said Nursi',collection:'Risale-i Nur',category:'Risale',icon:'📖',pdfUrl:'',totalPages:800,dailyPages:15},
-  {id:'letters',title:'The Letters',titleTr:'Mektubat',author:'Bediuzzaman Said Nursi',collection:'Risale-i Nur',category:'Risale',icon:'✉️',pdfUrl:'',totalPages:750,dailyPages:15},
-  {id:'flashes',title:'The Flashes',titleTr:'Lemalar',author:'Bediuzzaman Said Nursi',collection:'Risale-i Nur',category:'Risale',icon:'⚡',pdfUrl:'',totalPages:700,dailyPages:15},
-  {id:'rays',title:'The Rays',titleTr:'Sualar',author:'Bediuzzaman Said Nursi',collection:'Risale-i Nur',category:'Risale',icon:'☀️',pdfUrl:'',totalPages:850,dailyPages:15},
-  {id:'signs',title:'The Signs of Miraculousness',titleTr:'Isaratul Icaz',author:'Bediuzzaman Said Nursi',collection:'Risale-i Nur',category:'Risale',icon:'✨',pdfUrl:'',totalPages:400,dailyPages:12},
-  {id:'mathnawi',title:'Al-Mathnawi al-Nuri',titleTr:'Mesnevi-i Nuriye',author:'Bediuzzaman Said Nursi',collection:'Risale-i Nur',category:'Risale',icon:'📜',pdfUrl:'',totalPages:350,dailyPages:12},
-  {id:'staffmoses',title:'The Staff of Moses',titleTr:'Asa-yi Musa',author:'Bediuzzaman Said Nursi',collection:'Risale-i Nur',category:'Risale',icon:'🪄',pdfUrl:'',totalPages:300,dailyPages:12},
-  {id:'barlaletter',title:'The Barla Letters',titleTr:'Barla Lahikasi',author:'Bediuzzaman Said Nursi',collection:'Risale-i Nur',category:'Risale',icon:'📩',pdfUrl:'',totalPages:250,dailyPages:10},
-  {id:'kastamonu',title:'The Kastamonu Letters',titleTr:'Kastamonu Lahikasi',author:'Bediuzzaman Said Nursi',collection:'Risale-i Nur',category:'Risale',icon:'📩',pdfUrl:'',totalPages:200,dailyPages:10},
-  {id:'emirdag',title:'The Emirdag Letters',titleTr:'Emirdag Lahikasi',author:'Bediuzzaman Said Nursi',collection:'Risale-i Nur',category:'Risale',icon:'📩',pdfUrl:'',totalPages:220,dailyPages:10},
-  {id:'reasonings',title:'The Reasonings',titleTr:'Muhakemat',author:'Bediuzzaman Said Nursi',collection:'Risale-i Nur',category:'Risale',icon:'🧠',pdfUrl:'',totalPages:180,dailyPages:10},
-  {id:'sunuhat',title:'Flashes of Inspiration',titleTr:'Sunuhat',author:'Bediuzzaman Said Nursi',collection:'Risale-i Nur',category:'Risale',icon:'💡',pdfUrl:'',totalPages:150,dailyPages:8},
-  {id:'biography',title:'The Life of Bediuzzaman Said Nursi',titleTr:'Tarihce-i Hayat',author:'Bediuzzaman Said Nursi',collection:'Risale-i Nur',category:'Risale',icon:'📗',pdfUrl:'',totalPages:600,dailyPages:12},
-  {id:'guideyouth',title:'The Guide for Youth',titleTr:'Genclik Rehberi',author:'Bediuzzaman Said Nursi',collection:'Risale-i Nur',category:'Risale',icon:'🌱',pdfUrl:'',totalPages:150,dailyPages:10},
-  {id:'guideserv',title:'The Guide to Service',titleTr:'Hizmet Rehberi',author:'Bediuzzaman Said Nursi',collection:'Risale-i Nur',category:'Risale',icon:'🤝',pdfUrl:'',totalPages:180,dailyPages:10},
-  {id:'guidewomen',title:'The Guide for Women',titleTr:'Hanimilar Rehberi',author:'Bediuzzaman Said Nursi',collection:'Risale-i Nur',category:'Risale',icon:'🌸',pdfUrl:'',totalPages:160,dailyPages:10},
-  {id:'belief',title:'Comparisons Between Belief and Unbelief',titleTr:'Iman ve Kufur Muvazeneleri',author:'Bediuzzaman Said Nursi',collection:'Risale-i Nur',category:'Risale',icon:'⚖️',pdfUrl:'',totalPages:200,dailyPages:10},
-  {id:'faithtruths',title:'The Truths of Faith',titleTr:'Iman Hakikatleri',author:'Bediuzzaman Said Nursi',collection:'Risale-i Nur',category:'Risale',icon:'🕋',pdfUrl:'',totalPages:180,dailyPages:10},
-  {id:'essentials',title:'The Essentials of the Islamic Faith',titleTr:'Inancin Golgesinde',author:'Fethullah Gulen',collection:'Pirlanta',category:'Pirlanta',icon:'💎',pdfUrl:'',totalPages:350,dailyPages:12},
-  {id:'messenger',title:'The Messenger of God: Muhammad',titleTr:'Sonsuz Nur',author:'Fethullah Gulen',collection:'Pirlanta',category:'Pirlanta',icon:'🌟',pdfUrl:'',totalPages:500,dailyPages:12},
-  {id:'pearls',title:'Pearls of Wisdom',titleTr:'Olcu veya Yoldaki Isiklar',author:'Fethullah Gulen',collection:'Pirlanta',category:'Pirlanta',icon:'💠',pdfUrl:'',totalPages:280,dailyPages:10},
-  {id:'plectrum',title:'Broken Plectrum',titleTr:'Kirik Mizrap',author:'Fethullah Gulen',collection:'Pirlanta',category:'Pirlanta',icon:'🎸',pdfUrl:'',totalPages:250,dailyPages:10},
-  {id:'brokenjug',title:'The Broken Jug',titleTr:'Kirik Testi',author:'Fethullah Gulen',collection:'Pirlanta',category:'Pirlanta',icon:'🏺',pdfUrl:'',totalPages:260,dailyPages:10},
-  {id:'prism',title:'Prism',titleTr:'Prizma',author:'Fethullah Gulen',collection:'Pirlanta',category:'Pirlanta',icon:'🔷',pdfUrl:'',totalPages:220,dailyPages:10},
-  {id:'statue',title:'The Statue of Our Souls',titleTr:'Ruhumuzun Heykelini Dikerken',author:'Fethullah Gulen',collection:'Pirlanta',category:'Pirlanta',icon:'🗿',pdfUrl:'',totalPages:240,dailyPages:10},
-  {id:'lostparadise',title:'Towards the Lost Paradise',titleTr:'Buhranlar Anaforunda Insan',author:'Fethullah Gulen',collection:'Pirlanta',category:'Pirlanta',icon:'🌅',pdfUrl:'',totalPages:280,dailyPages:10},
-  {id:'qaislam',title:'Questions and Answers about Islam',titleTr:'Fasildan Fasila',author:'Fethullah Gulen',collection:'Pirlanta',category:'Pirlanta',icon:'❓',pdfUrl:'',totalPages:300,dailyPages:10},
-  {id:'sufism',title:'Key Concepts in the Practice of Sufism',titleTr:'Tasavvufun Esaslari',author:'Fethullah Gulen',collection:'Pirlanta',category:'Pirlanta',icon:'🌀',pdfUrl:'',totalPages:320,dailyPages:10},
-  {id:'childedu',title:'Religious Education of the Child',titleTr:'Cocuk Terbiyesi',author:'Fethullah Gulen',collection:'Pirlanta',category:'Pirlanta',icon:'👶',pdfUrl:'',totalPages:180,dailyPages:8},
-  {id:'lovetol',title:'Love and Tolerance',titleTr:'Hosgoru ve Diyalog Iklimi',author:'Fethullah Gulen',collection:'Pirlanta',category:'Pirlanta',icon:'❤️',pdfUrl:'',totalPages:220,dailyPages:10},
-  {id:'reunion',title:'Reunion with Ourselves',titleTr:'Kendi Dunyamiza Dogru',author:'Fethullah Gulen',collection:'Pirlanta',category:'Pirlanta',icon:'🔙',pdfUrl:'',totalPages:200,dailyPages:10},
-  {id:'generations',title:'Generations of Hope',titleTr:'Cag ve Nesil',author:'Fethullah Gulen',collection:'Pirlanta',category:'Pirlanta',icon:'🌱',pdfUrl:'',totalPages:240,dailyPages:10},
-  {id:'lifeafter',title:'Life After Death',titleTr:'Olum Otesi Hayat',author:'Fethullah Gulen',collection:'Pirlanta',category:'Pirlanta',icon:'🌌',pdfUrl:'',totalPages:200,dailyPages:10},
-  {id:'axisguide',title:'The Axis of Guidance',titleTr:'Irsad Ekseni',author:'Fethullah Gulen',collection:'Pirlanta',category:'Pirlanta',icon:'🧭',pdfUrl:'',totalPages:260,dailyPages:10}
+  // ═══════════ RISALE-I NUR (Bediuzzaman Said Nursi) ═══════════
+  {id:'words',title:'The Words',titleTr:'Sozler',author:'Bediuzzaman Said Nursi',collection:'Risale-i Nur',icon:'📖',pdfUrl:'',totalPages:800,dailyPages:15},
+  {id:'letters',title:'The Letters',titleTr:'Mektubat',author:'Bediuzzaman Said Nursi',collection:'Risale-i Nur',icon:'✉️',pdfUrl:'',totalPages:750,dailyPages:15},
+  {id:'flashes',title:'The Flashes',titleTr:'Lemalar',author:'Bediuzzaman Said Nursi',collection:'Risale-i Nur',icon:'⚡',pdfUrl:'',totalPages:700,dailyPages:15},
+  {id:'rays',title:'The Rays',titleTr:'Sualar',author:'Bediuzzaman Said Nursi',collection:'Risale-i Nur',icon:'☀️',pdfUrl:'',totalPages:850,dailyPages:15},
+  {id:'signs',title:'The Signs of Miraculousness',titleTr:'Isaratul Icaz',author:'Bediuzzaman Said Nursi',collection:'Risale-i Nur',icon:'✨',pdfUrl:'',totalPages:400,dailyPages:12},
+  {id:'mathnawi',title:'Al-Mathnawi al-Nuri',titleTr:'Mesnevi-i Nuriye',author:'Bediuzzaman Said Nursi',collection:'Risale-i Nur',icon:'📜',pdfUrl:'',totalPages:350,dailyPages:12},
+  {id:'staffmoses',title:'The Staff of Moses',titleTr:'Asa-yi Musa',author:'Bediuzzaman Said Nursi',collection:'Risale-i Nur',icon:'🪄',pdfUrl:'',totalPages:300,dailyPages:12},
+  {id:'barlaletter',title:'The Barla Letters',titleTr:'Barla Lahikasi',author:'Bediuzzaman Said Nursi',collection:'Risale-i Nur',icon:'📩',pdfUrl:'',totalPages:250,dailyPages:10},
+  {id:'kastamonu',title:'The Kastamonu Letters',titleTr:'Kastamonu Lahikasi',author:'Bediuzzaman Said Nursi',collection:'Risale-i Nur',icon:'📩',pdfUrl:'',totalPages:200,dailyPages:10},
+  {id:'emirdag',title:'The Emirdag Letters',titleTr:'Emirdag Lahikasi',author:'Bediuzzaman Said Nursi',collection:'Risale-i Nur',icon:'📩',pdfUrl:'',totalPages:220,dailyPages:10},
+  {id:'reasonings',title:'The Reasonings',titleTr:'Muhakemat',author:'Bediuzzaman Said Nursi',collection:'Risale-i Nur',icon:'🧠',pdfUrl:'',totalPages:180,dailyPages:10},
+  {id:'sunuhat',title:'Flashes of Inspiration',titleTr:'Sunuhat',author:'Bediuzzaman Said Nursi',collection:'Risale-i Nur',icon:'💡',pdfUrl:'',totalPages:150,dailyPages:8},
+  {id:'biography',title:'The Life of Bediuzzaman Said Nursi',titleTr:'Tarihce-i Hayat',author:'Bediuzzaman Said Nursi',collection:'Risale-i Nur',icon:'📗',pdfUrl:'',totalPages:600,dailyPages:12},
+  {id:'guideyouth',title:'The Guide for Youth',titleTr:'Genclik Rehberi',author:'Bediuzzaman Said Nursi',collection:'Risale-i Nur',icon:'🌱',pdfUrl:'',totalPages:150,dailyPages:10},
+  {id:'guideserv',title:'The Guide to Service',titleTr:'Hizmet Rehberi',author:'Bediuzzaman Said Nursi',collection:'Risale-i Nur',icon:'🤝',pdfUrl:'',totalPages:180,dailyPages:10},
+  {id:'guidewomen',title:'The Guide for Women',titleTr:'Hanimlar Rehberi',author:'Bediuzzaman Said Nursi',collection:'Risale-i Nur',icon:'🌸',pdfUrl:'',totalPages:160,dailyPages:10},
+  {id:'belief',title:'Comparisons Between Belief and Unbelief',titleTr:'Iman ve Kufur Muvazeneleri',author:'Bediuzzaman Said Nursi',collection:'Risale-i Nur',icon:'⚖️',pdfUrl:'',totalPages:200,dailyPages:10},
+  {id:'faithtruths',title:'The Truths of Faith',titleTr:'Iman Hakikatleri',author:'Bediuzzaman Said Nursi',collection:'Risale-i Nur',icon:'🕋',pdfUrl:'',totalPages:180,dailyPages:10},
+
+  // ═══════════ PIRLANTA (Fethullah Gulen) ═══════════
+  {id:'essentials',title:'The Essentials of the Islamic Faith',titleTr:'Inancin Golgesinde',author:'Fethullah Gulen',collection:'Pirlanta',icon:'💎',pdfUrl:'',totalPages:350,dailyPages:12},
+  {id:'messenger',title:'The Messenger of God: Muhammad',titleTr:'Sonsuz Nur',author:'Fethullah Gulen',collection:'Pirlanta',icon:'🌟',pdfUrl:'',totalPages:500,dailyPages:12},
+  {id:'pearls',title:'Pearls of Wisdom',titleTr:'Olcu veya Yoldaki Isiklar',author:'Fethullah Gulen',collection:'Pirlanta',icon:'💠',pdfUrl:'',totalPages:280,dailyPages:10},
+  {id:'plectrum',title:'Broken Plectrum',titleTr:'Kirik Mizrap',author:'Fethullah Gulen',collection:'Pirlanta',icon:'🎸',pdfUrl:'',totalPages:250,dailyPages:10},
+  {id:'brokenjug',title:'The Broken Jug',titleTr:'Kirik Testi',author:'Fethullah Gulen',collection:'Pirlanta',icon:'🏺',pdfUrl:'',totalPages:260,dailyPages:10},
+  {id:'prism',title:'Prism',titleTr:'Prizma',author:'Fethullah Gulen',collection:'Pirlanta',icon:'🔷',pdfUrl:'',totalPages:220,dailyPages:10},
+  {id:'statue',title:'The Statue of Our Souls',titleTr:'Ruhumuzun Heykelini Dikerken',author:'Fethullah Gulen',collection:'Pirlanta',icon:'🗿',pdfUrl:'',totalPages:240,dailyPages:10},
+  {id:'lostparadise',title:'Towards the Lost Paradise',titleTr:'Buhranlar Anaforunda Insan',author:'Fethullah Gulen',collection:'Pirlanta',icon:'🌅',pdfUrl:'',totalPages:280,dailyPages:10},
+  {id:'qaislam',title:'Questions and Answers about Islam',titleTr:'Fasildan Fasila',author:'Fethullah Gulen',collection:'Pirlanta',icon:'❓',pdfUrl:'',totalPages:300,dailyPages:10},
+  {id:'sufism',title:'Key Concepts in the Practice of Sufism',titleTr:'Tasavvufun Esaslari',author:'Fethullah Gulen',collection:'Pirlanta',icon:'🌀',pdfUrl:'',totalPages:320,dailyPages:10},
+  {id:'childedu',title:'Religious Education of the Child',titleTr:'Cocuk Terbiyesi',author:'Fethullah Gulen',collection:'Pirlanta',icon:'👶',pdfUrl:'',totalPages:180,dailyPages:8},
+  {id:'lovetol',title:'Love and Tolerance',titleTr:'Hosgoru ve Diyalog Iklimi',author:'Fethullah Gulen',collection:'Pirlanta',icon:'❤️',pdfUrl:'',totalPages:220,dailyPages:10},
+  {id:'reunion',title:'Reunion with Ourselves',titleTr:'Kendi Dunyamiza Dogru',author:'Fethullah Gulen',collection:'Pirlanta',icon:'🔙',pdfUrl:'',totalPages:200,dailyPages:10},
+  {id:'generations',title:'Generations of Hope',titleTr:'Cag ve Nesil',author:'Fethullah Gulen',collection:'Pirlanta',icon:'🌱',pdfUrl:'',totalPages:240,dailyPages:10},
+  {id:'lifeafter',title:'Life After Death',titleTr:'Olum Otesi Hayat',author:'Fethullah Gulen',collection:'Pirlanta',icon:'🌌',pdfUrl:'',totalPages:200,dailyPages:10},
+  {id:'axisguide',title:'The Axis of Guidance',titleTr:'Irsad Ekseni',author:'Fethullah Gulen',collection:'Pirlanta',icon:'🧭',pdfUrl:'',totalPages:260,dailyPages:10}
 ];
 
 /* ---------- Storage helpers ---------- */
@@ -6209,6 +6216,37 @@ function getTodaysPDFBook(){
 
 /* ---------- Open PDF at page ---------- */
 function openPDFAtPage(book, page){
+  // ── Build the correct URL for local files OR web URLs ──
+  function buildPdfUrl(raw){
+    let url = (raw || '').trim();
+    if (!url) return '';
+    // If it's a bare absolute path like /home/user/... → add file://
+    if (url.startsWith('/') && !url.startsWith('//')) {
+      return 'file://' + url;
+    }
+    // If it looks like a Windows path (C:\...) → add file:///
+    if (/^[A-Za-z]:[\\/]/.test(url)) {
+      return 'file:///' + url.replace(/\\/g, '/');
+    }
+    // If already has a protocol → use as-is
+    return url;
+  }
+  const baseUrl = buildPdfUrl(book.pdfUrl);
+  if (!baseUrl) {
+    toast('No PDF path set — tap Edit to add one', 'warn', 2500);
+    editPDFBook(book.id);
+    return;
+  }
+  const url = baseUrl + '#page=' + page;
+  window.open(url, '_blank');
+  vibrate(20);
+  const today = todayKey();
+  const prog = getBookProgress(book.id);
+  if (prog.todayDate !== today) {
+    setBookProgress(book.id, { todayDate: today, pagesReadToday: 0, lastReadDate: today });
+  }
+}
+function _origOpenPDFAtPage(book, page){
   if (!book.pdfUrl) {
     toast('No PDF link set — tap Edit to add one', 'warn', 2500);
     editPDFBook(book.id);
@@ -6269,12 +6307,19 @@ function editPDFBook(bookId){
     <p style="color:var(--text-2);font-size:.85rem;margin-bottom:1rem">${esc(book.author)}</p>
 
     <div class="field">
-      <label>PDF URL (link to your PDF file)</label>
-      <input type="url" id="pbUrl" placeholder="https://example.com/sozler.pdf" value="${esc(book.pdfUrl)}">
+      <label>PDF path or URL</label>
+      <input type="text" id="pbUrl" placeholder="/home/ibrahim/Documents/BOOKS/The_Staff_of_Moses.pdf" value="${esc(book.pdfUrl)}">
     </div>
     <div class="url-hint">
-      💡 Paste any public PDF link (Dropbox, Google Drive, your own server).<br>
-      Google Drive: change <b>view</b> → <b>preview</b> and remove everything after the file ID.
+      💡 You can paste <b>any</b> of these:<br>
+      • <b>Local file:</b> <code>/home/ibrahim/Documents/BOOKS/book.pdf</code><br>
+      • <b>file:// URL:</b> <code>file:///home/ibrahim/Documents/BOOKS/book.pdf</code><br>
+      • <b>Web URL:</b> <code>https://example.com/book.pdf</code><br>
+      • <b>Dropbox:</b> change <code>?dl=0</code> → <code>?raw=1</code><br>
+      • <b>Google Drive:</b> <code>https://drive.google.com/file/d/FILE_ID/preview</code>
+    </div>
+    <div style="margin-top:.5rem;padding:.6rem;background:var(--bg-2);border:1px solid var(--border);border-radius:10px;font-size:.72rem;color:var(--text-3)">
+      <b style="color:var(--accent)">📁 Tip:</b> If your app runs on <code>file://</code> or Live Server, local paths work directly.
     </div>
 
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-top:1rem">
@@ -6286,6 +6331,14 @@ function editPDFBook(bookId){
         <label>Daily target (pages)</label>
         <input type="number" id="pbDaily" min="1" value="${book.dailyPages}">
       </div>
+    </div>
+
+    <div style="display:flex;gap:.5rem;margin-top:.7rem">
+      <button class="btn" id="pbBrowse" style="flex:1">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+        Browse local file
+      </button>
+      <input type="file" id="pbFile" accept="application/pdf,.pdf" style="display:none">
     </div>
 
     <div class="modal-actions">
@@ -6304,6 +6357,23 @@ function editPDFBook(bookId){
     if (typeof toast === 'function') toast('Set as today book', 'success');
     if (typeof vibrate === 'function') vibrate(20);
   };
+  // Browse local file button
+  const pbBrowse = document.getElementById('pbBrowse');
+  const pbFile = document.getElementById('pbFile');
+  if (pbBrowse && pbFile) {
+    pbBrowse.onclick = () => pbFile.click();
+    pbFile.onchange = (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      // Browsers don't expose full file:// path (security), so we try:
+      // 1) If user picked a file, we can still open it via object URL
+      // 2) But to have persistent page tracking, user should paste the path
+      const objUrl = URL.createObjectURL(file);
+      document.getElementById('pbUrl').value = objUrl;
+      toast('Selected — for persistent tracking, paste the full path instead', 'info', 3500);
+    };
+  }
+
   document.getElementById('pbSave').onclick = () => {
     const url = document.getElementById('pbUrl').value.trim();
     const total = parseInt(document.getElementById('pbTotal').value) || 1;
@@ -6622,6 +6692,94 @@ setInterval(wireMyLibrary, 3000);
 window.openMyLibrary = openMyLibrary;
 window.renderMyLibrary = renderMyLibrary;
 
+
+
+
+/* ============================================================
+   SPECIAL PAGES — Risale-i Nur + Pirlanta
+   ============================================================ */
+function renderSpecialPage(collection, gridId, countId, searchId){
+  const grid = document.getElementById(gridId);
+  const count = document.getElementById(countId);
+  const searchEl = document.getElementById(searchId);
+  if (!grid) return;
+  const q = (searchEl?.value || '').toLowerCase().trim();
+  const all = getPDFBooks().filter(b => b.collection === collection);
+  const list = q ? all.filter(b =>
+    (b.title||'').toLowerCase().includes(q) ||
+    (b.titleTr||'').toLowerCase().includes(q) ||
+    (b.author||'').toLowerCase().includes(q)
+  ) : all;
+  if (count) count.textContent = list.length + ' books';
+  if (list.length === 0) {
+    grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1;padding:2rem"><div class="es-title">No books found</div></div>';
+    return;
+  }
+  grid.innerHTML = list.map(b => {
+    const prog = getBookProgress(b.id);
+    const pct = b.totalPages > 0 ? Math.min(100, (prog.currentPage / b.totalPages) * 100) : 0;
+    const isLinked = !!b.pdfUrl;
+    const trLine = b.titleTr ? '<div class="lbc-title-tr">' + esc(b.titleTr) + '</div>' : '';
+    return '<div class="lib-book-card ' + (isLinked ? 'linked' : '') + '" data-sp-book="' + b.id + '">' +
+      '<div class="lbc-icon">' + b.icon + '</div>' +
+      '<div class="lbc-title">' + esc(b.title) + '</div>' + trLine +
+      '<div class="lbc-author">' + esc(b.author) + '</div>' +
+      '<div class="lbc-status ' + (isLinked ? 'linked' : 'empty') + '">' + (isLinked ? 'Linked' : '+ Add PDF') + '</div>' +
+      (isLinked ? '<div class="lbc-progress"><div class="lbc-progress-fill" style="width:' + pct + '%"></div></div>' : '') +
+      '</div>';
+  }).join('');
+  grid.querySelectorAll('[data-sp-book]').forEach(card => {
+    card.onclick = () => {
+      const book = getPDFBooks().find(b => b.id === card.dataset.spBook);
+      if (book) editPDFBook(book.id);
+    };
+  });
+}
+
+function openRisalePage(){
+  document.getElementById('risalePage').style.display = 'block';
+  document.body.style.overflow = 'hidden';
+  renderSpecialPage('Risale-i Nur', 'risaleGrid', 'risaleCount', 'risaleSearch');
+  vibrate(12);
+}
+function openPirlantaPage(){
+  document.getElementById('pirlantaPage').style.display = 'block';
+  document.body.style.overflow = 'hidden';
+  renderSpecialPage('Pirlanta', 'pirlantaGrid', 'pirlantaCount', 'pirlantaSearch');
+  vibrate(12);
+}
+function closeSpecial(id){
+  document.getElementById(id).style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+function wireSpecialPages(){
+  const rBtn = document.getElementById('risaleCloseBtn');
+  const pBtn = document.getElementById('pirlantaCloseBtn');
+  const rSearch = document.getElementById('risaleSearch');
+  const pSearch = document.getElementById('pirlantaSearch');
+  if (rBtn && !rBtn.dataset.wired) { rBtn.dataset.wired='1'; rBtn.onclick = () => closeSpecial('risalePage'); }
+  if (pBtn && !pBtn.dataset.wired) { pBtn.dataset.wired='1'; pBtn.onclick = () => closeSpecial('pirlantaPage'); }
+  if (rSearch && !rSearch.dataset.wired) { rSearch.dataset.wired='1'; rSearch.oninput = () => renderSpecialPage('Risale-i Nur','risaleGrid','risaleCount','risaleSearch'); }
+  if (pSearch && !pSearch.dataset.wired) { pSearch.dataset.wired='1'; pSearch.oninput = () => renderSpecialPage('Pirlanta','pirlantaGrid','pirlantaCount','pirlantaSearch'); }
+}
+setInterval(wireSpecialPages, 2000);
+
+document.addEventListener('click', e => {
+  if (e.target.closest('#navRisale')) { e.preventDefault(); openRisalePage(); }
+  if (e.target.closest('#navPirlanta')) { e.preventDefault(); openPirlantaPage(); }
+});
+
+setTimeout(wireSpecialPages, 800);
+setTimeout(wireSpecialPages, 1500);
+window.openRisalePage = openRisalePage;
+window.openPirlantaPage = openPirlantaPage;
+
+/* ═══ Force-clear old cached book list so new books load ═══ */
+try {
+  const oldKeys = ['mp20_pdf_books', 'mp20_pdf_books_v2', 'mp20_pdf_books_v3', 'mp20_pdf_books_v4', 'mp20_pdf_books_v5'];
+  oldKeys.forEach(k => localStorage.removeItem(k));
+} catch(e){}
 
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);
 else init();
@@ -6961,6 +7119,62 @@ if ('serviceWorker' in navigator) {
         <span class="lib-count" id="myLibCount">0</span>
       </div>
       <div class="book-grid" id="myLibGrid"></div>
+    </div>
+  </div>
+</div>
+
+
+
+<div id="risalePage" style="display:none;position:fixed;inset:0;z-index:230;background:var(--bg);overflow-y:auto">
+  <div style="min-height:100vh;display:flex;flex-direction:column">
+    <div class="reader-top">
+      <div class="reader-back" id="risaleCloseBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </div>
+      <div class="reader-title">
+        <h3>📖 Risale-i Nur</h3>
+        <div class="reader-sub" id="risaleSub">Bediuzzaman Said Nursi · 18 books</div>
+      </div>
+    </div>
+    <div style="padding:1rem 1.1rem;flex:1">
+      <div style="background:linear-gradient(135deg,rgba(95,211,182,.15),rgba(107,184,255,.08));border:1px solid rgba(95,211,182,.4);border-radius:14px;padding:1rem;margin-bottom:1rem">
+        <div style="font-size:.72rem;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.4rem">📚 Collection</div>
+        <div style="font-size:1.05rem;font-weight:800;color:var(--text);margin-bottom:.2rem">Risale-i Nur</div>
+        <div style="font-size:.8rem;color:var(--text-2);line-height:1.5">The complete works of Bediuzzaman Said Nursi — The Words, The Letters, The Flashes, The Rays, and more.</div>
+      </div>
+      <input type="text" class="ds-lib-search" id="risaleSearch" placeholder="Search Risale-i Nur books..." style="width:100%;margin-bottom:.8rem">
+      <div class="lib-head-row">
+        <span style="font-size:.7rem;font-weight:800;color:var(--text-3);text-transform:uppercase;letter-spacing:.06em">All Risale-i Nur Books</span>
+        <span class="lib-count" id="risaleCount">0</span>
+      </div>
+      <div class="book-grid" id="risaleGrid"></div>
+    </div>
+  </div>
+</div>
+
+<div id="pirlantaPage" style="display:none;position:fixed;inset:0;z-index:230;background:var(--bg);overflow-y:auto">
+  <div style="min-height:100vh;display:flex;flex-direction:column">
+    <div class="reader-top">
+      <div class="reader-back" id="pirlantaCloseBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </div>
+      <div class="reader-title">
+        <h3>💎 Pirlanta</h3>
+        <div class="reader-sub" id="pirlantaSub">Fethullah Gulen · 16 books</div>
+      </div>
+    </div>
+    <div style="padding:1rem 1.1rem;flex:1">
+      <div style="background:linear-gradient(135deg,rgba(181,143,255,.15),rgba(107,184,255,.08));border:1px solid rgba(181,143,255,.4);border-radius:14px;padding:1rem;margin-bottom:1rem">
+        <div style="font-size:.72rem;font-weight:800;color:var(--purple);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.4rem">💎 Collection</div>
+        <div style="font-size:1.05rem;font-weight:800;color:var(--text);margin-bottom:.2rem">Pirlanta</div>
+        <div style="font-size:.8rem;color:var(--text-2);line-height:1.5">The English works of Fethullah Gulen — The Essentials, Messenger of God, Pearls of Wisdom, and more.</div>
+      </div>
+      <input type="text" class="ds-lib-search" id="pirlantaSearch" placeholder="Search Pirlanta books..." style="width:100%;margin-bottom:.8rem">
+      <div class="lib-head-row">
+        <span style="font-size:.7rem;font-weight:800;color:var(--text-3);text-transform:uppercase;letter-spacing:.06em">All Pirlanta Books</span>
+        <span class="lib-count" id="pirlantaCount">0</span>
+      </div>
+      <div class="book-grid" id="pirlantaGrid"></div>
     </div>
   </div>
 </div>
