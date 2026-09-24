@@ -1261,6 +1261,10 @@ input,textarea,select{font-family:inherit}
 .lib-head-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:.6rem}
 .lib-head-row .lib-count{font-size:.72rem;font-weight:800;color:var(--text-3);background:var(--bg-1);padding:.3rem .7rem;border-radius:10px;border:1px solid var(--border)}
 
+
+.lib-book-card .lbc-title-tr{font-size:.6rem;color:var(--text-4);text-align:center;margin-bottom:.2rem;font-style:italic;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lib-book-card .lbc-collection{font-size:.55rem;font-weight:800;color:var(--accent);text-align:center;text-transform:uppercase;letter-spacing:.04em;margin:.25rem 0 .35rem;background:var(--accent-soft);padding:.15rem .4rem;border-radius:6px;display:inline-block;width:100%}
+
 </style>
 
 
@@ -1272,7 +1276,8 @@ input,textarea,select{font-family:inherit}
 
 
 
-<!-- cache:1790218308 -->
+
+<!-- cache:1790219002 -->
 </head>
 <body data-theme="dark">
 
@@ -2189,14 +2194,34 @@ function renderDSCard(){
   document.getElementById('dsTopics').innerHTML=plan.topics.map(t=>`<span class="ds-topic">${t}</span>`).join('');
 }
 function renderReadingCard(){
-  const day=WEEKDAY_NAMES[new Date().getDay()];
-  const plan=DAILY_READING[day]||{book:'—',detail:'',min:30};
-  const today=state.brotherReports[todayKey()]||{};
-  const ibrahim=today['ibrahim']||[];
-  const readPages=ibrahim.filter(e=>e.book===plan.book).reduce((s,e)=>s+(e.pages||0),0);
-  document.getElementById('readingBook').textContent=plan.book;
-  document.getElementById('readingDetail').innerHTML=readPages>0?`${plan.detail} · <b>${readPages} pages today</b>`:`${plan.detail} · Target <b>${plan.min} min</b>`;
-  document.getElementById('readingTimeBadge').textContent=plan.min+' min';
+  const day = WEEKDAY_NAMES[new Date().getDay()];
+  const plan = DAILY_READING[day] || {book:'-', detail:'', min:30};
+  let pick = null;
+  try { pick = JSON.parse(localStorage.getItem('mp20_today_book') || 'null'); } catch(e){}
+  let pdfBook = null;
+  if (pick && pick.bookId && typeof getPDFBooks === 'function') {
+    pdfBook = getPDFBooks().find(b => b.id === pick.bookId);
+  }
+  let prog = null;
+  let pagesReadToday = 0;
+  if (pdfBook) {
+    prog = getBookProgress(pdfBook.id);
+    pagesReadToday = prog.todayDate === todayKey() ? (prog.pagesReadToday || 0) : 0;
+  }
+  const bookTitle = pdfBook ? pdfBook.title : plan.book;
+  const bookDetail = pdfBook ? (pdfBook.collection || plan.detail) : plan.detail;
+  document.getElementById('readingBook').textContent = bookTitle;
+  if (pdfBook && prog) {
+    const daily = pdfBook.dailyPages || 15;
+    const fromPage = prog.currentPage;
+    const toPage = Math.min(pdfBook.totalPages, fromPage + daily - 1);
+    document.getElementById('readingDetail').innerHTML =
+      bookDetail + ' - Pages <b>' + fromPage + ' -> ' + toPage + '</b> - <b>' + pagesReadToday + 'p today</b>';
+  } else {
+    document.getElementById('readingDetail').innerHTML =
+      (bookDetail || 'Open library') + ' - Tap My Library to pick';
+  }
+  document.getElementById('readingTimeBadge').textContent = plan.min + ' min';
 }
 document.getElementById('readingLogBtn').onclick=()=>openBrotherReport('ibrahim');
 
@@ -6105,57 +6130,45 @@ window.openBook = openBook;
    PDF BOOKS SYSTEM — REAL PDFs with page tracking
    ============================================================ */
 
-const PDF_BOOKS_KEY = 'mp20_pdf_books_v2';
+const PDF_BOOKS_KEY = 'mp20_pdf_books_v5';
 const PDF_PROGRESS_KEY = 'mp20_pdf_progress';
 
 // Default PDF book list (user can edit URLs)
 const DEFAULT_PDF_BOOKS = [
-  // QURAN & TAFSIR
-  {id:'quran',title:'The Noble Qur\'an (English)',author:'English Translation',icon:'📖',category:'Quran',pdfUrl:'',totalPages:604,dailyPages:10},
-  {id:'asad',title:'The Message of the Qur\'an',author:'Muhammad Asad',icon:'📗',category:'Quran',pdfUrl:'',totalPages:1200,dailyPages:8},
-  {id:'ibnkathir',title:'Tafsir Ibn Kathir (Abridged)',author:'Ibn Kathir',icon:'📘',category:'Quran',pdfUrl:'',totalPages:3000,dailyPages:10},
-
-  // HADITH
-  {id:'riyad',title:'Riyad as-Salihin',author:'Imam An-Nawawi',icon:'📜',category:'Hadith',pdfUrl:'',totalPages:700,dailyPages:10},
-  {id:'bukhari',title:'Sahih Bukhari (English)',author:'Imam Bukhari',icon:'📚',category:'Hadith',pdfUrl:'',totalPages:1500,dailyPages:10},
-  {id:'muslim',title:'Sahih Muslim (English)',author:'Imam Muslim',icon:'📙',category:'Hadith',pdfUrl:'',totalPages:1200,dailyPages:10},
-  {id:'nawawi40',title:'40 Hadith Nawawi',author:'Imam An-Nawawi',icon:'🔖',category:'Hadith',pdfUrl:'',totalPages:100,dailyPages:5},
-
-  // SEERAH
-  {id:'sealed',title:'The Sealed Nectar',author:'Safiur Rahman Mubarakpuri',icon:'🌟',category:'Seerah',pdfUrl:'',totalPages:500,dailyPages:10},
-  {id:'lings',title:'Muhammad: His Life Based on the Earliest Sources',author:'Martin Lings',icon:'🕌',category:'Seerah',pdfUrl:'',totalPages:400,dailyPages:10},
-  {id:'ramadan',title:'In the Footsteps of the Prophet',author:'Tariq Ramadan',icon:'👣',category:'Seerah',pdfUrl:'',totalPages:250,dailyPages:8},
-
-  // SPIRITUALITY
-  {id:'purification',title:'Purification of the Heart',author:'Hamza Yusuf',icon:'💚',category:'Spirituality',pdfUrl:'',totalPages:200,dailyPages:8},
-  {id:'reclaim',title:'Reclaim Your Heart',author:'Yasmin Mogahed',icon:'💖',category:'Spirituality',pdfUrl:'',totalPages:200,dailyPages:8},
-  {id:'dontbesad',title:'Don\'t Be Sad',author:'Aaidh al-Qarni',icon:'🌤',category:'Spirituality',pdfUrl:'',totalPages:400,dailyPages:10},
-  {id:'idealmuslim',title:'The Ideal Muslim',author:'Muhammad Ali al-Hashimi',icon:'⭐',category:'Spirituality',pdfUrl:'',totalPages:400,dailyPages:10},
-
-  // DATA SCIENCE
-  {id:'pcc',title:'Python Crash Course',author:'Eric Matthes',icon:'🐍',category:'Data Science',pdfUrl:'',totalPages:550,dailyPages:15},
-  {id:'automate',title:'Automate the Boring Stuff with Python',author:'Al Sweigart',icon:'🤖',category:'Data Science',pdfUrl:'',totalPages:500,dailyPages:15},
-  {id:'wesm',title:'Python for Data Analysis',author:'Wes McKinney',icon:'🐼',category:'Data Science',pdfUrl:'',totalPages:550,dailyPages:15},
-  {id:'handson',title:'Hands-On Machine Learning',author:'Aurélien Géron',icon:'🧠',category:'Data Science',pdfUrl:'',totalPages:850,dailyPages:15},
-  {id:'isl',title:'An Introduction to Statistical Learning',author:'James, Witten, Hastie, Tibshirani',icon:'📈',category:'Data Science',pdfUrl:'',totalPages:600,dailyPages:15},
-  {id:'deep',title:'Deep Learning',author:'Goodfellow, Bengio, Courville',icon:'🧬',category:'Data Science',pdfUrl:'',totalPages:800,dailyPages:12},
-  {id:'grokking',title:'Grokking Algorithms',author:'Aditya Bhargava',icon:'🎯',category:'Data Science',pdfUrl:'',totalPages:250,dailyPages:10},
-  {id:'storydata',title:'Storytelling with Data',author:'Cole Nussbaumer Knaflic',icon:'📊',category:'Data Science',pdfUrl:'',totalPages:300,dailyPages:10},
-
-  // PROGRAMMING & CS
-  {id:'cleancode',title:'Clean Code',author:'Robert C. Martin',icon:'✨',category:'Programming',pdfUrl:'',totalPages:450,dailyPages:12},
-  {id:'pragprog',title:'The Pragmatic Programmer',author:'Hunt & Thomas',icon:'🛠',category:'Programming',pdfUrl:'',totalPages:350,dailyPages:12},
-  {id:'clrs',title:'Introduction to Algorithms (CLRS)',author:'Cormen, Leiserson, Rivest, Stein',icon:'📕',category:'Programming',pdfUrl:'',totalPages:1300,dailyPages:10},
-  {id:'dbconcepts',title:'Database System Concepts',author:'Silberschatz, Korth, Sudarshan',icon:'🗄',category:'Programming',pdfUrl:'',totalPages:1300,dailyPages:10},
-  {id:'kurose',title:'Computer Networking: Top-Down Approach',author:'Kurose & Ross',icon:'🌐',category:'Programming',pdfUrl:'',totalPages:850,dailyPages:12},
-
-  // SELF-DEVELOPMENT
-  {id:'atomic',title:'Atomic Habits',author:'James Clear',icon:'⚛',category:'Self-Dev',pdfUrl:'',totalPages:320,dailyPages:10},
-  {id:'deepwork',title:'Deep Work',author:'Cal Newport',icon:'🎯',category:'Self-Dev',pdfUrl:'',totalPages:300,dailyPages:10},
-  {id:'7habits',title:'The 7 Habits of Highly Effective People',author:'Stephen Covey',icon:'🏆',category:'Self-Dev',pdfUrl:'',totalPages:380,dailyPages:10},
-  {id:'winfriends',title:'How to Win Friends and Influence People',author:'Dale Carnegie',icon:'🤝',category:'Self-Dev',pdfUrl:'',totalPages:300,dailyPages:10},
-  {id:'frankl',title:'Man\'s Search for Meaning',author:'Viktor Frankl',icon:'🌱',category:'Self-Dev',pdfUrl:'',totalPages:200,dailyPages:8},
-  {id:'kahneman',title:'Thinking, Fast and Slow',author:'Daniel Kahneman',icon:'🧩',category:'Self-Dev',pdfUrl:'',totalPages:500,dailyPages:10}
+  {id:'words',title:'The Words',titleTr:'Sozler',author:'Bediuzzaman Said Nursi',collection:'Risale-i Nur',category:'Risale',icon:'📖',pdfUrl:'',totalPages:800,dailyPages:15},
+  {id:'letters',title:'The Letters',titleTr:'Mektubat',author:'Bediuzzaman Said Nursi',collection:'Risale-i Nur',category:'Risale',icon:'✉️',pdfUrl:'',totalPages:750,dailyPages:15},
+  {id:'flashes',title:'The Flashes',titleTr:'Lemalar',author:'Bediuzzaman Said Nursi',collection:'Risale-i Nur',category:'Risale',icon:'⚡',pdfUrl:'',totalPages:700,dailyPages:15},
+  {id:'rays',title:'The Rays',titleTr:'Sualar',author:'Bediuzzaman Said Nursi',collection:'Risale-i Nur',category:'Risale',icon:'☀️',pdfUrl:'',totalPages:850,dailyPages:15},
+  {id:'signs',title:'The Signs of Miraculousness',titleTr:'Isaratul Icaz',author:'Bediuzzaman Said Nursi',collection:'Risale-i Nur',category:'Risale',icon:'✨',pdfUrl:'',totalPages:400,dailyPages:12},
+  {id:'mathnawi',title:'Al-Mathnawi al-Nuri',titleTr:'Mesnevi-i Nuriye',author:'Bediuzzaman Said Nursi',collection:'Risale-i Nur',category:'Risale',icon:'📜',pdfUrl:'',totalPages:350,dailyPages:12},
+  {id:'staffmoses',title:'The Staff of Moses',titleTr:'Asa-yi Musa',author:'Bediuzzaman Said Nursi',collection:'Risale-i Nur',category:'Risale',icon:'🪄',pdfUrl:'',totalPages:300,dailyPages:12},
+  {id:'barlaletter',title:'The Barla Letters',titleTr:'Barla Lahikasi',author:'Bediuzzaman Said Nursi',collection:'Risale-i Nur',category:'Risale',icon:'📩',pdfUrl:'',totalPages:250,dailyPages:10},
+  {id:'kastamonu',title:'The Kastamonu Letters',titleTr:'Kastamonu Lahikasi',author:'Bediuzzaman Said Nursi',collection:'Risale-i Nur',category:'Risale',icon:'📩',pdfUrl:'',totalPages:200,dailyPages:10},
+  {id:'emirdag',title:'The Emirdag Letters',titleTr:'Emirdag Lahikasi',author:'Bediuzzaman Said Nursi',collection:'Risale-i Nur',category:'Risale',icon:'📩',pdfUrl:'',totalPages:220,dailyPages:10},
+  {id:'reasonings',title:'The Reasonings',titleTr:'Muhakemat',author:'Bediuzzaman Said Nursi',collection:'Risale-i Nur',category:'Risale',icon:'🧠',pdfUrl:'',totalPages:180,dailyPages:10},
+  {id:'sunuhat',title:'Flashes of Inspiration',titleTr:'Sunuhat',author:'Bediuzzaman Said Nursi',collection:'Risale-i Nur',category:'Risale',icon:'💡',pdfUrl:'',totalPages:150,dailyPages:8},
+  {id:'biography',title:'The Life of Bediuzzaman Said Nursi',titleTr:'Tarihce-i Hayat',author:'Bediuzzaman Said Nursi',collection:'Risale-i Nur',category:'Risale',icon:'📗',pdfUrl:'',totalPages:600,dailyPages:12},
+  {id:'guideyouth',title:'The Guide for Youth',titleTr:'Genclik Rehberi',author:'Bediuzzaman Said Nursi',collection:'Risale-i Nur',category:'Risale',icon:'🌱',pdfUrl:'',totalPages:150,dailyPages:10},
+  {id:'guideserv',title:'The Guide to Service',titleTr:'Hizmet Rehberi',author:'Bediuzzaman Said Nursi',collection:'Risale-i Nur',category:'Risale',icon:'🤝',pdfUrl:'',totalPages:180,dailyPages:10},
+  {id:'guidewomen',title:'The Guide for Women',titleTr:'Hanimilar Rehberi',author:'Bediuzzaman Said Nursi',collection:'Risale-i Nur',category:'Risale',icon:'🌸',pdfUrl:'',totalPages:160,dailyPages:10},
+  {id:'belief',title:'Comparisons Between Belief and Unbelief',titleTr:'Iman ve Kufur Muvazeneleri',author:'Bediuzzaman Said Nursi',collection:'Risale-i Nur',category:'Risale',icon:'⚖️',pdfUrl:'',totalPages:200,dailyPages:10},
+  {id:'faithtruths',title:'The Truths of Faith',titleTr:'Iman Hakikatleri',author:'Bediuzzaman Said Nursi',collection:'Risale-i Nur',category:'Risale',icon:'🕋',pdfUrl:'',totalPages:180,dailyPages:10},
+  {id:'essentials',title:'The Essentials of the Islamic Faith',titleTr:'Inancin Golgesinde',author:'Fethullah Gulen',collection:'Pirlanta',category:'Pirlanta',icon:'💎',pdfUrl:'',totalPages:350,dailyPages:12},
+  {id:'messenger',title:'The Messenger of God: Muhammad',titleTr:'Sonsuz Nur',author:'Fethullah Gulen',collection:'Pirlanta',category:'Pirlanta',icon:'🌟',pdfUrl:'',totalPages:500,dailyPages:12},
+  {id:'pearls',title:'Pearls of Wisdom',titleTr:'Olcu veya Yoldaki Isiklar',author:'Fethullah Gulen',collection:'Pirlanta',category:'Pirlanta',icon:'💠',pdfUrl:'',totalPages:280,dailyPages:10},
+  {id:'plectrum',title:'Broken Plectrum',titleTr:'Kirik Mizrap',author:'Fethullah Gulen',collection:'Pirlanta',category:'Pirlanta',icon:'🎸',pdfUrl:'',totalPages:250,dailyPages:10},
+  {id:'brokenjug',title:'The Broken Jug',titleTr:'Kirik Testi',author:'Fethullah Gulen',collection:'Pirlanta',category:'Pirlanta',icon:'🏺',pdfUrl:'',totalPages:260,dailyPages:10},
+  {id:'prism',title:'Prism',titleTr:'Prizma',author:'Fethullah Gulen',collection:'Pirlanta',category:'Pirlanta',icon:'🔷',pdfUrl:'',totalPages:220,dailyPages:10},
+  {id:'statue',title:'The Statue of Our Souls',titleTr:'Ruhumuzun Heykelini Dikerken',author:'Fethullah Gulen',collection:'Pirlanta',category:'Pirlanta',icon:'🗿',pdfUrl:'',totalPages:240,dailyPages:10},
+  {id:'lostparadise',title:'Towards the Lost Paradise',titleTr:'Buhranlar Anaforunda Insan',author:'Fethullah Gulen',collection:'Pirlanta',category:'Pirlanta',icon:'🌅',pdfUrl:'',totalPages:280,dailyPages:10},
+  {id:'qaislam',title:'Questions and Answers about Islam',titleTr:'Fasildan Fasila',author:'Fethullah Gulen',collection:'Pirlanta',category:'Pirlanta',icon:'❓',pdfUrl:'',totalPages:300,dailyPages:10},
+  {id:'sufism',title:'Key Concepts in the Practice of Sufism',titleTr:'Tasavvufun Esaslari',author:'Fethullah Gulen',collection:'Pirlanta',category:'Pirlanta',icon:'🌀',pdfUrl:'',totalPages:320,dailyPages:10},
+  {id:'childedu',title:'Religious Education of the Child',titleTr:'Cocuk Terbiyesi',author:'Fethullah Gulen',collection:'Pirlanta',category:'Pirlanta',icon:'👶',pdfUrl:'',totalPages:180,dailyPages:8},
+  {id:'lovetol',title:'Love and Tolerance',titleTr:'Hosgoru ve Diyalog Iklimi',author:'Fethullah Gulen',collection:'Pirlanta',category:'Pirlanta',icon:'❤️',pdfUrl:'',totalPages:220,dailyPages:10},
+  {id:'reunion',title:'Reunion with Ourselves',titleTr:'Kendi Dunyamiza Dogru',author:'Fethullah Gulen',collection:'Pirlanta',category:'Pirlanta',icon:'🔙',pdfUrl:'',totalPages:200,dailyPages:10},
+  {id:'generations',title:'Generations of Hope',titleTr:'Cag ve Nesil',author:'Fethullah Gulen',collection:'Pirlanta',category:'Pirlanta',icon:'🌱',pdfUrl:'',totalPages:240,dailyPages:10},
+  {id:'lifeafter',title:'Life After Death',titleTr:'Olum Otesi Hayat',author:'Fethullah Gulen',collection:'Pirlanta',category:'Pirlanta',icon:'🌌',pdfUrl:'',totalPages:200,dailyPages:10},
+  {id:'axisguide',title:'The Axis of Guidance',titleTr:'Irsad Ekseni',author:'Fethullah Gulen',collection:'Pirlanta',category:'Pirlanta',icon:'🧭',pdfUrl:'',totalPages:260,dailyPages:10}
 ];
 
 /* ---------- Storage helpers ---------- */
@@ -6279,8 +6292,18 @@ function editPDFBook(bookId){
       <button class="btn" id="pbCancel">Cancel</button>
       <button class="btn primary" id="pbSave">Save</button>
     </div>
+    <button class="btn block" id="pbSetToday" style="margin-top:.5rem;background:var(--accent-soft);border-color:var(--accent);color:var(--accent);font-weight:800">📅 Set as Today's Book</button>
   `);
   document.getElementById('pbCancel').onclick = closeModal;
+  const stb = document.getElementById('pbSetToday');
+  if (stb) stb.onclick = () => {
+    localStorage.setItem('mp20_today_book', JSON.stringify({ bookId: bookId, date: new Date().toISOString().slice(0,10) }));
+    closeModal();
+    if (typeof renderReadingCard === 'function') renderReadingCard();
+    if (typeof renderDailyTarget === 'function') renderDailyTarget();
+    if (typeof toast === 'function') toast('Set as today book', 'success');
+    if (typeof vibrate === 'function') vibrate(20);
+  };
   document.getElementById('pbSave').onclick = () => {
     const url = document.getElementById('pbUrl').value.trim();
     const total = parseInt(document.getElementById('pbTotal').value) || 1;
@@ -6493,53 +6516,56 @@ function renderMyLibrary(){
   const label = document.getElementById('myLibLabel');
   const cats = document.getElementById('myLibCats');
   if (!grid) return;
-
-  const allBooks = getPDFBooks();
+  const SHOW = ['Risale-i Nur', 'Pirlanta'];
+  const allBooks = getPDFBooks().filter(b => SHOW.includes(b.collection));
   const q = (document.getElementById('myLibSearch')?.value || '').toLowerCase().trim();
-
-  // Categories row
   if (cats) {
-    cats.innerHTML = getMyLibCategories().map(c =>
-      `<div class="lib-cat-pill ${c === myLibFilter ? 'active' : ''}" data-cat="${c}">${c}</div>`
+    const pills = ['All'].concat(SHOW);
+    cats.innerHTML = pills.map(c =>
+      '<div class="lib-cat-pill ' + (c === myLibFilter ? 'active' : '') + '" data-cat="' + esc(c) + '">' + esc(c) + '</div>'
     ).join('');
     cats.querySelectorAll('[data-cat]').forEach(pill => {
       pill.onclick = () => { myLibFilter = pill.dataset.cat; renderMyLibrary(); };
     });
   }
-
-  // Filter
   let list = allBooks;
-  if (myLibFilter !== 'All') list = list.filter(b => b.category === myLibFilter);
+  if (myLibFilter !== 'All') list = list.filter(b => b.collection === myLibFilter);
   if (q) list = list.filter(b =>
-    b.title.toLowerCase().includes(q) ||
-    b.author.toLowerCase().includes(q) ||
-    (b.category || '').toLowerCase().includes(q)
+    (b.title || '').toLowerCase().includes(q) ||
+    (b.titleTr || '').toLowerCase().includes(q) ||
+    (b.author || '').toLowerCase().includes(q)
   );
-
-  // Counts
   const linked = allBooks.filter(b => b.pdfUrl).length;
-  if (sub) sub.textContent = `${linked}/${allBooks.length} linked · tap to connect PDF`;
+  if (sub) sub.textContent = linked + '/' + allBooks.length + ' linked - tap to connect';
   if (count) count.textContent = list.length + ' books';
   if (label) label.textContent = myLibFilter === 'All' ? 'All Books' : myLibFilter;
-
+  const bannerName = document.getElementById('todayBookName');
+  if (bannerName) {
+    let pick = null;
+    try { pick = JSON.parse(localStorage.getItem('mp20_today_book') || 'null'); } catch(e){}
+    if (pick && pick.bookId) {
+      const b = allBooks.find(x => x.id === pick.bookId);
+      if (b) bannerName.textContent = b.title + (b.titleTr ? ' - ' + b.titleTr : '');
+    }
+  }
   if (list.length === 0) {
-    grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1;padding:2rem"><div class="es-title">No books found</div><div class="es-text">Try another search or category.</div></div>';
+    grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1;padding:2rem"><div class="es-title">No books found</div><div class="es-text">Try another search.</div></div>';
     return;
   }
-
   grid.innerHTML = list.map(b => {
     const prog = getBookProgress(b.id);
     const pct = b.totalPages > 0 ? Math.min(100, (prog.currentPage / b.totalPages) * 100) : 0;
     const isLinked = !!b.pdfUrl;
-    return `<div class="lib-book-card ${isLinked ? 'linked' : ''}" data-lib-book="${b.id}">
-      <div class="lbc-icon">${b.icon}</div>
-      <div class="lbc-title">${esc(b.title)}</div>
-      <div class="lbc-author">${esc(b.author)}</div>
-      <div class="lbc-status ${isLinked ? 'linked' : 'empty'}">${isLinked ? '🔗 PDF Linked' : '＋ Add PDF'}</div>
-      ${isLinked ? `<div class="lbc-progress"><div class="lbc-progress-fill" style="width:${pct}%"></div></div>` : ''}
-    </div>`;
+    const trLine = b.titleTr ? '<div class="lbc-title-tr">' + esc(b.titleTr) + '</div>' : '';
+    const colTag = b.collection ? '<div class="lbc-collection">' + esc(b.collection) + '</div>' : '';
+    return '<div class="lib-book-card ' + (isLinked ? 'linked' : '') + '" data-lib-book="' + b.id + '">' +
+      '<div class="lbc-icon">' + b.icon + '</div>' +
+      '<div class="lbc-title">' + esc(b.title) + '</div>' + trLine +
+      '<div class="lbc-author">' + esc(b.author) + '</div>' + colTag +
+      '<div class="lbc-status ' + (isLinked ? 'linked' : 'empty') + '">' + (isLinked ? 'Linked' : '+ Add PDF') + '</div>' +
+      (isLinked ? '<div class="lbc-progress"><div class="lbc-progress-fill" style="width:' + pct + '%"></div></div>' : '') +
+      '</div>';
   }).join('');
-
   grid.querySelectorAll('[data-lib-book]').forEach(card => {
     card.onclick = () => {
       const book = getPDFBooks().find(b => b.id === card.dataset.libBook);
@@ -6921,7 +6947,14 @@ if ('serviceWorker' in navigator) {
       </div>
     </div>
     <div style="padding:1rem 1.1rem;flex:1">
-      <input type="text" class="ds-lib-search" id="myLibSearch" placeholder="Search books, authors, categories..." style="width:100%;margin-bottom:.8rem">
+      <div id="todayBookBanner" style="background:var(--accent-soft);border:1px solid var(--accent);border-radius:12px;padding:.7rem .85rem;margin-bottom:.7rem;display:flex;align-items:center;gap:.6rem">
+        <span style="font-size:1.3rem">📅</span>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:.62rem;color:var(--accent);font-weight:800;text-transform:uppercase;letter-spacing:.05em">Today's Book</div>
+          <div id="todayBookName" style="font-size:.85rem;font-weight:800;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Not set - tap a book below</div>
+        </div>
+      </div>
+      <input type="text" class="ds-lib-search" id="myLibSearch" placeholder="Search English, Turkish, author..." style="width:100%;margin-bottom:.8rem">
       <div class="lib-cat-row" id="myLibCats"></div>
       <div class="lib-head-row">
         <span style="font-size:.7rem;font-weight:800;color:var(--text-3);text-transform:uppercase;letter-spacing:.06em" id="myLibLabel">All Books</span>
