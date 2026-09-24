@@ -1251,7 +1251,7 @@ input,textarea,select{font-family:inherit}
 .lib-book-card:hover{border-color:var(--border-2);transform:translateY(-2px);box-shadow:0 10px 24px -10px rgba(0,0,0,.4)}
 .lib-book-card.linked{border-left:3px solid var(--accent)}
 .lib-book-card .lbc-icon{font-size:1.9rem;text-align:center;margin-bottom:.35rem;line-height:1}
-.lib-book-card .lbc-title{font-size:.78rem;font-weight:800;color:var(--text);line-height:1.25;margin-bottom:.2rem;text-align:center;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.1em}
+.lib-book-card .lbc-title{font-size:.78rem;font-weight:800;color:var(--text);line-height:1.25;margin-bottom:.2rem;text-align:center;display:-webkit-box;-webkit-line-clamp:2;line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.1em}
 .lib-book-card .lbc-author{font-size:.62rem;color:var(--text-3);text-align:center;margin-bottom:.45rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .lib-book-card .lbc-status{font-size:.58rem;font-weight:800;text-align:center;padding:.22rem .4rem;border-radius:8px;display:block;width:100%;text-transform:uppercase;letter-spacing:.03em}
 .lib-book-card .lbc-status.linked{background:var(--accent-soft);color:var(--accent)}
@@ -1270,7 +1270,9 @@ input,textarea,select{font-family:inherit}
 
 
 
-<!-- cache:1790216954 -->
+
+
+<!-- cache:1790217211 -->
 </head>
 <body data-theme="dark">
 
@@ -6109,8 +6111,8 @@ const PDF_PROGRESS_KEY = 'mp20_pdf_progress';
 // Default PDF book list (user can edit URLs)
 const DEFAULT_PDF_BOOKS = [
   // QURAN & TAFSIR
-  {id:'quran',title:'The Noble Qur'an (English)',author:'English Translation',icon:'📖',category:'Quran',pdfUrl:'',totalPages:604,dailyPages:10},
-  {id:'asad',title:'The Message of the Qur'an',author:'Muhammad Asad',icon:'📗',category:'Quran',pdfUrl:'',totalPages:1200,dailyPages:8},
+  {id:'quran',title:'The Noble Qur\'an (English)',author:'English Translation',icon:'📖',category:'Quran',pdfUrl:'',totalPages:604,dailyPages:10},
+  {id:'asad',title:'The Message of the Qur\'an',author:'Muhammad Asad',icon:'📗',category:'Quran',pdfUrl:'',totalPages:1200,dailyPages:8},
   {id:'ibnkathir',title:'Tafsir Ibn Kathir (Abridged)',author:'Ibn Kathir',icon:'📘',category:'Quran',pdfUrl:'',totalPages:3000,dailyPages:10},
 
   // HADITH
