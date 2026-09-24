@@ -1279,7 +1279,13 @@ input,textarea,select{font-family:inherit}
 
 
 
-<!-- cache:1790221095 -->
+
+
+
+
+
+
+<!-- cache:1790224224 -->
 </head>
 <body data-theme="dark">
 
@@ -6215,31 +6221,52 @@ function getTodaysPDFBook(){
 }
 
 /* ---------- Open PDF at page ---------- */
-function openPDFAtPage(book, page){
-  // ── Build the correct URL for local files OR web URLs ──
-  function buildPdfUrl(raw){
-    let url = (raw || '').trim();
-    if (!url) return '';
-    // If it's a bare absolute path like /home/user/... → add file://
-    if (url.startsWith('/') && !url.startsWith('//')) {
-      return 'file://' + url;
+async function openPDFAtPage(book, page){
+  let url = null;
+
+  // 1. Try uploaded PDF (IndexedDB) FIRST — most reliable
+  try {
+    url = await getPdfBlobUrl(book.id);
+    if (url) console.log('✓ Using uploaded PDF from IndexedDB:', book.id);
+  } catch(e) { console.warn('IndexedDB read failed:', e); }
+
+  // 2. Fall back to path/URL
+  if (!url && book.pdfUrl && book.pdfUrl.trim()) {
+    let u = book.pdfUrl.trim();
+    if (!/^(https?|file|blob):/i.test(u)) {
+      if (u.startsWith('/')) u = 'file://' + u;
+      else if (/^[A-Za-z]:[\\/]/.test(u)) u = 'file:///' + u.replace(/\\/g, '/');
     }
-    // If it looks like a Windows path (C:\...) → add file:///
-    if (/^[A-Za-z]:[\\/]/.test(url)) {
-      return 'file:///' + url.replace(/\\/g, '/');
-    }
-    // If already has a protocol → use as-is
-    return url;
+    url = u;
+    console.log('Using URL path:', url);
   }
-  const baseUrl = buildPdfUrl(book.pdfUrl);
-  if (!baseUrl) {
-    toast('No PDF path set — tap Edit to add one', 'warn', 2500);
+
+  // 3. No source → open editor
+  if (!url) {
+    toast('Upload a PDF first', 'warn', 2000);
     editPDFBook(book.id);
     return;
   }
-  const url = baseUrl + '#page=' + page;
-  window.open(url, '_blank');
+
+  const finalUrl = url.includes('#') ? url : (url + '#page=' + page + '&toolbar=1');
+
+  const viewer = document.getElementById('pdfViewer');
+  const frame = document.getElementById('pdfViewerFrame');
+  const titleEl = document.getElementById('pdfViewerTitle');
+  const pageEl = document.getElementById('pdfViewerPage');
+
+  if (viewer && frame) {
+    if (titleEl) titleEl.textContent = book.title + (book.titleTr ? ' · ' + book.titleTr : '');
+    if (pageEl) pageEl.textContent = 'Page ' + page + ' / ' + book.totalPages;
+    frame.src = finalUrl;
+    viewer.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  } else {
+    window.open(finalUrl, '_blank');
+  }
+
   vibrate(20);
+
   const today = todayKey();
   const prog = getBookProgress(book.id);
   if (prog.todayDate !== today) {
@@ -6302,43 +6329,38 @@ function editPDFBook(bookId){
   const book = books.find(b => b.id === bookId);
   if (!book) return;
 
+  const prog = getBookProgress(bookId);
+
   openModal(`
     <h3><span style="width:34px;height:34px;border-radius:10px;background:var(--accent-soft);display:inline-grid;place-items:center;color:var(--accent)">${book.icon}</span>${esc(book.title)}</h3>
-    <p style="color:var(--text-2);font-size:.85rem;margin-bottom:1rem">${esc(book.author)}</p>
+    <p style="color:var(--text-2);font-size:.85rem;margin-bottom:1rem">${esc(book.author)}${book.titleTr ? ' · ' + esc(book.titleTr) : ''}</p>
 
-    <div class="field">
-      <label>PDF path or URL</label>
-      <input type="text" id="pbUrl" placeholder="/home/ibrahim/Documents/BOOKS/The_Staff_of_Moses.pdf" value="${esc(book.pdfUrl)}">
-    </div>
-    <div class="url-hint">
-      💡 You can paste <b>any</b> of these:<br>
-      • <b>Local file:</b> <code>/home/ibrahim/Documents/BOOKS/book.pdf</code><br>
-      • <b>file:// URL:</b> <code>file:///home/ibrahim/Documents/BOOKS/book.pdf</code><br>
-      • <b>Web URL:</b> <code>https://example.com/book.pdf</code><br>
-      • <b>Dropbox:</b> change <code>?dl=0</code> → <code>?raw=1</code><br>
-      • <b>Google Drive:</b> <code>https://drive.google.com/file/d/FILE_ID/preview</code>
-    </div>
-    <div style="margin-top:.5rem;padding:.6rem;background:var(--bg-2);border:1px solid var(--border);border-radius:10px;font-size:.72rem;color:var(--text-3)">
-      <b style="color:var(--accent)">📁 Tip:</b> If your app runs on <code>file://</code> or Live Server, local paths work directly.
+    <div id="pbFileStatus" style="background:var(--bg-2);border:1px solid var(--border);border-radius:10px;padding:.75rem;margin-bottom:.8rem;font-size:.8rem;color:var(--text-3);line-height:1.5">
+      Checking...
     </div>
 
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-top:1rem">
+    <button class="btn primary block" id="pbUploadBtn" style="font-size:.9rem;padding:.95rem;margin-bottom:.5rem">
+      📁 Upload PDF from your files
+    </button>
+    <input type="file" id="pbFileInput" accept="application/pdf,.pdf" style="display:none">
+
+    <button class="btn block" id="pbDeleteFileBtn" style="display:none;font-size:.78rem;padding:.55rem;margin-bottom:.7rem;color:var(--danger);border-color:rgba(255,107,122,.4);background:rgba(255,107,122,.08)">
+      🗑 Remove uploaded PDF
+    </button>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.5rem;margin-top:.7rem">
       <div class="field" style="margin:0">
         <label>Total pages</label>
         <input type="number" id="pbTotal" min="1" value="${book.totalPages}">
       </div>
       <div class="field" style="margin:0">
-        <label>Daily target (pages)</label>
+        <label>Daily target</label>
         <input type="number" id="pbDaily" min="1" value="${book.dailyPages}">
       </div>
-    </div>
-
-    <div style="display:flex;gap:.5rem;margin-top:.7rem">
-      <button class="btn" id="pbBrowse" style="flex:1">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
-        Browse local file
-      </button>
-      <input type="file" id="pbFile" accept="application/pdf,.pdf" style="display:none">
+      <div class="field" style="margin:0">
+        <label>Current page</label>
+        <input type="number" id="pbCurrentPage" min="1" value="${prog.currentPage || 1}">
+      </div>
     </div>
 
     <div class="modal-actions">
@@ -6347,48 +6369,100 @@ function editPDFBook(bookId){
     </div>
     <button class="btn block" id="pbSetToday" style="margin-top:.5rem;background:var(--accent-soft);border-color:var(--accent);color:var(--accent);font-weight:800">📅 Set as Today's Book</button>
   `);
+
+  async function refreshStatus(){
+    const statusEl = document.getElementById('pbFileStatus');
+    const delBtn = document.getElementById('pbDeleteFileBtn');
+    try {
+      const f = await getPdfFile(bookId);
+      if (f) {
+        const mb = (f.size/1024/1024).toFixed(1);
+        statusEl.innerHTML = '<b style="color:var(--accent);font-size:.95rem">✓ PDF uploaded</b><br>' +
+          '<span style="color:var(--text-2)">' + esc(f.name) + ' · ' + mb + ' MB</span>';
+        if (delBtn) delBtn.style.display = 'block';
+      } else {
+        statusEl.innerHTML = '<b style="color:var(--warn)">📄 No PDF uploaded</b><br>Tap the button below to upload from your files.';
+        if (delBtn) delBtn.style.display = 'none';
+      }
+    } catch(e) {
+      statusEl.innerHTML = '<b style="color:var(--danger)">⚠️ Storage error</b><br>' + esc(e.message);
+    }
+  }
+  refreshStatus();
+
+  document.getElementById('pbUploadBtn').onclick = () => document.getElementById('pbFileInput').click();
+
+  document.getElementById('pbFileInput').onchange = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    if (!file.name.toLowerCase().endsWith('.pdf')) {
+      toast('Pick a PDF file', 'error');
+      return;
+    }
+    try {
+      const statusEl = document.getElementById('pbFileStatus');
+      statusEl.innerHTML = '<b style="color:var(--info)">⏳ Uploading…</b>';
+      await savePdfFile(bookId, file);
+      revokePdfBlobUrl(bookId);
+      toast('PDF uploaded ✓', 'success');
+      await refreshStatus();
+      if (typeof renderPDFBooks === 'function') renderPDFBooks();
+      if (typeof renderMyLibrary === 'function') renderMyLibrary();
+      if (typeof renderDailyTarget === 'function') renderDailyTarget();
+      if (typeof renderReadingCard === 'function') renderReadingCard();
+      if (typeof refreshLibraryLinkedStatus === 'function') setTimeout(refreshLibraryLinkedStatus, 200);
+    } catch(err) {
+      toast('Upload failed: ' + err.message, 'error', 3000);
+      console.error('Upload error:', err);
+    }
+  };
+
+  const delBtn = document.getElementById('pbDeleteFileBtn');
+  if (delBtn) delBtn.onclick = async () => {
+    if (!confirm('Remove the uploaded PDF for this book?')) return;
+    try {
+      await deletePdfFile(bookId);
+      revokePdfBlobUrl(bookId);
+      toast('PDF removed', 'success');
+      refreshStatus();
+      if (typeof renderPDFBooks === 'function') renderPDFBooks();
+    } catch(e) { toast('Delete failed', 'error'); }
+  };
+
   document.getElementById('pbCancel').onclick = closeModal;
+
   const stb = document.getElementById('pbSetToday');
   if (stb) stb.onclick = () => {
     localStorage.setItem('mp20_today_book', JSON.stringify({ bookId: bookId, date: new Date().toISOString().slice(0,10) }));
     closeModal();
     if (typeof renderReadingCard === 'function') renderReadingCard();
     if (typeof renderDailyTarget === 'function') renderDailyTarget();
-    if (typeof toast === 'function') toast('Set as today book', 'success');
-    if (typeof vibrate === 'function') vibrate(20);
+    toast("Set as today's book", 'success');
+    vibrate(20);
   };
-  // Browse local file button
-  const pbBrowse = document.getElementById('pbBrowse');
-  const pbFile = document.getElementById('pbFile');
-  if (pbBrowse && pbFile) {
-    pbBrowse.onclick = () => pbFile.click();
-    pbFile.onchange = (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
-      // Browsers don't expose full file:// path (security), so we try:
-      // 1) If user picked a file, we can still open it via object URL
-      // 2) But to have persistent page tracking, user should paste the path
-      const objUrl = URL.createObjectURL(file);
-      document.getElementById('pbUrl').value = objUrl;
-      toast('Selected — for persistent tracking, paste the full path instead', 'info', 3500);
-    };
-  }
 
   document.getElementById('pbSave').onclick = () => {
-    const url = document.getElementById('pbUrl').value.trim();
     const total = parseInt(document.getElementById('pbTotal').value) || 1;
     const daily = parseInt(document.getElementById('pbDaily').value) || 1;
+    const curr = parseInt(document.getElementById('pbCurrentPage').value) || 1;
     const books2 = getPDFBooks();
     const idx = books2.findIndex(b => b.id === bookId);
     if (idx >= 0) {
-      books2[idx].pdfUrl = url;
       books2[idx].totalPages = total;
       books2[idx].dailyPages = daily;
       savePDFBooks(books2);
     }
+    setBookProgress(bookId, { currentPage: Math.max(1, Math.min(total, curr)) });
     closeModal();
-    renderPDFBooks();
-    renderDailyTarget();
+    // Re-render every visible surface
+    if (typeof renderPDFBooks === 'function') renderPDFBooks();
+    if (typeof renderMyLibrary === 'function') renderMyLibrary();
+    if (typeof renderDailyTarget === 'function') renderDailyTarget();
+    if (typeof renderReadingCard === 'function') renderReadingCard();
+    if (typeof renderSpecialPage === 'function') {
+      if (document.getElementById('risaleGrid')?.offsetParent) renderSpecialPage('Risale-i Nur','risaleGrid','risaleCount','risaleSearch');
+      if (document.getElementById('pirlantaGrid')?.offsetParent) renderSpecialPage('Pirlanta','pirlantaGrid','pirlantaCount','pirlantaSearch');
+    }
     toast('Saved ✓', 'success');
   };
 }
@@ -6474,6 +6548,11 @@ function renderPDFBooks(){
   list.querySelectorAll('[data-edit-book]').forEach(btn => {
     btn.addEventListener('click', () => editPDFBook(btn.dataset.editBook));
   });
+  // Async: mark linked status from IndexedDB
+  if (typeof refreshLibraryLinkedStatus === 'function') {
+    setTimeout(refreshLibraryLinkedStatus, 150);
+  }
+
   list.querySelectorAll('[data-advance-book]').forEach(btn => {
     btn.addEventListener('click', () => {
       const book = books.find(b => b.id === btn.dataset.advanceBook);
@@ -6625,7 +6704,7 @@ function renderMyLibrary(){
   grid.innerHTML = list.map(b => {
     const prog = getBookProgress(b.id);
     const pct = b.totalPages > 0 ? Math.min(100, (prog.currentPage / b.totalPages) * 100) : 0;
-    const isLinked = !!b.pdfUrl;
+    const isLinked = !!b.pdfUrl; // initial — refreshed async below
     const trLine = b.titleTr ? '<div class="lbc-title-tr">' + esc(b.titleTr) + '</div>' : '';
     const colTag = b.collection ? '<div class="lbc-collection">' + esc(b.collection) + '</div>' : '';
     return '<div class="lib-book-card ' + (isLinked ? 'linked' : '') + '" data-lib-book="' + b.id + '">' +
@@ -6642,6 +6721,11 @@ function renderMyLibrary(){
       if (book) editPDFBook(book.id);
     };
   });
+
+  // Async: mark cards that have PDFs in IndexedDB
+  if (typeof refreshLibraryLinkedStatus === 'function') {
+    setTimeout(refreshLibraryLinkedStatus, 100);
+  }
 }
 
 function openMyLibrary(){
@@ -6734,6 +6818,11 @@ function renderSpecialPage(collection, gridId, countId, searchId){
       if (book) editPDFBook(book.id);
     };
   });
+
+  // Async: mark cards with PDFs
+  if (typeof refreshLibraryLinkedStatus === 'function') {
+    setTimeout(refreshLibraryLinkedStatus, 100);
+  }
 }
 
 function openRisalePage(){
@@ -6780,6 +6869,189 @@ try {
   const oldKeys = ['mp20_pdf_books', 'mp20_pdf_books_v2', 'mp20_pdf_books_v3', 'mp20_pdf_books_v4', 'mp20_pdf_books_v5'];
   oldKeys.forEach(k => localStorage.removeItem(k));
 } catch(e){}
+
+
+
+/* ============================================================
+   PDF VIEWER — wire controls
+   ============================================================ */
+function wirePdfViewer(){
+  const close = document.getElementById('pdfViewerClose');
+  const ext = document.getElementById('pdfViewerExternal');
+  const tryExt = document.getElementById('pdfViewerTryExternal');
+  const dl = document.getElementById('pdfViewerTryDownload');
+
+  if (close && !close.dataset.wired) {
+    close.dataset.wired = '1';
+    close.onclick = () => {
+      document.getElementById('pdfViewer').style.display = 'none';
+      document.getElementById('pdfViewerFrame').src = 'about:blank';
+      document.body.style.overflow = '';
+    };
+  }
+  if (ext && !ext.dataset.wired) {
+    ext.dataset.wired = '1';
+    ext.onclick = () => {
+      const src = document.getElementById('pdfViewerFrame').src;
+      if (src && src !== 'about:blank') window.open(src, '_blank');
+    };
+  }
+  if (tryExt && !tryExt.dataset.wired) {
+    tryExt.dataset.wired = '1';
+    tryExt.onclick = () => {
+      const src = document.getElementById('pdfViewerFrame').src;
+      if (src && src !== 'about:blank') window.open(src, '_blank');
+    };
+  }
+  if (dl && !dl.dataset.wired) {
+    dl.dataset.wired = '1';
+    dl.onclick = () => {
+      const src = document.getElementById('pdfViewerFrame').src;
+      if (src && src !== 'about:blank') {
+        const a = document.createElement('a');
+        a.href = src;
+        a.download = '';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      }
+    };
+  }
+}
+setInterval(wirePdfViewer, 1500);
+setTimeout(wirePdfViewer, 600);
+document.addEventListener('DOMContentLoaded', () => setTimeout(wirePdfViewer, 800));
+
+
+
+/* ============================================================
+   INDEXEDDB — store PDFs permanently in the browser
+   ============================================================ */
+const PDF_DB_NAME = 'mp20_pdf_files';
+const PDF_DB_STORE = 'files';
+let _pdfDB = null;
+
+function openPdfDB(){
+  return new Promise((resolve, reject) => {
+    if (_pdfDB) return resolve(_pdfDB);
+    const req = indexedDB.open(PDF_DB_NAME, 1);
+    req.onupgradeneeded = (e) => {
+      const db = e.target.result;
+      if (!db.objectStoreNames.contains(PDF_DB_STORE)) {
+        db.createObjectStore(PDF_DB_STORE);
+      }
+    };
+    req.onsuccess = (e) => { _pdfDB = e.target.result; resolve(_pdfDB); };
+    req.onerror = (e) => reject(e.target.error);
+  });
+}
+
+async function savePdfFile(bookId, file){
+  const db = await openPdfDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(PDF_DB_STORE, 'readwrite');
+    const store = tx.objectStore(PDF_DB_STORE);
+    // Store as { blob, name, size, type, addedAt }
+    const req = store.put({
+      blob: file,
+      name: file.name,
+      size: file.size,
+      type: file.type || 'application/pdf',
+      addedAt: Date.now()
+    }, bookId);
+    req.onsuccess = () => resolve(true);
+    req.onerror = (e) => reject(e.target.error);
+  });
+}
+
+async function getPdfFile(bookId){
+  const db = await openPdfDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(PDF_DB_STORE, 'readonly');
+    const store = tx.objectStore(PDF_DB_STORE);
+    const req = store.get(bookId);
+    req.onsuccess = (e) => resolve(e.target.result || null);
+    req.onerror = (e) => reject(e.target.error);
+  });
+}
+
+async function deletePdfFile(bookId){
+  const db = await openPdfDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(PDF_DB_STORE, 'readwrite');
+    const store = tx.objectStore(PDF_DB_STORE);
+    const req = store.delete(bookId);
+    req.onsuccess = () => resolve(true);
+    req.onerror = (e) => reject(e.target.error);
+  });
+}
+
+async function listPdfFiles(){
+  const db = await openPdfDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(PDF_DB_STORE, 'readonly');
+    const store = tx.objectStore(PDF_DB_STORE);
+    const req = store.getAllKeys();
+    req.onsuccess = (e) => resolve(e.target.result || []);
+    req.onerror = (e) => reject(e.target.error);
+  });
+}
+
+/* Store a blob URL per book so we don't recreate constantly */
+const _pdfBlobUrls = {};
+async function getPdfBlobUrl(bookId){
+  if (_pdfBlobUrls[bookId]) return _pdfBlobUrls[bookId];
+  const file = await getPdfFile(bookId);
+  if (!file || !file.blob) return null;
+  const url = URL.createObjectURL(file.blob);
+  _pdfBlobUrls[bookId] = url;
+  return url;
+}
+function revokePdfBlobUrl(bookId){
+  if (_pdfBlobUrls[bookId]) {
+    try { URL.revokeObjectURL(_pdfBlobUrls[bookId]); } catch(e){}
+    delete _pdfBlobUrls[bookId];
+  }
+}
+
+
+
+async function hasUploadedPdf(bookId){
+  try {
+    const f = await getPdfFile(bookId);
+    return !!f;
+  } catch(e) { return false; }
+}
+
+
+
+/* ═══════ Async helper: is this book linked (has PDF in IDB or URL)? ═══════ */
+async function isBookLinked(bookId){
+  try {
+    const f = await getPdfFile(bookId);
+    if (f && f.blob) return true;
+  } catch(e){}
+  const book = getPDFBooks().find(b => b.id === bookId);
+  return !!(book && book.pdfUrl && book.pdfUrl.trim());
+}
+
+/* ═══════ Async render: mark all book cards linked/unlinked ═══════ */
+async function refreshLibraryLinkedStatus(){
+  // Update ALL book cards in every grid
+  const cards = document.querySelectorAll('[data-lib-book], [data-sp-book]');
+  for (const card of cards) {
+    const id = card.dataset.libBook || card.dataset.spBook;
+    if (!id) continue;
+    const linked = await isBookLinked(id);
+    const statusEl = card.querySelector('.lbc-status');
+    if (statusEl) {
+      statusEl.className = 'lbc-status ' + (linked ? 'linked' : 'empty');
+      statusEl.textContent = linked ? '🔗 PDF Ready' : '＋ Add PDF';
+    }
+    if (linked) card.classList.add('linked');
+    else card.classList.remove('linked');
+  }
+}
 
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);
 else init();
@@ -7175,6 +7447,31 @@ if ('serviceWorker' in navigator) {
         <span class="lib-count" id="pirlantaCount">0</span>
       </div>
       <div class="book-grid" id="pirlantaGrid"></div>
+    </div>
+  </div>
+</div>
+
+
+
+<div id="pdfViewer" style="display:none;position:fixed;inset:0;z-index:400;background:#000;flex-direction:column">
+  <div style="background:var(--surface);border-bottom:1px solid var(--border);padding:.6rem .9rem;display:flex;align-items:center;gap:.6rem;flex-shrink:0">
+    <button class="btn" id="pdfViewerClose" style="flex:0;padding:.5rem .8rem">✕ Close</button>
+    <div style="flex:1;min-width:0">
+      <div style="font-size:.85rem;font-weight:800;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis" id="pdfViewerTitle">PDF</div>
+      <div style="font-size:.68rem;color:var(--text-3)" id="pdfViewerPage">Loading…</div>
+    </div>
+    <button class="btn" id="pdfViewerExternal" style="flex:0;padding:.5rem .8rem">↗ Open</button>
+  </div>
+  <div style="flex:1;position:relative;background:#1a1a1a">
+    <iframe id="pdfViewerFrame" style="position:absolute;inset:0;width:100%;height:100%;border:none" allowfullscreen></iframe>
+    <div id="pdfViewerError" style="display:none;position:absolute;inset:0;display:none;align-items:center;justify-content:center;flex-direction:column;gap:1rem;padding:2rem;text-align:center;color:#fff">
+      <div style="font-size:3rem">📄</div>
+      <div style="font-size:1.1rem;font-weight:800">PDF could not load in this viewer</div>
+      <div style="font-size:.85rem;opacity:.7;line-height:1.6;max-width:400px" id="pdfViewerErrorMsg"></div>
+      <div style="display:flex;gap:.5rem">
+        <button class="btn primary" id="pdfViewerTryExternal">Open in Browser</button>
+        <button class="btn" id="pdfViewerTryDownload">Download</button>
+      </div>
     </div>
   </div>
 </div>
